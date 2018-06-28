@@ -56,7 +56,7 @@ class Login extends Component {
         <CardSection>
           <Input
             secureTextEntry
-            label='Password'
+            label='Password :)'
             placeholder='*********'
             onChangeText={text => this.setState({ password: text })}
             value={this.state.password}
