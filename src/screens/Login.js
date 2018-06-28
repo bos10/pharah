@@ -56,7 +56,7 @@ class Login extends Component {
         <CardSection>
           <Input
             secureTextEntry
-            label='Password :)'
+            label='Password'
             placeholder='*********'
             onChangeText={text => this.setState({ password: text })}
             value={this.state.password}
@@ -69,7 +69,7 @@ class Login extends Component {
 
         <CardSection>
           <Button onPress={() => this.props.navigation.navigate('CreateAccount')}>
-            Create account ;)
+            Create account
           </Button>
         </CardSection>
 
