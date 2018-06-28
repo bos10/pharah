@@ -69,7 +69,7 @@ class Login extends Component {
 
         <CardSection>
           <Button onPress={() => this.props.navigation.navigate('CreateAccount')}>
-            Create account
+            Create account ;)
           </Button>
         </CardSection>
 
