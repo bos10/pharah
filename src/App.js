@@ -1,6 +1,8 @@
-import React, { Component } from 'react';
 import * as firebase from 'firebase';
+
+import React, { Component } from 'react';
 import { RootStack } from './Router';
+
 
 class App extends Component {
   componentWillMount() {

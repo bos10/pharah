@@ -1,9 +1,11 @@
-import React, { Component } from 'react';
-import { View, FlatList, Text } from 'react-native';
 import firebase from 'firebase';
+
+import React, { Component } from 'react';
+import { View, FlatList } from 'react-native';
 import _ from 'lodash';
 import LobbyHistoryListItem from '../components/LobbyHistoryListItem';
-import { CardSection } from '../components/common';
+// import { CardSection } from '../components/common';
+
 
 class LobbyHistory extends Component {
   constructor(props) {
