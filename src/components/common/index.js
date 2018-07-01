@@ -6,6 +6,9 @@ export * from './Input';
 export * from './Spinner';
 export * from './Confirm';
 export * from './Background';
+export * from './UsernameInput';
+export * from './PasswordInput';
+export * from './ButtonNoBackground';
 
 
 // export everything from there

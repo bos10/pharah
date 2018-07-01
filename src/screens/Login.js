@@ -2,7 +2,9 @@ import firebase from 'firebase';
 
 import React, { Component } from 'react';
 import { Alert, Image, View } from 'react-native';
-import { CardSection, Input, Button, Spinner, Background } from '../components/common';
+import { CardSection, UsernameInput,
+        Button, Spinner, Background, PasswordInput,
+        ButtonNoBackground } from '../components/common';
 
 import LogoImg from '../images/ivanface.png';
 
@@ -51,7 +53,7 @@ class Login extends Component {
   render() {
     return (
       <Background>
-      
+
         {/* Logo */}
         <View style={styles.LogoContainer}>
           <Image
@@ -63,8 +65,8 @@ class Login extends Component {
 
 
         {/* Email Input */}
-        <CardSection>
-          <Input
+        <CardSection style={{ backgroundColor: 'transparent' }}>
+          <UsernameInput
             label='Email'
             placeholder='email@gmail.com'
             onChangeText={text => this.setState({ email: text })}
@@ -73,8 +75,8 @@ class Login extends Component {
         </CardSection>
 
         {/* Password Input */}
-        <CardSection>
-          <Input
+        <CardSection style={{ backgroundColor: 'transparent' }}>
+          <PasswordInput
             secureTextEntry
             label='Password'
             placeholder='*********'
@@ -84,16 +86,18 @@ class Login extends Component {
         </CardSection>
 
         {/* Login Button */}
-        <CardSection>
+        <CardSection style={{ backgroundColor: 'transparent' }}>
           {this.renderButton()}
         </CardSection>
 
 
         {/* Create Account Button */}
-        <CardSection>
-          <Button onPress={() => this.props.navigation.navigate('CreateAccount')}>
+        <CardSection style={{ backgroundColor: 'transparent' }}>
+          <ButtonNoBackground
+          onPress={() => this.props.navigation.navigate('CreateAccount')}
+          >
             Create account
-          </Button>
+          </ButtonNoBackground>
         </CardSection>
 
       </Background>
@@ -105,8 +109,8 @@ export default Login;
 
 const styles = {
   Logo: {
-    width: 80,
-    height: 80,
+    width: 120,
+    height: 120,
   },
   LogoContainer: {
     flex: 3,
