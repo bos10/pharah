@@ -29,8 +29,8 @@ const styles = {
     flex: 2
   },
   labelStyle: {
-    fontSize: 18,
-    paddingLeft: 20,
+    fontSize: 14,
+    paddingLeft: 50,
     flex: 1
   },
   containerStyle: {

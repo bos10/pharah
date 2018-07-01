@@ -17,10 +17,11 @@ const styles = {
   textStyle: {
     alignSelf: 'center',
     color: '#fff',  // Change this colour
-    fontSize: 16,
+    fontSize: 14,
     fontWeight: '600',
     paddingTop: 10,
-    paddingBottom: 10
+    paddingBottom: 10,
+    fontFamily: 'NunitoSans-Bold',
   },
   buttonStyle: {
     flex: 1,
