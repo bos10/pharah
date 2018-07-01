@@ -97,7 +97,7 @@ export const RootStack = createStackNavigator({
   Login: {
     screen: Login,
     navigationOptions: {
-      title: 'Login',
+      header: null  // No more header banner
     }
   },
   CreateAccount: {

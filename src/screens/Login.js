@@ -1,9 +1,13 @@
-import React, { Component } from 'react';
-import { Alert } from 'react-native';
 import firebase from 'firebase';
-import { Card, CardSection, Input, Button, Spinner } from '../components/common';
+
+import React, { Component } from 'react';
+import { Alert, Image, View } from 'react-native';
+import { CardSection, Input, Button, Spinner, Background } from '../components/common';
+
+import LogoImg from '../images/ivanface.png';
 
 // Login form, start page of App
+// Interface
 class Login extends Component {
   constructor(props) {
     super(props);
@@ -41,9 +45,24 @@ class Login extends Component {
       </Button>
     );
   }
+// ___________________________________________________________________
+// ___________________________________________________________________
+// GRAPHICAL USER INTERFACE (From here onward)
   render() {
     return (
-      <Card>
+      <Background>
+      
+        {/* Logo */}
+        <View style={styles.LogoContainer}>
+          <Image
+            resizeMode="contain"
+            source={LogoImg}
+            style={styles.Logo}
+          />
+        </View>
+
+
+        {/* Email Input */}
         <CardSection>
           <Input
             label='Email'
@@ -53,6 +72,7 @@ class Login extends Component {
           />
         </CardSection>
 
+        {/* Password Input */}
         <CardSection>
           <Input
             secureTextEntry
@@ -63,19 +83,34 @@ class Login extends Component {
           />
         </CardSection>
 
+        {/* Login Button */}
         <CardSection>
           {this.renderButton()}
         </CardSection>
 
+
+        {/* Create Account Button */}
         <CardSection>
           <Button onPress={() => this.props.navigation.navigate('CreateAccount')}>
             Create account
           </Button>
         </CardSection>
 
-      </Card>
+      </Background>
     );
   }
 }
 
 export default Login;
+
+const styles = {
+  Logo: {
+    width: 80,
+    height: 80,
+  },
+  LogoContainer: {
+    flex: 3,
+    alignItems: 'center',
+    justifyContent: 'center',
+  }
+};
