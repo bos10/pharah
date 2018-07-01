@@ -1,12 +1,17 @@
 import firebase from 'firebase';
 
 import React, { Component } from 'react';
-import { Alert, Image, View } from 'react-native';
+import { Alert, Image, View,
+         } from 'react-native';
 import { CardSection, UsernameInput,
         Button, Spinner, Background, PasswordInput,
-        ButtonNoBackground } from '../components/common';
+        ButtonNoBackground, GradientButton } from '../components/common';
 
-import LogoImg from '../images/ivanface.png';
+import LogoImg from '../images/Logo4.png';
+import Dimensions from 'Dimensions';
+
+const deviceHeight = Dimensions.get('window').width;
+const deviceWidth = Dimensions.get('window').height;
 
 // Login form, start page of App
 // Interface
@@ -42,9 +47,11 @@ class Login extends Component {
       return <Spinner size="large" />;
     }
     return (
-      <Button onPress={() => this.loginClicked()}>
-        Login
-      </Button>
+      <GradientButton
+      onPress={() => this.loginClicked()}
+      >
+        LOGIN
+      </GradientButton>
     );
   }
 // ___________________________________________________________________
@@ -52,6 +59,7 @@ class Login extends Component {
 // GRAPHICAL USER INTERFACE (From here onward)
   render() {
     return (
+
       <Background>
 
         {/* Logo */}
@@ -86,7 +94,7 @@ class Login extends Component {
         </CardSection>
 
         {/* Login Button */}
-        <CardSection style={{ backgroundColor: 'transparent' }}>
+        <CardSection style={{ backgroundColor: 'transparent', justifyContent: 'center' }}>
           {this.renderButton()}
         </CardSection>
 
@@ -96,11 +104,12 @@ class Login extends Component {
           <ButtonNoBackground
           onPress={() => this.props.navigation.navigate('CreateAccount')}
           >
-            Create account
+            CREATE ACCOUNT
           </ButtonNoBackground>
         </CardSection>
 
       </Background>
+
     );
   }
 }
@@ -109,11 +118,13 @@ export default Login;
 
 const styles = {
   Logo: {
-    width: 120,
-    height: 120,
+    width: 400,
+    height: 400,
   },
   LogoContainer: {
     flex: 3,
+    marginBottom: 20,
+    marginLeft: 15,
     alignItems: 'center',
     justifyContent: 'center',
   }

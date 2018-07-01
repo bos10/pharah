@@ -9,6 +9,7 @@ export * from './Background';
 export * from './UsernameInput';
 export * from './PasswordInput';
 export * from './ButtonNoBackground';
+export * from './GradientButton';
 
 
 // export everything from there

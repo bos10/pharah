@@ -30,14 +30,16 @@ const styles = {
     color: '#000',
     paddingRight: 5,
     paddingLeft: 5,
-    fontSize: 18,
+    fontSize: 16,
     lineHeight: 23,
-    flex: 2
+    flex: 2,
+    fontFamily: 'NunitoSans-Bold',
   },
   labelStyle: {
-    fontSize: 18,
-    paddingLeft: 20,
-    flex: 1
+    fontSize: 14,
+    paddingLeft: 50,
+    flex: 1,
+    fontFamily: 'NunitoSans-Bold',
   },
   containerStyle: {
     height: 40,
