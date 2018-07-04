@@ -36,6 +36,7 @@ export const LobbyStack = createStackNavigator({
     screen: CreateRoom,
     navigationOptions: {
       title: 'Create Room',
+
     }
   },
   Menu: {
@@ -104,6 +105,8 @@ export const RootStack = createStackNavigator({
     screen: CreateAccount,
     navigationOptions: {
       title: 'Create Account',
+      headerStyle: { backgroundColor: 'red' },
+      headerTitleStyle: { color: '#f4f4f4' },
     }
   },
   Lobby: {

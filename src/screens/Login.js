@@ -7,7 +7,7 @@ import { CardSection, UsernameInput,
         Button, Spinner, Background, PasswordInput,
         ButtonNoBackground, GradientButton } from '../components/common';
 
-import LogoImg from '../images/Logo4.png';
+import LogoImg from '../images/Logo5.png';
 import Dimensions from 'Dimensions';
 
 const deviceHeight = Dimensions.get('window').width;
@@ -118,13 +118,13 @@ export default Login;
 
 const styles = {
   Logo: {
-    width: 400,
-    height: 400,
+    width: 250,
+    height: 250,
   },
   LogoContainer: {
     flex: 3,
     marginBottom: 20,
-    marginLeft: 15,
+    marginLeft: 10,
     alignItems: 'center',
     justifyContent: 'center',
   }
