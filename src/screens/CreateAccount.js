@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Alert } from 'react-native';
 import firebase from 'firebase';
-import { Card, CardSection, Input, Button, Spinner } from '../components/common';
+import { Card, CardSection, Input, GradientButton, Spinner, UsernameInput, PasswordInput, Background } from '../components/common';
 
 // Form for new user to create an account with
 // Email, password, display name
@@ -45,18 +45,20 @@ class CreateAccount extends Component {
       return <Spinner size="large" />;
     }
     return (
-      <Button onPress={() => this.onButtonPress()}>
-        Create!
-      </Button>
+      <GradientButton onPress={() => this.onButtonPress()}>
+        CREATE
+      </GradientButton>
     );
   }
 
+// PAGE DESIGN
   render() {
     return (
+      <Background>
       <Card>
         <CardSection>
-          <Input
-            label='NewEmail'
+          <UsernameInput
+            label='New Email'
             placeholder='email@gmail.com'
             onChangeText={text => this.setState({ email: text })}
             value={this.state.email}
@@ -64,9 +66,9 @@ class CreateAccount extends Component {
         </CardSection>
 
         <CardSection>
-          <Input
+          <PasswordInput
             secureTextEntry
-            label='NewPass'
+            label='New Password'
             placeholder='*********'
             onChangeText={text => this.setState({ password: text })}
             value={this.state.password}
@@ -74,9 +76,9 @@ class CreateAccount extends Component {
         </CardSection>
 
         <CardSection>
-          <Input
-            label='DisplayName'
-            placeholder='Nigga'
+          <UsernameInput
+            label='Display Name'
+            placeholder='Bryan Lee 15-151'
             onChangeText={text => this.setState({ displayName: text })}
             value={this.state.displayName}
           />
@@ -87,6 +89,7 @@ class CreateAccount extends Component {
         </CardSection>
 
       </Card>
+      </Background>
     );
   }
 }
