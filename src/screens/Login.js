@@ -73,7 +73,7 @@ class Login extends Component {
 
 
         {/* Email Input */}
-        <CardSection style={{ backgroundColor: 'transparent' }}>
+        <CardSection style={{ backgroundColor: 'transparent', justifyContent: 'center' }}>
           <UsernameInput
             label='Email'
             placeholder='email@gmail.com'
@@ -83,7 +83,7 @@ class Login extends Component {
         </CardSection>
 
         {/* Password Input */}
-        <CardSection style={{ backgroundColor: 'transparent' }}>
+        <CardSection style={{ backgroundColor: 'transparent', justifyContent: 'center' }}>
           <PasswordInput
             secureTextEntry
             label='Password'
