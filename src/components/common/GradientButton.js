@@ -8,16 +8,11 @@ const GradientButton = ({ onPress, children, disabled}) => {
 
   return (
     <TouchableOpacity disabled={disabled} onPress={onPress} style={buttonStyle}>
-      <LinearGradient
-        style={buttonStyle}
-        colors={['#F4F4F4', '#FFC300']}
-        start={{ x: 0, y: 1 }}
-        end={{ x: 1, y: 1 }}
-      >
+
         <Text style={textStyle}>
           {children}
         </Text>
-      </LinearGradient>
+
     </TouchableOpacity>
   );
 };
@@ -25,7 +20,7 @@ const GradientButton = ({ onPress, children, disabled}) => {
 const styles = {
   textStyle: {
     alignSelf: 'center',
-    color: '#A40606',
+    color: '#ff7c00',
     fontSize: 14,
     fontWeight: '600',
     paddingTop: 10,
@@ -38,7 +33,14 @@ const styles = {
     borderRadius: 20,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'transparent',
+    backgroundColor: '#f7f7f7',
+
+    shadowOffset: { width: 10, height: 0, },
+    shadowOpacity: 1.0,
+    shadowRadius: 5,
+    elevation: 2,
+    shadowColor: '#000',
+    marginBottom: 2,
   }
 };
 
@@ -53,3 +55,10 @@ export { GradientButton };
   //   //borderColor: '#FF000',
   //   marginLeft: 5,
   //   marginRight: 5
+
+  // <LinearGradient
+  //   style={buttonStyle}
+  //   colors={['#F4F4F4', '#FFC300']}
+  //   start={{ x: 0, y: 1 }}
+  //   end={{ x: 1, y: 1 }}
+  // >
