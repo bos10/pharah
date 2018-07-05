@@ -47,9 +47,9 @@ const styles = {
     flexDirection: 'row',
     alignItems: 'center',
     borderRadius: 20,
-  // borderColor: '#fcddf2',
-  // borderWidth: 1,
-    backgroundColor: 'transparent',
+  //  borderColor: '#fcddf2',
+  //  borderWidth: 1,
+    backgroundColor: '#eb6c05',
   },
 };
 

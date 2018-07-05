@@ -26,18 +26,22 @@ const styles = {
     paddingLeft: 5,
     fontSize: 16,
     lineHeight: 23,
-    flex: 2
+    flex: 2,
+    fontFamily: 'NunitoSans-Bold',
   },
   labelStyle: {
     fontSize: 14,
     paddingLeft: 50,
-    flex: 1
+    flex: 1,
+    fontFamily: 'NunitoSans-Bold',
   },
   containerStyle: {
     height: 40,
     flex: 1,
     flexDirection: 'row',
-    alignItems: 'center'
+    alignItems: 'center',
+    backgroundColor: '#eb6c05',
+    borderRadius: 20,
   }
 };
 

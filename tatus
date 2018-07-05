@@ -1,0 +1,98 @@
+[33mcommit 6d6a469524ecd73c43ed384543801929735bc6a7[m[33m ([m[1;36mHEAD -> [m[1;32mboston-LoginScreen[m[33m)[m
+Author: Bos <bostoncheong@gmail.com>
+Date:   Wed Jul 4 14:42:38 2018 +0800
+
+    Moved on to Create Account page, need to find out how to style the navigation bar, and make rounded input for the create account page, and back button not rise from buttom, but slide. how?
+
+[33mcommit b986309a70f5b4b7def01fa2c285af31e8073d38[m[33m ([m[1;31morigin/boston-LoginScreen[m[33m)[m
+Author: Bos <bostoncheong@gmail.com>
+Date:   Sun Jul 1 23:46:30 2018 +0800
+
+    Followup from previous Commit, need to fix keyboard overlap issue
+
+[33mcommit e5101477ae5cc03fa0abba450674a6ab8455809b[m
+Author: Bos <bostoncheong@gmail.com>
+Date:   Sun Jul 1 23:23:33 2018 +0800
+
+    Finished Entire Login Screen
+
+[33mcommit 8f42118358e750dfc5ee3e175bbf6028f88b964b[m
+Author: Bos <bostoncheong@gmail.com>
+Date:   Sun Jul 1 19:04:57 2018 +0800
+
+    Finish Linear Background and Rough Input design
+
+[33mcommit 2aa951014ae76e7e89914d21135304ccebfa4e82[m
+Author: Bos <bostoncheong@gmail.com>
+Date:   Sun Jul 1 15:52:29 2018 +0800
+
+    Added linear gradient successfully
+
+[33mcommit 6a1803a007cc13481538c6cab95275c0f23a0da3[m
+Author: Bos <bostoncheong@gmail.com>
+Date:   Sun Jul 1 12:21:25 2018 +0800
+
+    Forget to add the relevant files from previous commit
+
+[33mcommit 3b71cb4f058c648462f76fcea9b20a9a16ad060f[m
+Author: Bos <bostoncheong@gmail.com>
+Date:   Sun Jul 1 12:18:49 2018 +0800
+
+    Modified Layout for Login Screen from original to rough Styling version
+
+[33mcommit 1d454795119e0a2c3a85f355563699728af1de7f[m[33m ([m[1;31morigin/master[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mmaster[m[33m)[m
+Merge: 39b760b e0ed4fc
+Author: ihwk1996 <39242294+ihwk1996@users.noreply.github.com>
+Date:   Thu Jun 28 21:11:13 2018 +0800
+
+    Merge pull request #3 from ihwk1996/boston-loginScreen
+    
+    #1 Testing Login screen
+
+[33mcommit e0ed4fc92552fe66d88a0fc3896e774d6b527e55[m
+Author: Bos <bostoncheong@gmail.com>
+Date:   Thu Jun 28 21:09:17 2018 +0800
+
+    #1 Testing Login screen
+
+[33mcommit 39b760baab9f30f2d22b8d5c018c43f1f97e2936[m
+Merge: a32a8c7 7d17761
+Author: ihwk1996 <39242294+ihwk1996@users.noreply.github.com>
+Date:   Thu Jun 28 20:59:20 2018 +0800
+
+    Merge pull request #2 from ihwk1996/ivan-test
+    
+    test commit
+
+[33mcommit 7d177611bb5b704d4b9062cf7a6b1d3f95267cbf[m
+Author: ihwk1996 <ihwk1996@gmail.com>
+Date:   Thu Jun 28 20:52:08 2018 +0800
+
+    test commit
+
+[33mcommit a32a8c7f6ff6f9e5ac6c8221a7276e8dbc907c12[m
+Author: ihwk1996 <39242294+ihwk1996@users.noreply.github.com>
+Date:   Thu Jun 28 13:42:09 2018 +0800
+
+    Create README
+
+[33mcommit 151e9e6ab97b4f8d6f9030678b8f0fae98df196c[m
+Merge: a1a21b8 4a1e5a5
+Author: ihwk1996 <39242294+ihwk1996@users.noreply.github.com>
+Date:   Thu Jun 28 13:37:17 2018 +0800
+
+    Merge pull request #1 from ihwk1996/ivan-notifications
+    
+    testing commit, smily @ cr8 acc
+
+[33mcommit 4a1e5a541173e743d9da45c0f05f97d39750b040[m
+Author: ihwk1996 <ihwk1996@gmail.com>
+Date:   Thu Jun 28 13:32:40 2018 +0800
+
+    testing commit, smily @ cr8 acc
+
+[33mcommit a1a21b8f7558fd1ff0a14c7e1f3012da53521086[m
+Author: ihwk1996 <ihwk1996@gmail.com>
+Date:   Thu Jun 28 13:23:07 2018 +0800
+
+    First commit to git
