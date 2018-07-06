@@ -32,6 +32,7 @@ const styles = {
     color: '#F7F7F7',
     paddingRight: 5,
     paddingLeft: 5,
+    paddingBottom: 3,
     fontSize: 16,
     lineHeight: 23,
     flex: 2,
@@ -45,7 +46,7 @@ const styles = {
     color: '#F7F7F7',
   },
   containerStyle: {
-    height: 40,
+    height: 30,
     flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
@@ -56,10 +57,11 @@ const styles = {
   },
   outerContainer: {
     width: '80%',
-    height: 40,
+    height: 30,
   //  borderRadius: 20,
     justifyContent: 'center',
     alignItems: 'center',
+    paddingBottom: 1,
   //  backgroundColor: '#f7f7f7',
   },
 };

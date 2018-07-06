@@ -40,6 +40,7 @@ const UsernameInput = ({ label, value, onChangeText, placeholder, secureTextEntr
 const styles = {
   // What a user types in
   inputStyle: {
+    paddingBottom: 3,
     color: '#F7F7F7',
     paddingRight: 5,
     paddingLeft: 5,
@@ -56,7 +57,7 @@ const styles = {
     color: '#F7F7F7',
   },
   containerStyle: {
-    height: 40,
+    height: 30,
     flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
@@ -67,7 +68,7 @@ const styles = {
   },
   outerContainer: {
     width: '80%',
-    height: 40,
+    height: 30,
   //  borderRadius: 20,
     justifyContent: 'center',
     alignItems: 'center',
