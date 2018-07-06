@@ -103,6 +103,7 @@ class Login extends Component {
         <CardSection style={{ backgroundColor: 'transparent' }}>
           <ButtonNoBackground
           onPress={() => this.props.navigation.navigate('CreateAccount')}
+          style={{ fontSize: 20 }}
           >
             CREATE ACCOUNT
           </ButtonNoBackground>
