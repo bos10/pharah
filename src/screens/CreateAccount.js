@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Alert } from 'react-native';
 import firebase from 'firebase';
-import { Card, CardSection, Input, GradientButton, Spinner, UsernameInput, PasswordInput, Background } from '../components/common';
+import { Card, CardSection, InputNoLabel, GradientButton, Button, Spinner, UsernameInput, PasswordInput, Background } from '../components/common';
 
 // Form for new user to create an account with
 // Email, password, display name
@@ -45,9 +45,9 @@ class CreateAccount extends Component {
       return <Spinner size="large" />;
     }
     return (
-      <GradientButton onPress={() => this.onButtonPress()}>
+      <Button onPress={() => this.onButtonPress()}>
         CREATE
-      </GradientButton>
+      </Button>
     );
   }
 
@@ -55,36 +55,33 @@ class CreateAccount extends Component {
   render() {
     return (
       <Background>
-      <Card>
-        <CardSection>
-          <UsernameInput
-            label='New Email'
-            placeholder='email@gmail.com'
+      <Card style={{ backgroundColor: '#f4f4f4' }}>
+        <CardSection style={{ backgroundColor: 'transparent' }}>
+          <InputNoLabel
+            placeholder='Your email address'
             onChangeText={text => this.setState({ email: text })}
             value={this.state.email}
           />
         </CardSection>
 
-        <CardSection>
-          <PasswordInput
+        <CardSection style={{ backgroundColor: 'transparent' }}>
+          <InputNoLabel
             secureTextEntry
-            label='New Password'
-            placeholder='*********'
+            placeholder='Input password (>6 characters)'
             onChangeText={text => this.setState({ password: text })}
             value={this.state.password}
           />
         </CardSection>
 
-        <CardSection>
-          <UsernameInput
-            label='Display Name'
-            placeholder='Bryan Lee 15-151'
+        <CardSection style={{ backgroundColor: 'transparent' }}>
+          <InputNoLabel
+            placeholder='Display name'
             onChangeText={text => this.setState({ displayName: text })}
             value={this.state.displayName}
           />
         </CardSection>
 
-        <CardSection>
+        <CardSection style={{ backgroundColor: 'transparent' }}>
           {this.renderButton()}
         </CardSection>
 
