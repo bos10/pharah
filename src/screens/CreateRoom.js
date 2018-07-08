@@ -33,6 +33,7 @@ class CreateRoom extends Component {
         // Push new room to lobby with the details
         const ref = firebase.database().ref('/lobby')
           .push({ creatorName,
+                  creatorId: uid,
                   roomName,
                   displayClosingTime,
                   ISOClosingTime,
@@ -84,7 +85,7 @@ class CreateRoom extends Component {
   handleDatePicked = (date) => {
     // date is in UTC
     // Add 8 hrs coz SG is +8 UTC
-    var dateString = date.toLocaleTimeString();
+    var dateString = date.toString().slice(16, 24);
 
     this.setState({
       displayClosingTime: dateString,
