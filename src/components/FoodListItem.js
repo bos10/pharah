@@ -1,15 +1,44 @@
 import React, { Component } from 'react';
-import { Text, View } from 'react-native';
+import { Text, View, Alert } from 'react-native';
+import firebase from 'firebase';
 import { CardSection } from './common';
 
 
 class FoodListItem extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      ordererName: ''
+    };
+  }
+
+  componentDidMount() {
+    // Get displayname of user
+    const uid = this.props.item.uid;
+    firebase.database().ref(`/users/${uid}/displayName`)
+      .once('value')
+      .then(snapshot => {
+        this.setState({ ordererName: snapshot.val() });
+      });
+  }
+
+  onButtonPress() {
+    Alert.alert('gi');
+  }
+
+  renderCreator() {
+    if (this.props.creatorName === this.state.ordererName) {
+      return (
+        <Text> CREATOR </Text>
+      );
+    }
+  }
 
   renderOrder() {
-    const object = Object.assign({}, this.props.item);
-    const name = object.ordererName;
+    const object = Object.assign({}, this.props.item.order);
+    const name = this.state.ordererName;
     let totalCost = 0;
-    delete object.ordererName;
+    delete object.uid;
     const list = Object.entries(object).map(([key, value]) => {
       let cost;
       switch (key) {
@@ -29,8 +58,12 @@ class FoodListItem extends Component {
 
     return (
       <CardSection style={styles.cardSectionStyle}>
-        {list}
-        <Text style={styles.nameStyle}>by {name}, pay ${totalCost}</Text>
+        <View style={{ marginRight: 100 }}>
+          {list}
+          <Text style={styles.nameStyle}>by {name}, pay ${totalCost}</Text>
+        </View>
+        {this.renderCreator()}
+
       </CardSection>
     );
   }
@@ -55,7 +88,6 @@ const styles = {
   cardSectionStyle: {
     padding: 20,
     borderBottomWidth: 2,
-    flexDirection: 'column'
   }
 };
 

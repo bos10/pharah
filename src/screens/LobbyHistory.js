@@ -1,28 +1,20 @@
 import firebase from 'firebase';
 
 import React, { Component } from 'react';
-import { View, FlatList } from 'react-native';
+import { View, FlatList, Text } from 'react-native';
 import _ from 'lodash';
 import LobbyHistoryListItem from '../components/LobbyHistoryListItem';
-// import { CardSection } from '../components/common';
-
 
 class LobbyHistory extends Component {
   constructor(props) {
     super(props);
     this.state = {
       lobbyHistory: [],
-      time: '',
     };
   }
 
   componentDidMount() {
-    this.Clock = setInterval(() => this.getTime(), 1000);
     this.getLobby();
-  }
-
-  componentWillUnmount() {
-    clearInterval(this.Clock);
   }
 
   getLobby() {
@@ -44,23 +36,16 @@ class LobbyHistory extends Component {
       });
   }
 
-  getTime() {
-    // At every second, clock will compare with time array
-    // Compare with arr[0], the next earliest timeout
-    // If that time just passes, remove it and update its status to pending
-    var nowDate = new Date();
-    var nowString = nowDate.toString();
-
-    this.setState({
-      time: nowString
-    });
-  }
-
   render() {
     return (
       <View style={{ flex: 1 }}>
         <View>
           <FlatList
+            ListEmptyComponent={
+              <Text style={{ alignSelf: 'center', marginVertical: 15 }}>
+                Lobby history is empty!
+              </Text>
+            }
             data={this.state.lobbyHistory}
             renderItem={({ item }) => (
               <LobbyHistoryListItem
