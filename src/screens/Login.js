@@ -1,9 +1,20 @@
-import React, { Component } from 'react';
-import { Alert } from 'react-native';
 import firebase from 'firebase';
-import { Card, CardSection, Input, Button, Spinner } from '../components/common';
+
+import React, { Component } from 'react';
+import { Alert, Image, View,
+         } from 'react-native';
+import { CardSection, UsernameInput,
+        Button, Spinner, Background, PasswordInput,
+        ButtonNoBackground, GradientButton } from '../components/common';
+
+import LogoImg from '../images/Logo5.png';
+import Dimensions from 'Dimensions';
+
+const deviceHeight = Dimensions.get('window').width;
+const deviceWidth = Dimensions.get('window').height;
 
 // Login form, start page of App
+// Interface
 class Login extends Component {
   constructor(props) {
     super(props);
@@ -36,16 +47,34 @@ class Login extends Component {
       return <Spinner size="large" />;
     }
     return (
-      <Button onPress={() => this.loginClicked()}>
-        Login
-      </Button>
+      <GradientButton
+      onPress={() => this.loginClicked()}
+      >
+        LOGIN
+      </GradientButton>
     );
   }
+// ___________________________________________________________________
+// ___________________________________________________________________
+// GRAPHICAL USER INTERFACE (From here onward)
   render() {
     return (
-      <Card>
-        <CardSection>
-          <Input
+
+      <Background>
+
+        {/* Logo */}
+        <View style={styles.LogoContainer}>
+          <Image
+            resizeMode="contain"
+            source={LogoImg}
+            style={styles.Logo}
+          />
+        </View>
+
+
+        {/* Email Input */}
+        <CardSection style={{ backgroundColor: 'transparent', justifyContent: 'center' }}>
+          <UsernameInput
             label='Email'
             placeholder='email@gmail.com'
             onChangeText={text => this.setState({ email: text })}
@@ -53,8 +82,9 @@ class Login extends Component {
           />
         </CardSection>
 
-        <CardSection>
-          <Input
+        {/* Password Input */}
+        <CardSection style={{ backgroundColor: 'transparent', justifyContent: 'center' }}>
+          <PasswordInput
             secureTextEntry
             label='Password'
             placeholder='*********'
@@ -63,19 +93,40 @@ class Login extends Component {
           />
         </CardSection>
 
-        <CardSection>
+        {/* Login Button */}
+        <CardSection style={{ backgroundColor: 'transparent', justifyContent: 'center' }}>
           {this.renderButton()}
         </CardSection>
 
-        <CardSection>
-          <Button onPress={() => this.props.navigation.navigate('CreateAccount')}>
-            Create account
-          </Button>
+
+        {/* Create Account Button */}
+        <CardSection style={{ backgroundColor: 'transparent' }}>
+          <ButtonNoBackground
+          onPress={() => this.props.navigation.navigate('CreateAccount')}
+          style={{ fontSize: 20 }}
+          >
+            CREATE ACCOUNT
+          </ButtonNoBackground>
         </CardSection>
 
-      </Card>
+      </Background>
+
     );
   }
 }
 
 export default Login;
+
+const styles = {
+  Logo: {
+    width: 250,
+    height: 250,
+  },
+  LogoContainer: {
+    flex: 3,
+    marginBottom: 20,
+    marginLeft: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
+  }
+};

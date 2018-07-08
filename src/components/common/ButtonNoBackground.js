@@ -1,7 +1,7 @@
 import React from 'react';
 import { Text, TouchableOpacity } from 'react-native';
 
-const Button = ({ onPress, children }) => {
+const ButtonNoBackground = ({ onPress, children }) => {
   const { textStyle, buttonStyle } = styles;
 
   return (
@@ -16,8 +16,8 @@ const Button = ({ onPress, children }) => {
 const styles = {
   textStyle: {
     alignSelf: 'center',
-    color: '#ff7c00',
-    fontSize: 14,
+    color: '#fff',  // Change this colour
+    fontSize: 9,
     fontWeight: '600',
     paddingTop: 10,
     paddingBottom: 10,
@@ -26,15 +26,11 @@ const styles = {
   buttonStyle: {
     flex: 1,
     alignSelf: 'stretch',
-    backgroundColor: '#F4F4F4',
     borderRadius: 20,
-  //  borderWidth: 1,
-  //  borderColor: '#007aff',
     marginLeft: 5,
     marginRight: 5
-
   }
 };
 
-export { Button };
+export { ButtonNoBackground };
 // same as export { Button: Button } < key, value, then shortcut coz same name
