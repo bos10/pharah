@@ -3,7 +3,7 @@ import firebase from 'firebase';
 import _ from 'lodash';
 import { View, Text, Button, FlatList } from 'react-native';
 import { CardSection } from '../components/common';
-import FoodListItem from '../components/FoodListItem';
+import FoodListItemRoomHistory from '../components/FoodListItemRoomHistory';
 
 // Represents a Room from HistoryLobby
 // Differs with Room coz it takes from firebase user's lobbys, not ~/lobby
@@ -19,97 +19,36 @@ class RoomHistory extends Component {
   componentDidMount() {
     const { navigation } = this.props;
     const roomId = navigation.getParam('roomId');
-    const uid = firebase.auth().currentUser.uid;
+    const userid = firebase.auth().currentUser.uid;
     // Reference for Room's items, setstate
-    firebase.database().ref(`users/${uid}/lobbyHistory/${roomId}/items/`)
+    firebase.database().ref(`users/${userid}/lobbyHistory/${roomId}/items/`)
       .on('value', snapshot => {
-        const orders = _.map(snapshot.val(), (val, ordererName) => {
-          return { ...val, ordererName };
+        const orders = _.map(snapshot.val(), (val, uid) => {
+          return { ...val, uid };
         });
         this.setState({ orders });
       });
 
     // Reference for Room's total price, setstate
-    firebase.database().ref(`users/${uid}/lobbyHistory/${roomId}/roomTotalPrice`)
+    firebase.database().ref(`users/${userid}/lobbyHistory/${roomId}/roomTotalPrice`)
       .on('value', snapshot => {
         this.setState({ roomTotalPrice: snapshot.val() });
       });
 
       // Reference for Room's status, setstate
-      firebase.database().ref(`users/${uid}/lobbyHistory/${roomId}/roomStatus`)
+      firebase.database().ref(`users/${userid}/lobbyHistory/${roomId}/roomStatus`)
         .on('value', snapshot => {
           this.setState({ roomStatus: snapshot.val() });
         });
   }
 
-  placeOrder() {
-    const { navigation } = this.props;
-    const roomId = navigation.getParam('roomId');
-    // Update lobby as closed in respective lobby histories
-    firebase.database().ref(`lobby/${roomId}/userIDs`)
-      .once('value')
-      .then(snapshot => {
-        const object = snapshot.val();
-        if (object === null) { return; }
-        const userIDs = Object.keys(object);
-        userIDs.forEach(uid => {
-          firebase.database().ref(`users/${uid}/lobbyHistory/${roomId}`)
-            .update({ roomStatus: 'closed' });
-        });
-      });
-    this.deleteRoomFromLobby();
-  }
-
-  deleteRoomFromLobby() {
-    const { navigation } = this.props;
-    const roomId = navigation.getParam('roomId');
-    // Check status, if still open, must remove from times array
-    firebase.database().ref(`lobby/${roomId}/roomStatus`)
-      .once('value')
-      .then(snapshot => {
-        if (snapshot.val() === 'open') {
-          firebase.database().ref('lobby/times/')
-            .once('value')
-            .then(snapshot1 => {
-              if (snapshot1.val() != null) {
-                const arr = snapshot1.val();
-                  for (let i = 0; i < arr.length; i++) {
-                    const obj = arr[i];
-                    if (obj.roomId === roomId) {
-                      arr.splice(i, 1);
-                      break;
-                    }
-                  }
-                  // Update the array of times in database
-                  firebase.database().ref('/lobby')
-                    .update({ times: arr });
-              }
-            });
-        }
-      });
-      // Remove the room from lobby, but left it users history
-      this.props.navigation.goBack();
-      // Create a dummy in push, REMOVE ROOM, then remove the dummy
-      // This is to ensure lobby is not null if not flatlist got issue
-      // Issue - when last room is pending and deleted, still remain in list.
-      const pushkey = firebase.database().ref('lobby/times/')
-        .push({ dummy: 'dummy' }); // dummy
-
-      firebase.database().ref(`lobby/${roomId}`).remove();
-
-      firebase.database().ref(`lobby/times/${pushkey.key}`).remove(); // dummy
-  }
-
   renderAddFoodButton() {
-    const { navigation } = this.props;
-    const roomId = navigation.getParam('roomId');
+    //const { navigation } = this.props;
+    //const roomId = navigation.getParam('roomId');
     if (this.state.roomStatus !== 'closed') {
       return (
         <CardSection>
-          <Button
-            title="Add food"
-            onPress={() => navigation.navigate('Menu', { roomId })}
-          />
+          <Text style={styles.moreStyle}> Go to Lobby to add food,delete, or order! </Text>
         </CardSection>
       );
     }
@@ -147,23 +86,25 @@ class RoomHistory extends Component {
           </Text>
         </CardSection>
 
-        {this.renderAddFoodButton()}
-
         <View>
           <FlatList
             data={this.state.orders}
             renderItem={({ item }) => (
-              <FoodListItem
+              <FoodListItemRoomHistory
                 item={item}
+                navigation={this.props.navigation}
+                creatorName={creatorName}
+                roomStatus={this.state.roomStatus}
               />
             )}
-            keyExtractor={item => item.ordererName}
+            keyExtractor={item => item.uid}
           />
         </View>
         <CardSection>
           <Text style={styles.totalStyle}>Total : ${this.state.roomTotalPrice || 0}</Text>
         </CardSection>
-        {this.renderOrderButton()}
+
+        {this.renderAddFoodButton()}
       </View>
     );
   }
@@ -193,6 +134,10 @@ const styles = {
     fontWeight: '600',
     paddingLeft: 5,
     color: '#ef4836',
+  },
+  moreStyle: {
+    fontSize: 18,
+    color: 'blue',
   }
 };
 

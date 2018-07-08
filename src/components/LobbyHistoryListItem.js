@@ -4,7 +4,7 @@ import { Text, TouchableWithoutFeedback, View } from 'react-native';
 import { CardSection } from './common';
 
 
-class ListItem extends Component {
+class LobbyHistoryListItem extends Component {
   constructor(props) {
     super(props);
     this.state = { roomStatus: '' };
@@ -87,4 +87,4 @@ const styles = {
   }
 };
 
-export default ListItem;
+export default LobbyHistoryListItem;

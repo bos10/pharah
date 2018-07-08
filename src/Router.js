@@ -3,10 +3,12 @@ import { createStackNavigator, createBottomTabNavigator } from 'react-navigation
 import { Button } from 'react-native';
 import IosIcon from 'react-native-vector-icons/Ionicons';
 import LineIcon from 'react-native-vector-icons/SimpleLineIcons';
+import AwesomeIcon from 'react-native-vector-icons/FontAwesome';
 import Login from './screens/Login';
 import CreateAccount from './screens/CreateAccount';
 import Lobby from './screens/Lobby';
 import LobbyHistory from './screens/LobbyHistory';
+import LobbyMoney from './screens/LobbyMoney';
 import CreateRoom from './screens/CreateRoom';
 import Room from './screens/Room';
 import RoomHistory from './screens/RoomHistory';
@@ -65,6 +67,13 @@ export const LobbyHistoryStack = createStackNavigator({
   },
 });
 
+export const LobbyMoneyStack = createStackNavigator({
+  LobbyMoney: {
+    screen: LobbyMoney,
+    navigationOptions: { title: 'Money Status' }
+  },
+});
+
 export const TabStack = createBottomTabNavigator({
   Lobby: {
     screen: LobbyStack,
@@ -75,7 +84,6 @@ export const TabStack = createBottomTabNavigator({
       )
     }
   },
-  // Embed in stacknavigator so that it has the header
   LobbyHistory: {
     screen: LobbyHistoryStack,
     navigationOptions: {
@@ -84,14 +92,24 @@ export const TabStack = createBottomTabNavigator({
         <LineIcon name='user' color={tintColor} size={24} />
       )
     }
-  }
+  },
+  LobbyMoney: {
+    screen: LobbyMoneyStack,
+    navigationOptions: {
+      tabBarLabel: 'Money Status',
+      tabBarIcon: ({ tintColor }) => (
+        <AwesomeIcon name='money' color={tintColor} size={24} />
+      )
+    }
+  },
 }, {
+
   // Tab router config
   initialRouteName: 'Lobby',
   tabBarOptions: {
     activeTintColor: 'orange',
     inactiveTintColor: 'grey'
-  }
+  },
 });
 
 export const RootStack = createStackNavigator({

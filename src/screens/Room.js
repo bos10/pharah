@@ -22,8 +22,8 @@ class Room extends Component {
     // Reference for Room's items, setstate
     firebase.database().ref(`lobby/${roomId}/items/`)
       .on('value', snapshot => {
-        const orders = _.map(snapshot.val(), (val, ordererName) => {
-          return { ...val, ordererName };
+        const orders = _.map(snapshot.val(), (val, uid) => {
+          return { ...val, uid };
         });
         this.setState({ orders });
       });
@@ -50,7 +50,45 @@ class Room extends Component {
             .update({ roomStatus: 'closed' });
         });
       });
+    this.settleMoney();
     this.deleteRoomFromLobby();
+  }
+
+  settleMoney() {
+    const { navigation } = this.props;
+    const roomId = navigation.getParam('roomId');
+    const creatorId = navigation.getParam('creatorId');
+    firebase.database().ref(`lobby/${roomId}/items`)
+      .once('value')
+      .then(snapshot => {
+        const orderItems = snapshot.val();
+        for (const id in orderItems) {
+          // If id is creator, do nothing since he pays his own
+          if (id === creatorId) { continue; }
+          const uid = id;
+          const itemsOrdered = orderItems[id].order;
+          this.settleFirebaseMoneyPerPerson(creatorId, uid, itemsOrdered);
+        }
+      });
+  }
+
+  settleFirebaseMoneyPerPerson(creatorId, uid, itemsOrdered) {
+    let totalCost = 0;
+    Object.entries(itemsOrdered).map(([key, value]) => {
+      switch (key) {
+        case 'prata': totalCost += value * 1; break;
+        case 'drink': totalCost += value * 0.5; break;
+        case 'maggie': totalCost += value * 2; break;
+        default: break;
+      }
+    });
+    // + means others owe u
+    // - means u owe others
+    // Each id, + the creator, - the // id guy
+    firebase.database().ref(`users/${creatorId}/moneyStatus`)
+      .update({ [uid]: totalCost });
+    firebase.database().ref(`users/${uid}/moneyStatus`)
+      .update({ [creatorId]: -totalCost });
   }
 
   deleteRoomFromLobby() {
@@ -143,9 +181,10 @@ class Room extends Component {
             renderItem={({ item }) => (
               <FoodListItem
                 item={item}
+                creatorName={creatorName}
               />
             )}
-            keyExtractor={item => item.ordererName}
+            keyExtractor={item => item.uid}
           />
         </View>
         <CardSection>
