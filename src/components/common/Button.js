@@ -28,8 +28,6 @@ const styles = {
     alignSelf: 'stretch',
     backgroundColor: '#F4F4F4',
     borderRadius: 20,
-  //  borderWidth: 1,
-  //  borderColor: '#007aff',
     marginLeft: 5,
     marginRight: 5
 

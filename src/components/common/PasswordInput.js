@@ -51,18 +51,14 @@ const styles = {
     flexDirection: 'row',
     alignItems: 'center',
     borderRadius: 20,
-  //  borderColor: '#fcddf2',
-  //  borderWidth: 1,
     backgroundColor: '#eb6c05',
   },
   outerContainer: {
     width: '80%',
     height: 30,
-  //  borderRadius: 20,
     justifyContent: 'center',
     alignItems: 'center',
     paddingBottom: 1,
-  //  backgroundColor: '#f7f7f7',
   },
 };
 

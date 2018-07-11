@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { Alert } from 'react-native';
+import { Alert, Text } from 'react-native';
 import firebase from 'firebase';
-import { Card, CardSection, InputNoLabel, GradientButton, Button, Spinner, UsernameInput, PasswordInput, Background } from '../components/common';
+import { Card, CardSection, InputNoLabel, Button, Spinner, UsernameInput, PasswordInput, Background } from '../components/common';
+
 
 // Form for new user to create an account with
 // Email, password, display name
@@ -56,6 +57,7 @@ class CreateAccount extends Component {
     return (
       <Background>
       <Card style={{ backgroundColor: '#f4f4f4' }}>
+        <Text style={styles.label}> Email </Text>
         <CardSection style={{ backgroundColor: 'transparent' }}>
           <InputNoLabel
             placeholder='Your email address'
@@ -64,6 +66,7 @@ class CreateAccount extends Component {
           />
         </CardSection>
 
+        <Text style={styles.label}> Password </Text>
         <CardSection style={{ backgroundColor: 'transparent' }}>
           <InputNoLabel
             secureTextEntry
@@ -73,9 +76,21 @@ class CreateAccount extends Component {
           />
         </CardSection>
 
+        {/*Must validy this shit*/}
+        <Text style={styles.label}> Re-enter Password </Text>
         <CardSection style={{ backgroundColor: 'transparent' }}>
           <InputNoLabel
-            placeholder='Display name'
+            secureTextEntry
+            placeholder='Re-enter password'
+            onChangeText={text => this.setState({ password: text })}
+            value={this.state.password}
+          />
+        </CardSection>
+
+        <Text style={styles.label}> Display Name </Text>
+        <CardSection style={{ backgroundColor: 'transparent' }}>
+          <InputNoLabel
+            placeholder='eg. Ivan 04-14'
             onChangeText={text => this.setState({ displayName: text })}
             value={this.state.displayName}
           />
@@ -92,3 +107,12 @@ class CreateAccount extends Component {
 }
 
 export default CreateAccount;
+
+const styles = {
+  label: {
+    paddingTop: 10,
+    paddingLeft: 13,
+    fontWeight: 'bold',
+  },
+
+};
