@@ -5,7 +5,7 @@ import { Alert, Image, View,
          } from 'react-native';
 import { CardSection, UsernameInput,
         Button, Spinner, Background, PasswordInput,
-        ButtonNoBackground, GradientButton } from '../components/common';
+        ButtonNoBackground, DropShadowButton } from '../components/common';
 
 import LogoImg from '../images/Logo5.png';
 import Dimensions from 'Dimensions';
@@ -47,14 +47,13 @@ class Login extends Component {
       return <Spinner size="large" />;
     }
     return (
-      <GradientButton
+      <DropShadowButton
       onPress={() => this.loginClicked()}
       >
         LOGIN
-      </GradientButton>
+      </DropShadowButton>
     );
   }
-// ___________________________________________________________________
 // ___________________________________________________________________
 // GRAPHICAL USER INTERFACE (From here onward)
   render() {
@@ -103,7 +102,6 @@ class Login extends Component {
         <CardSection style={{ backgroundColor: 'transparent' }}>
           <ButtonNoBackground
           onPress={() => this.props.navigation.navigate('CreateAccount')}
-          style={{ fontSize: 20 }}
           >
             CREATE ACCOUNT
           </ButtonNoBackground>

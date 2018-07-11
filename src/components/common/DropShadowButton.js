@@ -3,7 +3,7 @@ import { Text, TouchableOpacity } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 
 //To ensure button is reusable
-const GradientButton = ({ onPress, children, disabled}) => {
+const DropShadowButton = ({ onPress, children, disabled }) => {
   const { textStyle, buttonStyle } = styles;
 
   return (
@@ -44,7 +44,7 @@ const styles = {
   }
 };
 
-export { GradientButton };
+export { DropShadowButton };
 
 
   //   flex: 1,

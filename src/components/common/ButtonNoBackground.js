@@ -28,8 +28,8 @@ const styles = {
     alignSelf: 'stretch',
     borderRadius: 20,
     marginLeft: 5,
-    marginRight: 5
-  }
+    marginRight: 5,
+  },
 };
 
 export { ButtonNoBackground };
