@@ -14,13 +14,23 @@ class CreateAccount extends Component {
       error: '',
       email: '',
       password: '',
-      displayName: ''
+      displayName: '',
+      password2: '',
+      ButtonEnabled: false,
+      EmailInput: false,
+      PasswordInput: false,
+      PasswordState: false,
+      Password2State: false,
     };
   }
+  // If no fil up, button is disabled
+  // On change state of email && password && password1 && display, then enable
 
+  // What happens after press button
   onButtonPress() {
-    this.setState({ loading: true });
+    this.setState({ loading: true });   // call spinner
     const { email, password } = this.state;
+
     firebase
       .auth()
       .createUserWithEmailAndPassword(email, password)
@@ -31,11 +41,11 @@ class CreateAccount extends Component {
       })
       .catch(error => {
         this.setState({ loading: false });
-        Alert.alert('Ooops', error.toString());
+        Alert.alert('Oops!', error.toString()); // display error to user
       });
   }
 
-  addProfileData(uid) {
+  addProfileData(uid) { // Add data into firebase if successful
     const { displayName, email } = this.state;
     firebase.database().ref(`users/${uid}`)
       .set({ email, displayName });
@@ -46,14 +56,24 @@ class CreateAccount extends Component {
       return <Spinner size="large" />;
     }
     return (
-      <Button onPress={() => this.onButtonPress()}>
+      <Button
+        onPress={() => this.onButtonPress()}
+      >
         CREATE
       </Button>
     );
   }
 
+  checkPasswords() {
+   if ((this.state.PasswordState && this.state.Password2State) &&
+   (this.state.password2 !== this.state.password)) {
+      return <Text style={styles.textWarning} >Passwords do not match! </Text>;
+    }
+  }
+
 // PAGE DESIGN
   render() {
+
     return (
       <Background>
       <Card style={{ backgroundColor: '#f4f4f4' }}>
@@ -61,7 +81,9 @@ class CreateAccount extends Component {
         <CardSection style={{ backgroundColor: 'transparent' }}>
           <InputNoLabel
             placeholder='Your email address'
-            onChangeText={text => this.setState({ email: text })}
+            onChangeText={text => this.setState({ email: text }) &&
+            this.setState({ EmailInput: true })
+          }
             value={this.state.email}
           />
         </CardSection>
@@ -71,8 +93,10 @@ class CreateAccount extends Component {
           <InputNoLabel
             secureTextEntry
             placeholder='Input password (>6 characters)'
-            onChangeText={text => this.setState({ password: text })}
-            value={this.state.password}
+            onChangeText={
+              text => this.setState({ password2: text, Password2State: true })
+            }
+            value={this.state.password2}
           />
         </CardSection>
 
@@ -82,16 +106,20 @@ class CreateAccount extends Component {
           <InputNoLabel
             secureTextEntry
             placeholder='Re-enter password'
-            onChangeText={text => this.setState({ password: text })}
+            onChangeText={
+              text => this.setState({ password: text, PasswordState: true })
+            }
             value={this.state.password}
           />
         </CardSection>
+
+        {this.checkPasswords()}
 
         <Text style={styles.label}> Display Name </Text>
         <CardSection style={{ backgroundColor: 'transparent' }}>
           <InputNoLabel
             placeholder='eg. Ivan 04-14'
-            onChangeText={text => this.setState({ displayName: text })}
+            onChangeText1={text => this.setState({ displayName: text })}
             value={this.state.displayName}
           />
         </CardSection>
@@ -114,5 +142,9 @@ const styles = {
     paddingLeft: 13,
     fontWeight: 'bold',
   },
+  textWarning: {
+    paddingLeft: 17,
+    color: '#FF0000',
+  }
 
 };
