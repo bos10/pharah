@@ -1,8 +1,6 @@
 import React from 'react';
 import LinearGradient from 'react-native-linear-gradient';
-//import BackgroundImg from '../../images/orangeBackground1.png';
 
-// Styling for BACKGROUND (Wallpaper)
 const Background = (props) => {
   return (
     // Top, Mid, Bottom (Gradient) d65f2a
@@ -23,8 +21,3 @@ const styles = {
 };
 
 export { Background };
-
-// If want to use image as background :
-// <ImageBackground style={styles.containerStyle} source={BackgroundImg}>
-//   {props.children}
-// </ImageBackground>

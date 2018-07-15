@@ -3,15 +3,11 @@ import firebase from 'firebase';
 import React, { Component } from 'react';
 import { Alert, Image, View, Text,
          } from 'react-native';
-import { CardSection, UsernameInput,
-        Button, Spinner, Background, PasswordInput,
+import { CardSection, UsernameInput, Spinner,
+        Background, PasswordInput,
         ButtonNoBackground, DropShadowButton } from '../components/common';
 
 import LogoImg from '../images/Logo5.png';
-import Dimensions from 'Dimensions';
-
-const deviceHeight = Dimensions.get('window').width;
-const deviceWidth = Dimensions.get('window').height;
 
 // Login form, start page of App
 // Interface
@@ -54,13 +50,12 @@ class Login extends Component {
       </DropShadowButton>
     );
   }
-// ___________________________________________________________________
-// GRAPHICAL USER INTERFACE (From here onward)
+
+// GUI
   render() {
     return (
 
       <Background>
-
         {/* Logo */}
         <View style={styles.LogoContainer}>
           <Image
@@ -75,7 +70,6 @@ class Login extends Component {
         <Text style={styles.InputTitle}> USERNAME </Text>
         <CardSection style={{ backgroundColor: 'transparent', justifyContent: 'center' }}>
           <UsernameInput
-            //label='Email'
             placeholder='email@gmail.com'
             onChangeText={text => this.setState({ email: text })}
             value={this.state.email}
@@ -87,7 +81,6 @@ class Login extends Component {
         <CardSection style={{ backgroundColor: 'transparent', justifyContent: 'center' }}>
           <PasswordInput
             secureTextEntry
-            //label='Password'
             placeholder='*********'
             onChangeText={text => this.setState({ password: text })}
             value={this.state.password}

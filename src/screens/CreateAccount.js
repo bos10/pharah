@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { Alert, Text } from 'react-native';
 import firebase from 'firebase';
-import { Card, CardSection, InputNoLabel, Button, Spinner, UsernameInput, PasswordInput, Background } from '../components/common';
+import { Card, CardSection, InputNoLabel,
+          Button, Spinner, Background } from '../components/common';
 
 
 // Form for new user to create an account with
@@ -26,9 +27,8 @@ class CreateAccount extends Component {
   }
 
 
-  // If no fil up, button is disabled
+  // If no fil up, button is disabled  (Cant achieve this yet :( )
   // On change state of email && password && password1 && display, then enable
-
   // What happens after press button
   onButtonPress() {
     this.setState({ loading: true });   // call spinner
@@ -75,18 +75,6 @@ class CreateAccount extends Component {
         return <Text style={styles.textWarning} >Passwords do not match! </Text>;
       }
   }
-  //   if (this.state.PasswordState && this.state.Password2State) {
-  //       onMatch={
-  //         PasswordInput => this.setState({ PasswordInput: true })
-  //       }
-  //   }
-  // }
-
-  // enableButton() {
-  //   if (this.state.DisplayNameState && this.state.PasswordInput && this.state.EmailInput) {
-  //     this.setState({ ButtonDisabled: false })
-  //   }
-  // }
 
 // PAGE DESIGN
   render() {
@@ -116,7 +104,6 @@ class CreateAccount extends Component {
           />
         </CardSection>
 
-        {/*Must validy this shit*/}
         <Text style={styles.label}> Re-enter Password </Text>
         <CardSection style={{ backgroundColor: 'transparent' }}>
           <InputNoLabel
@@ -139,8 +126,6 @@ class CreateAccount extends Component {
             value={this.state.displayName}
           />
         </CardSection>
-
-
 
         <CardSection style={{ backgroundColor: 'transparent' }}>
           {this.renderButton()}
