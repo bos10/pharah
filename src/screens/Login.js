@@ -1,7 +1,7 @@
 import firebase from 'firebase';
 
 import React, { Component } from 'react';
-import { Alert, Image, View,
+import { Alert, Image, View, Text,
          } from 'react-native';
 import { CardSection, UsernameInput,
         Button, Spinner, Background, PasswordInput,
@@ -72,9 +72,10 @@ class Login extends Component {
 
 
         {/* Email Input */}
+        <Text style={styles.InputTitle}> USERNAME </Text>
         <CardSection style={{ backgroundColor: 'transparent', justifyContent: 'center' }}>
           <UsernameInput
-            label='Email'
+            //label='Email'
             placeholder='email@gmail.com'
             onChangeText={text => this.setState({ email: text })}
             value={this.state.email}
@@ -82,10 +83,11 @@ class Login extends Component {
         </CardSection>
 
         {/* Password Input */}
+        <Text style={styles.InputTitle}> PASSWORD </Text>
         <CardSection style={{ backgroundColor: 'transparent', justifyContent: 'center' }}>
           <PasswordInput
             secureTextEntry
-            label='Password'
+            //label='Password'
             placeholder='*********'
             onChangeText={text => this.setState({ password: text })}
             value={this.state.password}
@@ -93,7 +95,11 @@ class Login extends Component {
         </CardSection>
 
         {/* Login Button */}
-        <CardSection style={{ backgroundColor: 'transparent', justifyContent: 'center' }}>
+        <CardSection
+          style={{ backgroundColor: 'transparent',
+                  justifyContent: 'center',
+                  paddingTop: 25, }}
+        >
           {this.renderButton()}
         </CardSection>
 
@@ -126,5 +132,14 @@ const styles = {
     marginLeft: 10,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  InputTitle: {
+      paddingTop: 6,
+      paddingBottom: 3,
+      paddingLeft: 42,
+      fontWeight: 'bold',
+      color: '#f4f4f4',
+      fontSize: 12.5,
+
   }
 };

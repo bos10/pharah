@@ -6,11 +6,9 @@ import LinearGradient from 'react-native-linear-gradient';
 
 import { GradientInput } from './';
 
-const deviceHeight = Dimensions.get('window').width;
-const deviceWidth = Dimensions.get('window').height;
 
-const UsernameInput = ({ label, value, onChangeText, placeholder, secureTextEntry }) => {
-  const { inputStyle, labelStyle, containerStyle, outerContainer } = styles;
+const UsernameInput = ({ value, onChangeText, placeholder, secureTextEntry }) => {
+  const { inputStyle, containerStyle, outerContainer } = styles;
   return (
   <View style={outerContainer}>
 
@@ -21,7 +19,7 @@ const UsernameInput = ({ label, value, onChangeText, placeholder, secureTextEntr
     end={{ x: 1, y: 0 }}
   >
 
-      <Text style={labelStyle}>{label}</Text>
+      {/*<Text style={labelStyle}>{label}</Text>*/}
       <TextInput
         placeholder={placeholder}
         autoCorrect={false}
@@ -49,19 +47,20 @@ const styles = {
     flex: 2,
     fontFamily: 'NunitoSans-Bold',
   },
-  labelStyle: {
-    fontSize: 14,
-    paddingLeft: 20,
-    flex: 1,
-    fontFamily: 'NunitoSans-Bold',
-    color: '#F7F7F7',
-  },
+  // labelStyle: {
+  //   fontSize: 14,
+  //   paddingLeft: 20,
+  //   flex: 1,
+  //   fontFamily: 'NunitoSans-Bold',
+  //   color: '#F7F7F7',
+  // },
   containerStyle: {
     height: 30,
     flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
     borderRadius: 20,
+    paddingLeft: 10,
   //  borderColor: '#fcddf2',
   //  borderWidth: 1,
   //  backgroundColor: '#eb6c05',

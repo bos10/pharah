@@ -3,7 +3,7 @@ import { View, FlatList, Text, Button } from 'react-native';
 import firebase from 'firebase';
 import _ from 'lodash';
 import ListItem from '../components/ListItem';
-import { CardSection } from '../components/common';
+import { CardSection, Background } from '../components/common';
 
 class Lobby extends Component {
   constructor(props) {
@@ -97,8 +97,10 @@ class Lobby extends Component {
 
   render() {
     return (
-      <View style={{ flex: 1 }}>
-        <View>
+      <Background>
+
+        {/* Block */}
+        <View style={{ backgroundColor: 'transparent' }}>
           <FlatList
             ListEmptyComponent={
               <Text style={{ alignSelf: 'center', marginVertical: 15 }}>
@@ -115,21 +117,45 @@ class Lobby extends Component {
           />
         </View>
 
-        <CardSection style={{ flexDirection: 'column', alignItems: 'center' }}>
+        {/* Current Time */}
+        <CardSection style={styles.currentTimeBanner}>
           <Text style={{ marginVertical: 5, fontSize: 20 }}> Current Time </Text>
           <Text> {this.state.time} </Text>
         </CardSection>
 
-        <CardSection style={{ alignItems: 'center' }}>
+        {/* Logout Button */}
+        <CardSection style={styles.logOutContainer}>
           <Button
             title="Logout"
             onPress={() => this.props.navigation.navigate('Login')}
           />
         </CardSection>
 
-      </View>
+      </Background>
     );
   }
 }
 
 export default Lobby;
+
+const styles = {
+  background: {
+    flex: 1,
+    backgroundColor: '#FF0000',
+  },
+
+  // This config is overriding the cardSection config
+  currentTimeBanner: {
+    flexDirection: 'column',
+    alignItems: 'center',
+    backgroundColor: 'transparent',
+  },
+
+  logOutContainer: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    backgroundColor: 'transparent',
+  }
+
+};
