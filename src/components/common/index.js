@@ -10,6 +10,7 @@ export * from './PasswordInput';
 export * from './ButtonNoBackground';
 export * from './DropShadowButton';
 export * from './InputNoLabel';
+export * from './LogoutButton';
 
 
 // export everything from there

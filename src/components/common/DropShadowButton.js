@@ -1,6 +1,5 @@
 import React from 'react';
 import { Text, TouchableOpacity } from 'react-native';
-import LinearGradient from 'react-native-linear-gradient';
 
 //To ensure button is reusable
 const DropShadowButton = ({ onPress, children, disabled }) => {
@@ -45,20 +44,3 @@ const styles = {
 };
 
 export { DropShadowButton };
-
-
-  //   flex: 1,
-  //   alignSelf: 'stretch',
-  // //  backgroundColor: 'transparent',
-  //   borderRadius: 20,
-  //   borderWidth: 1,
-  //   //borderColor: '#FF000',
-  //   marginLeft: 5,
-  //   marginRight: 5
-
-  // <LinearGradient
-  //   style={buttonStyle}
-  //   colors={['#F4F4F4', '#FFC300']}
-  //   start={{ x: 0, y: 1 }}
-  //   end={{ x: 1, y: 1 }}
-  // >

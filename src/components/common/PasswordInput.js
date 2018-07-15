@@ -1,5 +1,5 @@
 import React from 'react';
-import { TextInput, View, Text } from 'react-native';
+import { TextInput, View } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 
 const PasswordInput = ({ value, onChangeText, placeholder, secureTextEntry }) => {
@@ -12,7 +12,6 @@ const PasswordInput = ({ value, onChangeText, placeholder, secureTextEntry }) =>
       start={{ x: 0, y: 1 }}
       end={{ x: 1, y: 0 }}
     >
-      {/*<Text style={labelStyle}>{label}</Text>*/}
       <TextInput
         placeholder={placeholder}
         autoCorrect={false}
@@ -38,13 +37,6 @@ const styles = {
     flex: 1,
     fontFamily: 'NunitoSans-Bold',
   },
-  // labelStyle: {
-  //   fontSize: 14,
-  //   paddingLeft: 20,
-  //   flex: 1,
-  //   fontFamily: 'NunitoSans-Bold',
-  //   color: '#F7F7F7',
-  // },
   containerStyle: {
     height: 30,
     flex: 1,

@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import { View, FlatList, Text, Button } from 'react-native';
+import { View, FlatList, Text } from 'react-native';
 import firebase from 'firebase';
 import _ from 'lodash';
 import ListItem from '../components/ListItem';
-import { CardSection, Background } from '../components/common';
+import { CardSection, Background, LogoutButton } from '../components/common';
 
 class Lobby extends Component {
   constructor(props) {
@@ -103,9 +103,11 @@ class Lobby extends Component {
         <View style={{ backgroundColor: 'transparent' }}>
           <FlatList
             ListEmptyComponent={
-              <Text style={{ alignSelf: 'center', marginVertical: 15 }}>
-                Lobby is empty! Create a room above! ^
+              <Text style={styles.lobbyDefaultText}>
+                Oops! Looks like Lobby is empty!{'\n'}
+                To start a jio, press 'Create Room'
               </Text>
+
             }
             data={this.state.data}
             renderItem={({ item }) => (
@@ -125,10 +127,11 @@ class Lobby extends Component {
 
         {/* Logout Button */}
         <CardSection style={styles.logOutContainer}>
-          <Button
-            title="Logout"
+          <LogoutButton
             onPress={() => this.props.navigation.navigate('Login')}
-          />
+          >
+          LOGOUT
+          </LogoutButton>
         </CardSection>
 
       </Background>
@@ -144,7 +147,7 @@ const styles = {
     backgroundColor: '#FF0000',
   },
 
-  // This config is overriding the cardSection config
+  // This styling is overrides the styling in cardsection
   currentTimeBanner: {
     flexDirection: 'column',
     alignItems: 'center',
@@ -154,8 +157,15 @@ const styles = {
   logOutContainer: {
     position: 'absolute',
     bottom: 0,
-    left: 0,
+    right: 0,
+    paddingBottom: 2,
     backgroundColor: 'transparent',
-  }
+  },
+
+  lobbyDefaultText: {
+    alignSelf: 'center',
+    marginVertical: 15,
+    justifyContent: 'center',
+  },
 
 };

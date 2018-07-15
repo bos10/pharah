@@ -1,10 +1,7 @@
 import React from 'react';
-import { TextInput, View, Text, Image } from 'react-native';
-import Dimensions from 'Dimensions';
+import { TextInput, View } from 'react-native';
 //import EmailImg from '../../images/emailIcon.png';
 import LinearGradient from 'react-native-linear-gradient';
-
-import { GradientInput } from './';
 
 
 const UsernameInput = ({ value, onChangeText, placeholder, secureTextEntry }) => {
@@ -18,8 +15,6 @@ const UsernameInput = ({ value, onChangeText, placeholder, secureTextEntry }) =>
     start={{ x: 0, y: 1 }}
     end={{ x: 1, y: 0 }}
   >
-
-      {/*<Text style={labelStyle}>{label}</Text>*/}
       <TextInput
         placeholder={placeholder}
         autoCorrect={false}
@@ -47,13 +42,6 @@ const styles = {
     flex: 2,
     fontFamily: 'NunitoSans-Bold',
   },
-  // labelStyle: {
-  //   fontSize: 14,
-  //   paddingLeft: 20,
-  //   flex: 1,
-  //   fontFamily: 'NunitoSans-Bold',
-  //   color: '#F7F7F7',
-  // },
   containerStyle: {
     height: 30,
     flex: 1,
@@ -61,21 +49,13 @@ const styles = {
     alignItems: 'center',
     borderRadius: 20,
     paddingLeft: 10,
-  //  borderColor: '#fcddf2',
-  //  borderWidth: 1,
-  //  backgroundColor: '#eb6c05',
   },
   outerContainer: {
     width: '80%',
     height: 30,
-  //  borderRadius: 20,
     justifyContent: 'center',
     alignItems: 'center',
-  //  backgroundColor: '#f7f7f7',
   }
 };
 
 export { UsernameInput };
-
-// <View style={containerStyle}>
-//     {/* </View> */}
