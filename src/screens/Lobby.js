@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import { View, FlatList, Text, Button } from 'react-native';
+import { View, FlatList, Text } from 'react-native';
 import firebase from 'firebase';
 import _ from 'lodash';
 import ListItem from '../components/ListItem';
-import { CardSection } from '../components/common';
+import { CardSection, Background, LogoutButton } from '../components/common';
 
 class Lobby extends Component {
   constructor(props) {
@@ -97,13 +97,17 @@ class Lobby extends Component {
 
   render() {
     return (
-      <View style={{ flex: 1 }}>
-        <View>
+      <Background>
+
+        {/* Block */}
+        <View style={{ backgroundColor: 'transparent' }}>
           <FlatList
             ListEmptyComponent={
-              <Text style={{ alignSelf: 'center', marginVertical: 15 }}>
-                Lobby is empty! Create a room above! ^
+              <Text style={styles.lobbyDefaultText}>
+                Oops! Looks like Lobby is empty!{'\n'}
+                To start a jio, press 'Create Room'
               </Text>
+
             }
             data={this.state.data}
             renderItem={({ item }) => (
@@ -115,21 +119,53 @@ class Lobby extends Component {
           />
         </View>
 
-        <CardSection style={{ flexDirection: 'column', alignItems: 'center' }}>
+        {/* Current Time */}
+        <CardSection style={styles.currentTimeBanner}>
           <Text style={{ marginVertical: 5, fontSize: 20 }}> Current Time </Text>
           <Text> {this.state.time} </Text>
         </CardSection>
 
-        <CardSection style={{ alignItems: 'center' }}>
-          <Button
-            title="Logout"
+        {/* Logout Button */}
+        <CardSection style={styles.logOutContainer}>
+          <LogoutButton
             onPress={() => this.props.navigation.navigate('Login')}
-          />
+          >
+          LOGOUT
+          </LogoutButton>
         </CardSection>
 
-      </View>
+      </Background>
     );
   }
 }
 
 export default Lobby;
+
+const styles = {
+  background: {
+    flex: 1,
+    backgroundColor: '#FF0000',
+  },
+
+  // This styling is overrides the styling in cardsection
+  currentTimeBanner: {
+    flexDirection: 'column',
+    alignItems: 'center',
+    backgroundColor: 'transparent',
+  },
+
+  logOutContainer: {
+    position: 'absolute',
+    bottom: 0,
+    right: 0,
+    paddingBottom: 2,
+    backgroundColor: 'transparent',
+  },
+
+  lobbyDefaultText: {
+    alignSelf: 'center',
+    marginVertical: 15,
+    justifyContent: 'center',
+  },
+
+};

@@ -1,9 +1,9 @@
 import React from 'react';
-import { TextInput, View, Text } from 'react-native';
+import { TextInput, View } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 
-const PasswordInput = ({ label, value, onChangeText, placeholder, secureTextEntry }) => {
-  const { inputStyle, labelStyle, containerStyle, outerContainer } = styles;
+const PasswordInput = ({ value, onChangeText, placeholder, secureTextEntry }) => {
+  const { inputStyle, containerStyle, outerContainer } = styles;
   return (
   <View style={outerContainer}>
     <LinearGradient
@@ -12,7 +12,6 @@ const PasswordInput = ({ label, value, onChangeText, placeholder, secureTextEntr
       start={{ x: 0, y: 1 }}
       end={{ x: 1, y: 0 }}
     >
-      <Text style={labelStyle}>{label}</Text>
       <TextInput
         placeholder={placeholder}
         autoCorrect={false}
@@ -35,15 +34,8 @@ const styles = {
     paddingBottom: 3,
     fontSize: 16,
     lineHeight: 23,
-    flex: 2,
-    fontFamily: 'NunitoSans-Bold',
-  },
-  labelStyle: {
-    fontSize: 14,
-    paddingLeft: 20,
     flex: 1,
     fontFamily: 'NunitoSans-Bold',
-    color: '#F7F7F7',
   },
   containerStyle: {
     height: 30,
@@ -51,18 +43,15 @@ const styles = {
     flexDirection: 'row',
     alignItems: 'center',
     borderRadius: 20,
-  //  borderColor: '#fcddf2',
-  //  borderWidth: 1,
     backgroundColor: '#eb6c05',
+    paddingLeft: 10,
   },
   outerContainer: {
     width: '80%',
     height: 30,
-  //  borderRadius: 20,
     justifyContent: 'center',
     alignItems: 'center',
     paddingBottom: 1,
-  //  backgroundColor: '#f7f7f7',
   },
 };
 

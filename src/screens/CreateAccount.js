@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
-import { Alert } from 'react-native';
+import { Alert, Text } from 'react-native';
 import firebase from 'firebase';
-import { Card, CardSection, InputNoLabel, GradientButton, Button, Spinner, UsernameInput, PasswordInput, Background } from '../components/common';
+import { Card, CardSection, InputNoLabel,
+          Button, Spinner, Background } from '../components/common';
+
 
 // Form for new user to create an account with
 // Email, password, display name
@@ -13,13 +15,25 @@ class CreateAccount extends Component {
       error: '',
       email: '',
       password: '',
-      displayName: ''
+      displayName: '',
+      password2: '',
+      ButtonDisabled: true, // only true, when displayname, passwordinput,email input is true
+      EmailInput: false,
+      PasswordInput: false,
+      PasswordState: false,
+      Password2State: false,
+      DisplayNameState: false,
     };
   }
 
+
+  // If no fil up, button is disabled  (Cant achieve this yet :( )
+  // On change state of email && password && password1 && display, then enable
+  // What happens after press button
   onButtonPress() {
-    this.setState({ loading: true });
+    this.setState({ loading: true });   // call spinner
     const { email, password } = this.state;
+
     firebase
       .auth()
       .createUserWithEmailAndPassword(email, password)
@@ -30,11 +44,11 @@ class CreateAccount extends Component {
       })
       .catch(error => {
         this.setState({ loading: false });
-        Alert.alert('Ooops', error.toString());
+        Alert.alert('Oops!', error.toString()); // display error to user
       });
   }
 
-  addProfileData(uid) {
+  addProfileData(uid) { // Add data into firebase if successful
     const { displayName, email } = this.state;
     firebase.database().ref(`users/${uid}`)
       .set({ email, displayName });
@@ -45,10 +59,21 @@ class CreateAccount extends Component {
       return <Spinner size="large" />;
     }
     return (
-      <Button onPress={() => this.onButtonPress()}>
+      <Button
+        disabled={this.state.ButtonDisabled}
+      >
         CREATE
       </Button>
     );
+  }
+
+
+  // Got some nested loop problem here, setting state too many times (CHECK)
+  checkPasswords() {
+   if ((this.state.PasswordState && this.state.Password2State) &&
+        (this.state.password2 !== this.state.password)) {
+        return <Text style={styles.textWarning} >Passwords do not match! </Text>;
+      }
   }
 
 // PAGE DESIGN
@@ -56,27 +81,48 @@ class CreateAccount extends Component {
     return (
       <Background>
       <Card style={{ backgroundColor: '#f4f4f4' }}>
+        <Text style={styles.label}> Email </Text>
         <CardSection style={{ backgroundColor: 'transparent' }}>
           <InputNoLabel
             placeholder='Your email address'
-            onChangeText={text => this.setState({ email: text })}
+            onChangeText={text => this.setState({ email: text }) &&
+            this.setState({ EmailInput: true })
+          }
             value={this.state.email}
           />
         </CardSection>
 
+        <Text style={styles.label}> Password </Text>
         <CardSection style={{ backgroundColor: 'transparent' }}>
           <InputNoLabel
             secureTextEntry
             placeholder='Input password (>6 characters)'
-            onChangeText={text => this.setState({ password: text })}
+            onChangeText={
+              text => this.setState({ password2: text, Password2State: true })
+            }
+            value={this.state.password2}
+          />
+        </CardSection>
+
+        <Text style={styles.label}> Re-enter Password </Text>
+        <CardSection style={{ backgroundColor: 'transparent' }}>
+          <InputNoLabel
+            secureTextEntry
+            placeholder='Re-enter password'
+            onChangeText={
+              text => this.setState({ password: text, PasswordState: true })
+            }
             value={this.state.password}
           />
         </CardSection>
 
+        {this.checkPasswords()}
+
+        <Text style={styles.label}> Display Name </Text>
         <CardSection style={{ backgroundColor: 'transparent' }}>
           <InputNoLabel
-            placeholder='Display name'
-            onChangeText={text => this.setState({ displayName: text })}
+            placeholder='eg. Ivan 04-14'
+            onChangeText={text => this.setState({ displayName: text, DisplayNameState: true })}
             value={this.state.displayName}
           />
         </CardSection>
@@ -92,3 +138,16 @@ class CreateAccount extends Component {
 }
 
 export default CreateAccount;
+
+const styles = {
+  label: {
+    paddingTop: 10,
+    paddingLeft: 13,
+    fontWeight: 'bold',
+  },
+  textWarning: {
+    paddingLeft: 17,
+    color: '#FF0000',
+  }
+
+};

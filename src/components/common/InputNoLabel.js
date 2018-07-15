@@ -1,7 +1,7 @@
 import React from 'react';
-import { TextInput, View, Text } from 'react-native';
+import { TextInput, View, } from 'react-native';
 
-const InputNoLabel = ({ label, value, onChangeText, placeholder, secureTextEntry }) => {
+const InputNoLabel = ({ value, onChangeText, placeholder, secureTextEntry }) => {
   const { inputStyle, containerStyle } = styles;
   return (
     <View style={containerStyle}>
@@ -26,11 +26,6 @@ const styles = {
     lineHeight: 23,
     flex: 1
   },
-  // labelStyle: {
-  //   fontSize: 18,
-  //   paddingLeft: 20,
-  //   flex: 1
-  // },
   containerStyle: {
     height: 40,
     flex: 1,
