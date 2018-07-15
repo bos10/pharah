@@ -18,11 +18,6 @@ class CreateAccount extends Component {
       displayName: '',
       password2: '',
       ButtonDisabled: true, // only true, when displayname, passwordinput,email input is true
-      EmailInput: false,
-      PasswordInput: false,
-      PasswordState: false,
-      Password2State: false,
-      DisplayNameState: false,
     };
   }
 
@@ -30,7 +25,7 @@ class CreateAccount extends Component {
   // If no fil up, button is disabled  (Cant achieve this yet :( )
   // On change state of email && password && password1 && display, then enable
   // What happens after press button
-  onButtonPress() {
+  register() {
     this.setState({ loading: true });   // call spinner
     const { email, password } = this.state;
 
@@ -60,18 +55,43 @@ class CreateAccount extends Component {
     }
     return (
       <Button
-        disabled={this.state.ButtonDisabled}
+        onPress={() => this.onCreateClicked()}
       >
         CREATE
       </Button>
     );
   }
 
+  onCreateClicked() {
+    if (this.detailsValid()) {
+      this.register();
+    }
+  }
+
+  detailsValid() {
+    return (
+      this.confirmPasswordValidation(this.state.password, this.state.password2) &&
+      this.displayNameValidation(this.state.displayName)
+    );
+  }
+
+  displayNameValidation(displayName) {
+    if (displayName !== '') {
+      return true;
+    }
+    Alert.alert('Display Name empty!');
+  }
+
+  confirmPasswordValidation(newPassword, confirmPassword) {
+    if (newPassword === confirmPassword) {
+      return true;
+    }
+    Alert.alert('Passwords did not match!');
+  }
 
   // Got some nested loop problem here, setting state too many times (CHECK)
   checkPasswords() {
-   if ((this.state.PasswordState && this.state.Password2State) &&
-        (this.state.password2 !== this.state.password)) {
+   if (this.state.password2 !== this.state.password) {
         return <Text style={styles.textWarning} >Passwords do not match! </Text>;
       }
   }
@@ -85,9 +105,7 @@ class CreateAccount extends Component {
         <CardSection style={{ backgroundColor: 'transparent' }}>
           <InputNoLabel
             placeholder='Your email address'
-            onChangeText={text => this.setState({ email: text }) &&
-            this.setState({ EmailInput: true })
-          }
+            onChangeText={text => this.setState({ email: text })}
             value={this.state.email}
           />
         </CardSection>
@@ -97,9 +115,7 @@ class CreateAccount extends Component {
           <InputNoLabel
             secureTextEntry
             placeholder='Input password (>6 characters)'
-            onChangeText={
-              text => this.setState({ password2: text, Password2State: true })
-            }
+            onChangeText={text => this.setState({ password2: text })}
             value={this.state.password2}
           />
         </CardSection>
@@ -109,9 +125,7 @@ class CreateAccount extends Component {
           <InputNoLabel
             secureTextEntry
             placeholder='Re-enter password'
-            onChangeText={
-              text => this.setState({ password: text, PasswordState: true })
-            }
+            onChangeText={text => this.setState({ password: text })}
             value={this.state.password}
           />
         </CardSection>
@@ -121,8 +135,8 @@ class CreateAccount extends Component {
         <Text style={styles.label}> Display Name </Text>
         <CardSection style={{ backgroundColor: 'transparent' }}>
           <InputNoLabel
-            placeholder='eg. Ivan 04-14'
-            onChangeText={text => this.setState({ displayName: text, DisplayNameState: true })}
+            placeholder='eg. Ivan C411'
+            onChangeText={text => this.setState({ displayName: text })}
             value={this.state.displayName}
           />
         </CardSection>
