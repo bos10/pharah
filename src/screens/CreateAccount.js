@@ -16,13 +16,16 @@ class CreateAccount extends Component {
       password: '',
       displayName: '',
       password2: '',
-      ButtonEnabled: false,
+      ButtonDisabled: true, // only true, when displayname, passwordinput,email input is true
       EmailInput: false,
       PasswordInput: false,
       PasswordState: false,
       Password2State: false,
+      DisplayNameState: false,
     };
   }
+
+
   // If no fil up, button is disabled
   // On change state of email && password && password1 && display, then enable
 
@@ -57,23 +60,36 @@ class CreateAccount extends Component {
     }
     return (
       <Button
-        onPress={() => this.onButtonPress()}
+        disabled={this.state.ButtonDisabled}
       >
         CREATE
       </Button>
     );
   }
 
+
+  // Got some nested loop problem here, setting state too many times (CHECK)
   checkPasswords() {
    if ((this.state.PasswordState && this.state.Password2State) &&
-   (this.state.password2 !== this.state.password)) {
-      return <Text style={styles.textWarning} >Passwords do not match! </Text>;
-    }
+        (this.state.password2 !== this.state.password)) {
+        return <Text style={styles.textWarning} >Passwords do not match! </Text>;
+      }
   }
+  //   if (this.state.PasswordState && this.state.Password2State) {
+  //       onMatch={
+  //         PasswordInput => this.setState({ PasswordInput: true })
+  //       }
+  //   }
+  // }
+
+  // enableButton() {
+  //   if (this.state.DisplayNameState && this.state.PasswordInput && this.state.EmailInput) {
+  //     this.setState({ ButtonDisabled: false })
+  //   }
+  // }
 
 // PAGE DESIGN
   render() {
-
     return (
       <Background>
       <Card style={{ backgroundColor: '#f4f4f4' }}>
@@ -119,10 +135,12 @@ class CreateAccount extends Component {
         <CardSection style={{ backgroundColor: 'transparent' }}>
           <InputNoLabel
             placeholder='eg. Ivan 04-14'
-            onChangeText1={text => this.setState({ displayName: text })}
+            onChangeText={text => this.setState({ displayName: text, DisplayNameState: true })}
             value={this.state.displayName}
           />
         </CardSection>
+
+
 
         <CardSection style={{ backgroundColor: 'transparent' }}>
           {this.renderButton()}
