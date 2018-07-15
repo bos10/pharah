@@ -1,17 +1,13 @@
 import firebase from 'firebase';
 
 import React, { Component } from 'react';
-import { Alert, Image, View,
+import { Alert, Image, View, Text,
          } from 'react-native';
-import { CardSection, UsernameInput,
-        Button, Spinner, Background, PasswordInput,
-        ButtonNoBackground, GradientButton } from '../components/common';
+import { CardSection, UsernameInput, Spinner,
+        Background, PasswordInput,
+        ButtonNoBackground, DropShadowButton } from '../components/common';
 
 import LogoImg from '../images/Logo5.png';
-import Dimensions from 'Dimensions';
-
-const deviceHeight = Dimensions.get('window').width;
-const deviceWidth = Dimensions.get('window').height;
 
 // Login form, start page of App
 // Interface
@@ -47,21 +43,19 @@ class Login extends Component {
       return <Spinner size="large" />;
     }
     return (
-      <GradientButton
+      <DropShadowButton
       onPress={() => this.loginClicked()}
       >
         LOGIN
-      </GradientButton>
+      </DropShadowButton>
     );
   }
-// ___________________________________________________________________
-// ___________________________________________________________________
-// GRAPHICAL USER INTERFACE (From here onward)
+
+// GUI
   render() {
     return (
 
       <Background>
-
         {/* Logo */}
         <View style={styles.LogoContainer}>
           <Image
@@ -73,9 +67,9 @@ class Login extends Component {
 
 
         {/* Email Input */}
+        <Text style={styles.InputTitle}> USERNAME </Text>
         <CardSection style={{ backgroundColor: 'transparent', justifyContent: 'center' }}>
           <UsernameInput
-            label='Email'
             placeholder='email@gmail.com'
             onChangeText={text => this.setState({ email: text })}
             value={this.state.email}
@@ -83,10 +77,10 @@ class Login extends Component {
         </CardSection>
 
         {/* Password Input */}
+        <Text style={styles.InputTitle}> PASSWORD </Text>
         <CardSection style={{ backgroundColor: 'transparent', justifyContent: 'center' }}>
           <PasswordInput
             secureTextEntry
-            label='Password'
             placeholder='*********'
             onChangeText={text => this.setState({ password: text })}
             value={this.state.password}
@@ -94,7 +88,11 @@ class Login extends Component {
         </CardSection>
 
         {/* Login Button */}
-        <CardSection style={{ backgroundColor: 'transparent', justifyContent: 'center' }}>
+        <CardSection
+          style={{ backgroundColor: 'transparent',
+                  justifyContent: 'center',
+                  paddingTop: 25, }}
+        >
           {this.renderButton()}
         </CardSection>
 
@@ -103,7 +101,6 @@ class Login extends Component {
         <CardSection style={{ backgroundColor: 'transparent' }}>
           <ButtonNoBackground
           onPress={() => this.props.navigation.navigate('CreateAccount')}
-          style={{ fontSize: 20 }}
           >
             CREATE ACCOUNT
           </ButtonNoBackground>
@@ -128,5 +125,14 @@ const styles = {
     marginLeft: 10,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  InputTitle: {
+      paddingTop: 6,
+      paddingBottom: 3,
+      paddingLeft: 42,
+      fontWeight: 'bold',
+      color: '#f4f4f4',
+      fontSize: 12.5,
+
   }
 };

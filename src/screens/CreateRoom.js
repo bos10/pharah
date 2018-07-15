@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { TouchableOpacity, Text } from 'react-native';
 import firebase from 'firebase';
 import DateTimePicker from 'react-native-modal-datetime-picker';
-import { Card, CardSection, Button, Input } from '../components/common';
+import { Card, CardSection, Button, InputNoLabel } from '../components/common';
 
 class CreateRoom extends Component {
   constructor(props) {
@@ -100,9 +100,8 @@ class CreateRoom extends Component {
       <Card>
 
         <CardSection>
-          <Input
-            label="Room Name"
-            placeholder="Level 4"
+          <InputNoLabel
+            placeholder="Room name here"
             value={this.state.roomName}
             onChangeText={text => this.setState({ roomName: text })}
           />

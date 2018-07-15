@@ -5,7 +5,11 @@ const Button = ({ onPress, children }) => {
   const { textStyle, buttonStyle } = styles;
 
   return (
-    <TouchableOpacity onPress={onPress} style={buttonStyle}>
+    <TouchableOpacity
+    onPress={onPress}
+    style={buttonStyle}
+    activeOpacity={0.5}
+    >
       <Text style={textStyle}>
         {children}
       </Text>
@@ -28,8 +32,6 @@ const styles = {
     alignSelf: 'stretch',
     backgroundColor: '#F4F4F4',
     borderRadius: 20,
-  //  borderWidth: 1,
-  //  borderColor: '#007aff',
     marginLeft: 5,
     marginRight: 5
 
