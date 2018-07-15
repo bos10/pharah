@@ -18,12 +18,9 @@ const DropShadowButton = ({ onPress, children, disabled }) => {
 
 const styles = {
   textStyle: {
-    alignSelf: 'center',
     color: '#ff7c00',
     fontSize: 14,
     fontWeight: '600',
-    paddingTop: 10,
-    paddingBottom: 10,
     fontFamily: 'NunitoSans-Bold',
   },
   buttonStyle: {
@@ -34,12 +31,12 @@ const styles = {
     alignItems: 'center',
     backgroundColor: '#f7f7f7',
 
-    shadowOffset: { width: 10, height: 0, },
-    shadowOpacity: 1.0,
-    shadowRadius: 5,
-    elevation: 2,
-    shadowColor: '#000',
-    marginBottom: 2,
+    // shadowOffset: { width: 10, height: 0, },
+    // shadowOpacity: 1.0,
+    // shadowRadius: 5,
+    // elevation: 2,
+    // shadowColor: '#000',
+    // marginBottom: 2,
   }
 };
 
