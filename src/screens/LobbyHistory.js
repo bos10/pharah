@@ -38,8 +38,8 @@ class LobbyHistory extends Component {
 
   render() {
     return (
-      <View style={{ flex: 1 }}>
-        <View>
+      <View style={{ flex: 1, backgroundColor: '#fff' }}>
+        <View style={{ marginLeft: 5, marginRight: 5 }}>
           <FlatList
             ListEmptyComponent={
               <Text style={{ alignSelf: 'center', marginVertical: 15 }}>

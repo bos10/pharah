@@ -3,7 +3,7 @@ import { View, FlatList, Text } from 'react-native';
 import firebase from 'firebase';
 import _ from 'lodash';
 import ListItem from '../components/ListItem';
-import { CardSection, Background, LogoutButton } from '../components/common';
+import { Card, CardSection, LogoutButton } from '../components/common';
 
 class Lobby extends Component {
   constructor(props) {
@@ -97,10 +97,24 @@ class Lobby extends Component {
 
   render() {
     return (
-      <Background>
+      <View style={styles.background}>
+        <Card style={{ flexDirection: 'row' }}>
+          <Text style={styles.titleText}>
+          Available Rooms
+          </Text>
+
+          {/* Logout Button */}
+          <CardSection style={styles.logOutContainer}>
+            <LogoutButton
+              onPress={() => this.props.navigation.navigate('Login')}
+            >
+            LOGOUT
+            </LogoutButton>
+          </CardSection>
+        </Card>
 
         {/* Block */}
-        <View style={{ backgroundColor: 'transparent' }}>
+        <View style={{ backgroundColor: 'transparent', marginLeft: 5, marginRight: 5 }}>
           <FlatList
             ListEmptyComponent={
               <Text style={styles.lobbyDefaultText}>
@@ -121,20 +135,11 @@ class Lobby extends Component {
 
         {/* Current Time */}
         <CardSection style={styles.currentTimeBanner}>
-          <Text style={{ marginVertical: 5, fontSize: 20 }}> Current Time </Text>
+
           <Text> {this.state.time} </Text>
         </CardSection>
 
-        {/* Logout Button */}
-        <CardSection style={styles.logOutContainer}>
-          <LogoutButton
-            onPress={() => this.props.navigation.navigate('Login')}
-          >
-          LOGOUT
-          </LogoutButton>
-        </CardSection>
-
-      </Background>
+      </View>
     );
   }
 }
@@ -144,7 +149,7 @@ export default Lobby;
 const styles = {
   background: {
     flex: 1,
-    backgroundColor: '#FF0000',
+    backgroundColor: '#ffffff',
   },
 
   // This styling is overrides the styling in cardsection
@@ -152,13 +157,14 @@ const styles = {
     flexDirection: 'column',
     alignItems: 'center',
     backgroundColor: 'transparent',
+    position: 'relative',
+    left: 0,
+    right: 0,
   },
 
   logOutContainer: {
     position: 'absolute',
-    bottom: 0,
     right: 0,
-    paddingBottom: 2,
     backgroundColor: 'transparent',
   },
 
@@ -167,5 +173,10 @@ const styles = {
     marginVertical: 15,
     justifyContent: 'center',
   },
+  titleText: {
+    fontWeight: '300',
+    color: '#000',
+  }
+
 
 };
