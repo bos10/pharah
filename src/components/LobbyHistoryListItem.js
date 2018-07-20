@@ -45,7 +45,9 @@ class LobbyHistoryListItem extends Component {
             style={{
               padding: 20,
               borderBottomWidth: 2,
-              backgroundColor: roomColor
+              borderColor: '#fff',
+              backgroundColor: roomColor,
+              borderRadius: 4,
             }}
           >
             <Text style={styles.roomNameStyle}>
@@ -53,7 +55,11 @@ class LobbyHistoryListItem extends Component {
             </Text>
 
             <Text style={styles.displayClosingTimeStyle}>
-              [{displayClosingTime}]
+              {displayClosingTime}
+            </Text>
+
+            <Text style={styles.Closing}>
+              Closes
             </Text>
 
             <Text style={styles.creatorNameStyle}>
@@ -70,20 +76,29 @@ const styles = {
   roomNameStyle: {
     fontSize: 18,
     paddingLeft: 25,
+    paddingTop: 5,
   },
   displayClosingTimeStyle: {
     fontSize: 18,
     paddingLeft: 5,
     color: 'white',
+    position: 'absolute',
+    right: 4,
+    top: 3,
   },
   creatorNameStyle: {
     fontSize: 11,
     paddingLeft: 5,
     alignSelf: 'flex-end',
+    position: 'absolute',
+    right: 4,
+    bottom: 3,
   },
-  cardSectionStyle: {
-    padding: 20,
-    borderBottomWidth: 2,
+    Closing: {
+    fontSize: 9,
+    position: 'absolute',
+    right: 80,
+    top: 12,
   }
 };
 
