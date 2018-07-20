@@ -109,20 +109,20 @@ class FoodListItemRoomHistory extends Component {
     // If creator, just label as creator, doesnt matter
     if (this.props.creatorName === this.state.ordererName) {
       return (
-        <Text> CREATOR </Text>
+        <Text style={styles.creatorStyle}> CREATOR </Text>
       );
     } else if (this.props.roomStatus === 'closed') {
       // If not creator and room is closed,
       // Check if paid/not
       if (this.state.paid === true) {
         return (
-          <Text> PAID </Text>
+          <Text style={styles.creatorStyle}> PAID </Text>
         );
       } else if (this.state.paid === false) {
         return (
           <Button
             onPress={() => this.onButtonPress()}
-            title=" Mark Paid"
+            title="Mark Paid"
           />
         );
       }
@@ -148,14 +148,14 @@ class FoodListItemRoomHistory extends Component {
       return (
           //key={key} to pass warning arry must have unique key
           <Text style={styles.detailStyle} key={key}>
-            {key}(${cost}) x{value.toString()}
+            {key.toUpperCase()}(${cost}) x{value.toString()}
           </Text>
       );
     });
 
     return (
       <CardSection style={styles.cardSectionStyle}>
-        <View style={{ marginRight: 100 }}>
+        <View style={{ marginRight: 50 }}>
           {list}
           <Text style={styles.nameStyle}>by {name}, pay ${totalCost}</Text>
         </View>
@@ -177,14 +177,19 @@ class FoodListItemRoomHistory extends Component {
 const styles = {
   nameStyle: {
     fontSize: 18,
-    color: '#ef4836',
+    color: '#f39c12',
+    fontFamily: 'NunitoSans-Bold'
   },
   detailStyle: {
-    fontSize: 18,
+    fontSize: 16,
+    fontFamily: 'NunitoSans-Bold'
+  },
+  creatorStyle: {
+    fontFamily: 'NunitoSans-Bold'
   },
   cardSectionStyle: {
     padding: 20,
-    borderBottomWidth: 2,
+    borderBottomWidth: 1,
   }
 };
 

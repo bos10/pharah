@@ -43,7 +43,6 @@ const styles = {
     flexDirection: 'row',
     alignItems: 'center',
     borderRadius: 20,
-    backgroundColor: '#eb6c05',
     paddingLeft: 10,
   },
   outerContainer: {

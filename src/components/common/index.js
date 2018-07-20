@@ -1,4 +1,5 @@
 export * from './Button';
+export * from './RoomButton';
 export * from './Card';
 export * from './CardSection';
 export * from './Header';
