@@ -1,9 +1,17 @@
 import React, { Component } from 'react';
 import firebase from 'firebase';
 import _ from 'lodash';
-import { View, Text, Button, FlatList } from 'react-native';
-import { CardSection } from '../components/common';
+import { View, Text, FlatList } from 'react-native';
+import AwesomeIcon from 'react-native-vector-icons/FontAwesome';
+import call from 'react-native-phone-call';
+import { CardSection, RoomButton } from '../components/common';
 import FoodListItem from '../components/FoodListItem';
+
+const args = {
+  // dominos for now
+  number: '62226333',
+  prompt: false // Optional boolean property.
+};
 
 // Represents a Room from Lobby
 // Takes the roomid from ListItem to get from firebase lobbyTaken
@@ -158,25 +166,82 @@ class Room extends Component {
 
     return (
       <View style={{ flex: 1 }}>
-        <CardSection style={styles.cardSectionStyle}>
+      <CardSection style={styles.buttonCardStyle}>
+        <RoomButton
+          buttonStyle={{ backgroundColor: '#f39c12' }}
+          onPress={() => navigation.navigate('Menu', { roomId })}
+        >
+          <AwesomeIcon name='plus-circle' size={20} />
+          {'\n'}
+          FOOD
+        </RoomButton>
+
+        <RoomButton
+          buttonStyle={{ backgroundColor: '#2980b9' }}
+          onPress={() => call(args).catch(console.error)}
+        >
+          <AwesomeIcon name='phone' size={20} />
+          {'\n'}
+          AMEENS
+        </RoomButton>
+
+        <RoomButton
+          buttonStyle={{ backgroundColor: '#2c3e50' }}
+          onPress={() => this.placeOrder()}
+        >
+          <AwesomeIcon name='check-circle' size={20} />
+          {'\n'}
+          CLOSE ORDER
+        </RoomButton>
+
+        <RoomButton
+          buttonStyle={{ backgroundColor: '#c0392b' }}
+          onPress={() => this.deleteRoom()}
+        >
+          <AwesomeIcon name='times-circle' size={20} />
+          {'\n'}
+          DELETE
+          {'\n'}
+          ROOM
+        </RoomButton>
+      </CardSection>
+        <CardSection style={{ justifyContent: 'center', paddingVertical: 10 }}>
           <Text style={styles.roomNameStyle}>
-            Welcome to {roomName}!
+            {roomName}
           </Text>
         </CardSection>
         <CardSection>
-          <Text style={styles.roomNameStyle}>
-            Created by {creatorName}, closing at {displayClosingTime}.
+          <Text style={styles.smallStyle}>
+            created by
+          </Text>
+          <Text style={styles.bigStyle}>
+            {creatorName}
           </Text>
         </CardSection>
         <CardSection>
-          <Button
-            title="Add food"
-            onPress={() => navigation.navigate('Menu', { roomId })}
-          />
+          <Text style={styles.smallStyle}>
+            closing at
+          </Text>
+          <Text style={styles.bigStyle}>
+            {displayClosingTime}
+          </Text>
+        </CardSection>
+        <CardSection style={{ paddingBottom: 10, borderBottomWidth: 1 }}>
+          <Text style={styles.smallStyle}>
+            total cost
+          </Text>
+          <Text style={styles.bigOrangeStyle}>
+            ${this.state.roomTotalPrice || 0}
+          </Text>
         </CardSection>
 
         <View>
           <FlatList
+            ListEmptyComponent={
+              <Text style={{ alignSelf: 'center', marginVertical: 15 }}>
+                No orders yet!
+              </Text>
+            }
             data={this.state.orders}
             renderItem={({ item }) => (
               <FoodListItem
@@ -187,21 +252,7 @@ class Room extends Component {
             keyExtractor={item => item.uid}
           />
         </View>
-        <CardSection>
-          <Text style={styles.totalStyle}>Total : ${this.state.roomTotalPrice || 0}</Text>
-        </CardSection>
-        <CardSection style={{ alignItems: 'center' }}>
-          <Button
-            title="Order"
-            onPress={() => this.placeOrder()}
-          />
-        </CardSection>
-        <CardSection style={{ alignItems: 'center' }}>
-          <Button
-            title="DELETE"
-            onPress={() => this.deleteRoom()}
-          />
-        </CardSection>
+
       </View>
     );
   }
@@ -209,28 +260,46 @@ class Room extends Component {
 
 const styles = {
   roomNameStyle: {
-    fontSize: 18,
-    paddingLeft: 25,
+    fontSize: 36,
+    color: 'black',
+    fontWeight: '700',
+    fontFamily: 'NunitoSans-Bold',
+    alignSelf: 'flex-end',
+    textDecorationLine: 'underline',
   },
-  roomTimeStyle: {
-    fontSize: 18,
-    paddingLeft: 5,
-    color: '#ef4836',
+  smallStyle: {
+    color: '#95a5a6',
+    fontSize: 14,
+    paddingLeft: 20,
+    fontFamily: 'NunitoSans-Bold',
   },
-  roomCreatorStyle: {
-    fontSize: 11,
-    paddingLeft: 5,
+  bigStyle: {
+    fontSize: 28,
+    paddingLeft: 20,
+    color: 'black',
+    fontWeight: '700',
+    fontFamily: 'NunitoSans-Bold',
     alignSelf: 'flex-end',
   },
-  cardSectionStyle: {
-    padding: 20,
-    borderBottomWidth: 2,
+  bigOrangeStyle: {
+    fontSize: 28,
+    paddingLeft: 20,
+    color: '#f39c12',
+    fontWeight: '700',
+    fontFamily: 'NunitoSans-Bold',
+    alignSelf: 'flex-end',
   },
   totalStyle: {
     fontSize: 30,
-    fontWeight: '600',
-    paddingLeft: 5,
-    color: '#ef4836',
+    fontFamily: 'NunitoSans-Bold',
+    color: '#f39c12',
+  },
+  totalCardStyle: {
+    justifyContent: 'center',
+    borderBottomWidth: 1,
+    paddingVertical: 5,
+  },
+  headerCardStyle: {
   }
 };
 
