@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { TouchableOpacity, Text } from 'react-native';
 import firebase from 'firebase';
 import DateTimePicker from 'react-native-modal-datetime-picker';
+import PushNotification from 'react-native-push-notification';
 import { Card, CardSection, Button, InputNoLabel } from '../components/common';
 
 class CreateRoom extends Component {
@@ -19,6 +20,14 @@ class CreateRoom extends Component {
     };
   }
   onButtonPress() {
+    // Schedule a notif
+    const cutDate = this.state.ISOClosingTime.slice(4, 33);
+    PushNotification.localNotificationSchedule({
+      message: 'Closing time reached! Order now!',
+      date: new Date(cutDate),
+    });
+
+    // Dabase stuff
     const uid = firebase.auth().currentUser.uid;
     firebase.database().ref(`users/${uid}/displayName/`)
       .once('value')
@@ -85,7 +94,7 @@ class CreateRoom extends Component {
   handleDatePicked = (date) => {
     // date is in UTC
     // Add 8 hrs coz SG is +8 UTC
-    var dateString = date.toString().slice(16, 24);
+    var dateString = date.toString().slice(16, 21);
 
     this.setState({
       displayClosingTime: dateString,
