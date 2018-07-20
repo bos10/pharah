@@ -1,12 +1,11 @@
 import firebase from 'firebase';
-
 import React, { Component } from 'react';
 import { Alert, Image, View, Text,
          } from 'react-native';
 import { CardSection, UsernameInput, Spinner,
         Background, PasswordInput,
         ButtonNoBackground, DropShadowButton } from '../components/common';
-
+import PushController from '../PushController';
 import LogoImg from '../images/Logo5.png';
 
 // Login form, start page of App
@@ -56,6 +55,7 @@ class Login extends Component {
     return (
 
       <Background>
+        <PushController />
         {/* Logo */}
         <View style={styles.LogoContainer}>
           <Image

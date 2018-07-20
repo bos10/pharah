@@ -4,7 +4,7 @@ import LinearGradient from 'react-native-linear-gradient';
 const Background = (props) => {
   return (
     // Top, Mid, Bottom (Gradient) d65f2a
-    <LinearGradient colors={['#ff7000', '#ff7101', '#ff7c00']} style={styles.linearGradient}>
+    <LinearGradient colors={['#F89406', '#ff7c00', '#ff7101']} style={styles.linearGradient}>
         {props.children}
     </LinearGradient>
   );

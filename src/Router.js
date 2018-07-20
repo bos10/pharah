@@ -123,8 +123,7 @@ export const RootStack = createStackNavigator({
     screen: CreateAccount,
     navigationOptions: {
       title: 'Create Account',
-      headerStyle: { backgroundColor: '#ff7000' },
-      headerTitleStyle: { color: '#F4F4F4' },
+      headerStyle: { backgroundColor: '#F4F4F4' },
     }
   },
   Lobby: {

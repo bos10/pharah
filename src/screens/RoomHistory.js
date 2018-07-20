@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import firebase from 'firebase';
 import _ from 'lodash';
 import { View, Text, Button, FlatList } from 'react-native';
+//import AppLink from 'react-native-app-link';
 import { CardSection } from '../components/common';
 import FoodListItemRoomHistory from '../components/FoodListItemRoomHistory';
 
@@ -48,7 +49,9 @@ class RoomHistory extends Component {
     if (this.state.roomStatus !== 'closed') {
       return (
         <CardSection>
-          <Text style={styles.moreStyle}> Go to Lobby to add food,delete, or order! </Text>
+          <Text style={styles.moreStyle}>
+            Go to Lobby to add food,delete, or order!
+          </Text>
         </CardSection>
       );
     }
@@ -75,19 +78,44 @@ class RoomHistory extends Component {
 
     return (
       <View style={{ flex: 1 }}>
-        <CardSection style={styles.cardSectionStyle}>
-          <Text style={styles.roomNameStyle}>
-            Welcome to {roomName}!
-          </Text>
-        </CardSection>
-        <CardSection>
-          <Text style={styles.roomNameStyle}>
-            Created by {creatorName}, closing at {displayClosingTime}.
-          </Text>
-        </CardSection>
+      <CardSection style={{ justifyContent: 'center', paddingVertical: 10 }}>
+        <Text style={styles.roomNameStyle}>
+          {roomName}
+        </Text>
 
+
+      </CardSection>
+      <CardSection>
+        <Text style={styles.smallStyle}>
+          created by
+        </Text>
+        <Text style={styles.bigStyle}>
+          {creatorName}
+        </Text>
+      </CardSection>
+      <CardSection>
+        <Text style={styles.smallStyle}>
+          closing at
+        </Text>
+        <Text style={styles.bigStyle}>
+          {displayClosingTime}
+        </Text>
+      </CardSection>
+      <CardSection style={{ paddingBottom: 10, borderBottomWidth: 1 }}>
+        <Text style={styles.smallStyle}>
+          total cost
+        </Text>
+        <Text style={styles.bigOrangeStyle}>
+          ${this.state.roomTotalPrice || 0}
+        </Text>
+      </CardSection>
         <View>
           <FlatList
+            ListEmptyComponent={
+              <Text style={{ alignSelf: 'center', marginVertical: 15 }}>
+                No orders yet!
+              </Text>
+            }
             data={this.state.orders}
             renderItem={({ item }) => (
               <FoodListItemRoomHistory
@@ -100,10 +128,6 @@ class RoomHistory extends Component {
             keyExtractor={item => item.uid}
           />
         </View>
-        <CardSection>
-          <Text style={styles.totalStyle}>Total : ${this.state.roomTotalPrice || 0}</Text>
-        </CardSection>
-
         {this.renderAddFoodButton()}
       </View>
     );
@@ -112,32 +136,53 @@ class RoomHistory extends Component {
 
 const styles = {
   roomNameStyle: {
-    fontSize: 18,
-    paddingLeft: 25,
-  },
-  roomTimeStyle: {
-    fontSize: 18,
-    paddingLeft: 5,
-    color: '#ef4836',
-  },
-  roomCreatorStyle: {
-    fontSize: 11,
-    paddingLeft: 5,
+    fontSize: 36,
+    color: 'black',
+    fontWeight: '700',
+    fontFamily: 'NunitoSans-Bold',
     alignSelf: 'flex-end',
+    textDecorationLine: 'underline',
   },
-  cardSectionStyle: {
-    padding: 20,
-    borderBottomWidth: 2,
+  smallStyle: {
+    color: '#95a5a6',
+    fontSize: 14,
+    paddingLeft: 20,
+    fontFamily: 'NunitoSans-Bold',
+  },
+  bigStyle: {
+    fontSize: 28,
+    paddingLeft: 20,
+    color: 'black',
+    fontWeight: '700',
+    fontFamily: 'NunitoSans-Bold',
+    alignSelf: 'flex-end',
+
+  },
+  bigOrangeStyle: {
+    fontSize: 28,
+    paddingLeft: 20,
+    color: '#f39c12',
+    fontWeight: '700',
+    fontFamily: 'NunitoSans-Bold',
+    alignSelf: 'flex-end',
   },
   totalStyle: {
     fontSize: 30,
-    fontWeight: '600',
-    paddingLeft: 5,
-    color: '#ef4836',
+    fontFamily: 'NunitoSans-Bold',
+    color: '#f39c12',
+  },
+  totalCardStyle: {
+    justifyContent: 'center',
+    borderBottomWidth: 1,
+    paddingVertical: 5,
+  },
+  buttonCardStyle: {
+    paddingVertical: 5
   },
   moreStyle: {
+    marginVertical: 10,
     fontSize: 18,
-    color: 'blue',
+    color: 'black',
   }
 };
 

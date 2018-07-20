@@ -29,7 +29,7 @@ class FoodListItem extends Component {
   renderCreator() {
     if (this.props.creatorName === this.state.ordererName) {
       return (
-        <Text> CREATOR </Text>
+        <Text style={styles.creatorStyle}> CREATOR </Text>
       );
     }
   }
@@ -51,7 +51,7 @@ class FoodListItem extends Component {
       return (
           //key={key} to pass warning arry must have unique key
           <Text style={styles.detailStyle} key={key}>
-            {key}(${cost}) x{value.toString()}
+            {key.toUpperCase()}(${cost}) x{value.toString()}
           </Text>
       );
     });
@@ -80,14 +80,19 @@ class FoodListItem extends Component {
 const styles = {
   nameStyle: {
     fontSize: 18,
-    color: '#ef4836',
+    color: '#f39c12',
+    fontFamily: 'NunitoSans-Bold'
   },
   detailStyle: {
-    fontSize: 18,
+    fontSize: 16,
+    fontFamily: 'NunitoSans-Bold'
+  },
+  creatorStyle: {
+    fontFamily: 'NunitoSans-Bold'
   },
   cardSectionStyle: {
     padding: 20,
-    borderBottomWidth: 2,
+    borderBottomWidth: 1,
   }
 };
 
