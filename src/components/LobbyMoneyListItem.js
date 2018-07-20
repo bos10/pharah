@@ -41,8 +41,9 @@ class LobbyMoneyListItem extends Component {
 const styles = {
   cardSectionStyle: {
     padding: 20,
-    paddingLeft: 40,
     borderBottomWidth: 2,
+    borderColor: '#fff',
+    borderRadius: 4,
   },
   displayNameStyle: {
     fontSize: 22,

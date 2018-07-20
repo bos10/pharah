@@ -20,17 +20,15 @@ const LogoutButton = ({ onPress, children }) => {
 const styles = {
   textStyle: {
     alignSelf: 'center',
-    color: '#f4f4f4',
+    color: '#949494',
     fontSize: 14,
     fontWeight: '500',
-    paddingTop: 10,
-    paddingBottom: 10,
     fontFamily: 'NunitoSans-Bold',
   },
   buttonStyle: {
     backgroundColor: 'transparent',
     marginLeft: 5,
-    marginRight: 20
+    marginRight: 5,
   }
 };
 

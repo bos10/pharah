@@ -48,7 +48,7 @@ class LobbyMoney extends Component {
 
   render() {
     return (
-      <View style={{ flex: 1 }}>
+      <View style={{ flex: 1, backgroundColor: '#fff' }}>
         <View>
           <FlatList
             ListEmptyComponent={
