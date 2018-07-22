@@ -8,5 +8,6 @@
     "no-continue": 0,
     "array-callback-return": 0,
     "react/sort-comp": 0,
+    "object-shorthand": 0,
   }
 }

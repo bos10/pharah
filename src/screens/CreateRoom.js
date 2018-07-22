@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { TouchableOpacity, Text } from 'react-native';
 import firebase from 'firebase';
 import DateTimePicker from 'react-native-modal-datetime-picker';
-import PushNotification from 'react-native-push-notification';
+import FCM from 'react-native-fcm';
 import { Card, CardSection, Button, InputNoLabel } from '../components/common';
 
 class CreateRoom extends Component {
@@ -22,9 +22,16 @@ class CreateRoom extends Component {
   onButtonPress() {
     // Schedule a notif
     const cutDate = this.state.ISOClosingTime.slice(4, 33);
-    PushNotification.localNotificationSchedule({
-      message: 'Closing time reached! Order now!',
-      date: new Date(cutDate),
+    FCM.scheduleLocalNotification({
+      id: 'testnotif',
+      fire_date: new Date(cutDate),
+      vibrate: 300,
+      sound: 'default',
+      title: 'Closing time reached',
+      body: 'Order food now!',
+      priority: 'high',
+      show_in_foreground: true,
+      wake_screen: true,
     });
 
     // Dabase stuff
