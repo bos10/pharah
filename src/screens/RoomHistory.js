@@ -70,6 +70,24 @@ class RoomHistory extends Component {
     }
   }
 
+  notify() {
+    console.warn('dd');
+    firebase.database().ref('notify')
+      .set('ss');
+    const { navigation } = this.props;
+    const roomId = navigation.getParam('roomId');
+    const userid = firebase.auth().currentUser.uid;
+    // Reference for Room's items, setstate
+    firebase.database().ref(`users/${userid}/lobbyHistory/${roomId}/userIDs/`)
+      .on('value', snapshot => {
+        const obj = snapshot.val();
+        const userArray = Object.keys(obj);
+        console.warn(userArray);
+        // TO DO: map each user id to get thier token then
+        // write token array to database and send notif
+      });
+}
+
   render() {
     const { navigation } = this.props;
     const roomName = navigation.getParam('roomName');
@@ -78,37 +96,43 @@ class RoomHistory extends Component {
 
     return (
       <View style={{ flex: 1 }}>
-      <CardSection style={{ justifyContent: 'center', paddingVertical: 10 }}>
-        <Text style={styles.roomNameStyle}>
-          {roomName}
-        </Text>
+        <CardSection style={{ justifyContent: 'center', paddingVertical: 10 }}>
+          <Text style={styles.roomNameStyle}>
+            {roomName}
+          </Text>
 
 
-      </CardSection>
-      <CardSection>
-        <Text style={styles.smallStyle}>
-          created by
-        </Text>
-        <Text style={styles.bigStyle}>
-          {creatorName}
-        </Text>
-      </CardSection>
-      <CardSection>
-        <Text style={styles.smallStyle}>
-          closing at
-        </Text>
-        <Text style={styles.bigStyle}>
-          {displayClosingTime}
-        </Text>
-      </CardSection>
-      <CardSection style={{ paddingBottom: 10, borderBottomWidth: 1 }}>
-        <Text style={styles.smallStyle}>
-          total cost
-        </Text>
-        <Text style={styles.bigOrangeStyle}>
-          ${this.state.roomTotalPrice || 0}
-        </Text>
-      </CardSection>
+        </CardSection>
+        <CardSection>
+          <Text style={styles.smallStyle}>
+            created by
+          </Text>
+          <Text style={styles.bigStyle}>
+            {creatorName}
+          </Text>
+        </CardSection>
+        <CardSection>
+          <Text style={styles.smallStyle}>
+            closing at
+          </Text>
+          <Text style={styles.bigStyle}>
+            {displayClosingTime}
+          </Text>
+        </CardSection>
+        <CardSection style={{ paddingBottom: 10, borderBottomWidth: 1 }}>
+          <Text style={styles.smallStyle}>
+            total cost
+          </Text>
+          <Text style={styles.bigOrangeStyle}>
+            ${this.state.roomTotalPrice || 0}
+          </Text>
+        </CardSection>
+        <CardSection>
+          <Button
+            title="Press me"
+            onPress={() => this.notify()}
+          />
+        </CardSection>
         <View>
           <FlatList
             ListEmptyComponent={
