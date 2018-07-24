@@ -1,5 +1,6 @@
 import firebase from 'firebase';
 import React, { Component } from 'react';
+import FCM from 'react-native-fcm';
 import { Alert, Image, View, Text,
          } from 'react-native';
 import { CardSection, UsernameInput, Spinner,
@@ -30,6 +31,13 @@ class Login extends Component {
       .then(() => {
         this.setState({ loading: false });
         this.props.navigation.navigate('Lobby');
+        const uid = firebase.auth().currentUser.uid;
+        FCM.getFCMToken().then(token => {
+          console.warn(token);
+          // store fcm token in your server
+          firebase.database().ref(`users/${uid}`)
+            .update({ token });
+        });
       })
       .catch(error => {
         this.setState({ loading: false });

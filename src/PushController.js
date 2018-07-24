@@ -7,7 +7,6 @@ class PushController extends Component {
   componentDidMount() {
     FCM.requestPermissions({ badge: false, sound: true, alert: true });
     FCM.getFCMToken().then(token => {
-      console.warn(token);
       console.log(token);
       // store fcm token in your server
     });
