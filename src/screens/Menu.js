@@ -58,6 +58,16 @@ class Menu extends Component {
     firebase.database().ref(`lobby/${roomId}/userIDs`)
       .update({ [uid]: 1 });
 
+    // Get then update room's people's tokens
+    firebase.database().ref(`users/${uid}/token`)
+      .once('value')
+      .then(snapshotToken => {
+        const token = snapshotToken.val();
+        if (token === null) { return; }
+        firebase.database().ref(`lobby/${roomId}/tokenIDs`)
+          .update({ [token]: 1 });
+      });
+
     // Push the whole room and data to all the user's LobbyHistorys
     firebase.database().ref(`lobby/${roomId}/userIDs`)
       .once('value')

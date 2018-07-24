@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import firebase from 'firebase';
 import _ from 'lodash';
-import { View, Text, Button, FlatList } from 'react-native';
-//import AppLink from 'react-native-app-link';
-import { CardSection } from '../components/common';
+import { View, Text, Button, FlatList, TextInput, Alert } from 'react-native';
+import AwesomeIcon from 'react-native-vector-icons/FontAwesome';
+import { CardSection, RoomButton } from '../components/common';
 import FoodListItemRoomHistory from '../components/FoodListItemRoomHistory';
 
 // Represents a Room from HistoryLobby
@@ -14,7 +14,8 @@ class RoomHistory extends Component {
   state = {
     orders: [],
     roomTotalPrice: 0,
-    roomStatus: ''
+    roomStatus: '',
+    destination: '',
   }
 
   componentDidMount() {
@@ -71,20 +72,23 @@ class RoomHistory extends Component {
   }
 
   notify() {
-    console.warn('dd');
-    firebase.database().ref('notify')
-      .set('ss');
     const { navigation } = this.props;
     const roomId = navigation.getParam('roomId');
     const userid = firebase.auth().currentUser.uid;
     // Reference for Room's items, setstate
-    firebase.database().ref(`users/${userid}/lobbyHistory/${roomId}/userIDs/`)
+    firebase.database().ref(`users/${userid}/lobbyHistory/${roomId}/tokenIDs/`)
       .on('value', snapshot => {
         const obj = snapshot.val();
-        const userArray = Object.keys(obj);
-        console.warn(userArray);
-        // TO DO: map each user id to get thier token then
-        // write token array to database and send notif
+        if (obj === null) {
+          Alert.alert('No Users to send to!(no tokens)');
+          return;
+        }
+        const tokenArray = Object.keys(obj);
+        const destination = this.state.destination;
+        // Push tokenarry and destination into notification
+        // Triggers cloud function
+        firebase.database().ref('notify')
+          .push({ tokenArray, destination });
       });
 }
 
@@ -119,7 +123,7 @@ class RoomHistory extends Component {
             {displayClosingTime}
           </Text>
         </CardSection>
-        <CardSection style={{ paddingBottom: 10, borderBottomWidth: 1 }}>
+        <CardSection style={{ paddingBottom: 10 }}>
           <Text style={styles.smallStyle}>
             total cost
           </Text>
@@ -128,11 +132,22 @@ class RoomHistory extends Component {
           </Text>
         </CardSection>
         <CardSection>
-          <Button
-            title="Press me"
-            onPress={() => this.notify()}
+          <TextInput
+            style={{ padding: 10, flex: 3 }}
+            placeholder={'Notify food arrival'}
+            onChangeText={text => this.setState({ destination: text })}
+            value={this.state.destination}
           />
+          <RoomButton
+            buttonStyle={{ backgroundColor: '#f39c12', flex: 1 }}
+            onPress={() => this.notify()}
+          >
+            <AwesomeIcon name='send' size={20} />
+            {'\n'}
+            NOTIFY
+          </RoomButton>
         </CardSection>
+
         <View>
           <FlatList
             ListEmptyComponent={
