@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Text, ScrollView } from 'react-native';
 import firebase from 'firebase';
 import { Card, CardSection, Button } from '../components/common';
 
@@ -37,10 +38,23 @@ class ThaiKitchen extends Component {
       .on('value', snapshot3 => {
         oldRoomTotalPrice = snapshot3.val();
         switch (food) {
-          case 'prata': foodCost = 1; break;
-          case 'drink': foodCost = 0.5; break;
-          case 'maggie': foodCost = 2; break;
-          case 'test': foodCost = 3; break;
+          // Fried Rice
+          case 'T51': foodCost = 5.50; break;
+          case 'T52': foodCost = 5.50; break;
+          case 'T53': foodCost = 4.50; break;
+          case 'T54': foodCost = 5.50; break;
+          // Noodles
+          case 'T35': foodCost = 6.50; break;
+          case 'T36': foodCost = 6.50; break;
+          case 'T37': foodCost = 5.50; break;
+          case 'T38': foodCost = 5.50; break;
+          case 'T41': foodCost = 5.50; break;
+          // Steam Rice
+          case 'T45': foodCost = 6.00; break;
+          case 'T46': foodCost = 6.00; break;
+          case 'T47': foodCost = 6.00; break;
+          case 'T48': foodCost = 6.00; break;
+
           default: foodCost = 0;
         }
 
@@ -79,26 +93,101 @@ class ThaiKitchen extends Component {
 
   render() {
     return (
-      <Card>
+      <ScrollView>
+        {/*FRIED RICE*/}
+        <Text style={styles.textStyle}> Fried Rice </Text>
         <CardSection>
-          <Button onPress={this.onButtonPress.bind(this, 'prata')} >
-            prata
-          </Button>
-        </CardSection>
-        <CardSection>
-          <Button onPress={this.onButtonPress.bind(this, 'maggie')}>
-            maggie
-          </Button>
-        </CardSection>
-        <CardSection>
-          <Button onPress={this.onButtonPress.bind(this, 'drink')}>
-            drink
+          <Button onPress={this.onButtonPress.bind(this, 'T51')} >
+            Chinese Style
           </Button>
         </CardSection>
 
-      </Card>
+        <CardSection>
+          <Button onPress={this.onButtonPress.bind(this, 'T52')}>
+            Thai Style
+          </Button>
+        </CardSection>
+
+        <CardSection>
+          <Button onPress={this.onButtonPress.bind(this, 'T53')}>
+             Ikan Bilis (Anchovies)
+          </Button>
+        </CardSection>
+
+        <CardSection>
+          <Button onPress={this.onButtonPress.bind(this, 'T54')}>
+            Tomato & Chicken
+          </Button>
+        </CardSection>
+
+        {/*NOODLES*/}
+        <Text style={styles.textStyle}> Noodles</Text>
+        <CardSection>
+          <Button onPress={this.onButtonPress.bind(this, 'T35')} >
+            Tomyam (Soup)
+          </Button>
+        </CardSection>
+
+        <CardSection>
+          <Button onPress={this.onButtonPress.bind(this, 'T36')}>
+            Pataya (Egg Wrap)
+          </Button>
+        </CardSection>
+
+        <CardSection>
+          <Button onPress={this.onButtonPress.bind(this, 'T37')}>
+            Soup with Vegetables
+          </Button>
+        </CardSection>
+
+        <CardSection>
+          <Button onPress={this.onButtonPress.bind(this, 'T38')}>
+            Bandung (Red Sauce)
+          </Button>
+        </CardSection>
+
+        <CardSection>
+          <Button onPress={this.onButtonPress.bind(this, 'T41')}>
+            Thai Style Fried
+          </Button>
+        </CardSection>
+
+        {/*STEAM RICE*/}
+        <Text style={styles.textStyle}> Steam Rice</Text>
+        <CardSection>
+          <Button onPress={this.onButtonPress.bind(this, 'T45')}>
+            Hot & Spicy
+          </Button>
+        </CardSection>
+
+        <CardSection>
+          <Button onPress={this.onButtonPress.bind(this, 'T46')}>
+            Black Soya Sauce
+          </Button>
+        </CardSection>
+
+        <CardSection>
+          <Button onPress={this.onButtonPress.bind(this, 'T47')}>
+            Sweet & Sour
+          </Button>
+        </CardSection>
+
+        <CardSection>
+          <Button onPress={this.onButtonPress.bind(this, 'T48')}>
+            Black Pepper
+          </Button>
+        </CardSection>
+
+      </ScrollView>
     );
   }
 }
 
 export default ThaiKitchen;
+
+const styles = {
+  textStyle: {
+    fontWeight: '300',
+    fontSize: 30,
+  }
+};
