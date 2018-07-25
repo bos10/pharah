@@ -9,5 +9,7 @@
     "array-callback-return": 0,
     "react/sort-comp": 0,
     "object-shorthand": 0,
+    "no-else-return": 0,
+    "guard-for-in": 0
   }
 }
