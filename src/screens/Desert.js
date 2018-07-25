@@ -90,19 +90,19 @@ class Desert extends Component {
             onPress={this.onButtonPress.bind(this,
             'D90-Dark Lava Cake with Strawberry and Milk Ice Cream')}
           >
-            Dark Lava Cake with Strawberry and Milk Ice Cream
+            D90-Dark Lava Cake with Strawberry and Milk Ice Cream
           </Button>
         </CardSection>
 
         <CardSection>
           <Button onPress={this.onButtonPress.bind(this, 'D91-Mix Berry Cheese Cake')}>
-            Mix Berry Cheese Cake
+            D91-Mix Berry Cheese Cake
           </Button>
         </CardSection>
 
         <CardSection>
           <Button onPress={this.onButtonPress.bind(this, 'D94-Banana Split')}>
-             Banana Split
+             D94-Banana Split
           </Button>
         </CardSection>
 

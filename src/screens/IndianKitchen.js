@@ -90,19 +90,19 @@ class IndianKitchen extends Component {
         <Text style={styles.textStyle}> Chicken</Text>
         <CardSection>
           <Button onPress={this.onButtonPress.bind(this, 'N63-Chicken Korma')} >
-            Chicken Korma
+            N63-Chicken Korma
           </Button>
         </CardSection>
 
         <CardSection>
           <Button onPress={this.onButtonPress.bind(this, 'N64-Chicken Spinach')}>
-            Chicken Spinach
+            N64-Chicken Spinach
           </Button>
         </CardSection>
 
         <CardSection>
           <Button onPress={this.onButtonPress.bind(this, 'N65-Chicken Masalat')}>
-             Chicken Masala
+             N65-Chicken Masala
           </Button>
         </CardSection>
 
@@ -110,19 +110,19 @@ class IndianKitchen extends Component {
         <Text style={styles.textStyle}> Mutton</Text>
         <CardSection>
           <Button onPress={this.onButtonPress.bind(this, 'N79-Mutton Korma')}>
-            Mutton Korma
+            N79-Mutton Korma
           </Button>
         </CardSection>
 
         <CardSection>
           <Button onPress={this.onButtonPress.bind(this, 'N80-Mutton Masala')}>
-            Mutton Masala
+            N80-Mutton Masala
           </Button>
         </CardSection>
 
         <CardSection>
           <Button onPress={this.onButtonPress.bind(this, 'N81-Mutton Do Piaza')}>
-            Mutton Do Piaza
+            N81-Mutton Do Piaza
           </Button>
         </CardSection>
       </ScrollView>
