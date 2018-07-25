@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import firebase from 'firebase';
 import _ from 'lodash';
-import { View, Text, Button, FlatList, TextInput, Alert } from 'react-native';
+import { View, Text, FlatList, TextInput, Alert } from 'react-native';
 import AwesomeIcon from 'react-native-vector-icons/FontAwesome';
 import { CardSection, RoomButton } from '../components/common';
 import FoodListItemRoomHistory from '../components/FoodListItemRoomHistory';
@@ -58,14 +58,24 @@ class RoomHistory extends Component {
     }
   }
 
-  renderOrderButton() {
+  renderNotify() {
     if (this.state.roomStatus !== 'closed') {
       return (
-        <CardSection style={{ alignItems: 'center' }}>
-          <Button
-            title="Order"
-            onPress={() => this.placeOrder()}
+        <CardSection>
+          <TextInput
+            style={{ padding: 10, flex: 3 }}
+            placeholder={'Notify food arrival'}
+            onChangeText={text => this.setState({ destination: text })}
+            value={this.state.destination}
           />
+          <RoomButton
+            buttonStyle={{ backgroundColor: '#f39c12', flex: 1 }}
+            onPress={() => this.notify()}
+          >
+            <AwesomeIcon name='send' size={20} />
+            {'\n'}
+            NOTIFY
+          </RoomButton>
         </CardSection>
       );
     }
@@ -90,7 +100,7 @@ class RoomHistory extends Component {
         firebase.database().ref('notify')
           .push({ tokenArray, destination });
       });
-}
+  }
 
   render() {
     const { navigation } = this.props;
@@ -120,7 +130,7 @@ class RoomHistory extends Component {
             closing at
           </Text>
           <Text style={styles.bigStyle}>
-            {displayClosingTime}
+            {displayClosingTime}H
           </Text>
         </CardSection>
         <CardSection style={{ paddingBottom: 10 }}>
@@ -130,22 +140,6 @@ class RoomHistory extends Component {
           <Text style={styles.bigOrangeStyle}>
             ${this.state.roomTotalPrice || 0}
           </Text>
-        </CardSection>
-        <CardSection>
-          <TextInput
-            style={{ padding: 10, flex: 3 }}
-            placeholder={'Notify food arrival'}
-            onChangeText={text => this.setState({ destination: text })}
-            value={this.state.destination}
-          />
-          <RoomButton
-            buttonStyle={{ backgroundColor: '#f39c12', flex: 1 }}
-            onPress={() => this.notify()}
-          >
-            <AwesomeIcon name='send' size={20} />
-            {'\n'}
-            NOTIFY
-          </RoomButton>
         </CardSection>
 
         <View>

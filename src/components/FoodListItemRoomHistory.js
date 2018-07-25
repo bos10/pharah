@@ -58,6 +58,30 @@ class FoodListItemRoomHistory extends Component {
     const roomId = navigation.getParam('roomId');
     const creatorId = navigation.getParam('creatorId');
     const thisGuyId = this.props.item.uid;
+    firebase.database().ref(`users/${creatorId}/lobbyHistory/${roomId}/items/${thisGuyId}/paid`)
+      .once('value')
+      .then(snapshotCheck1 => {
+        const check1 = snapshotCheck1.val();
+        firebase.database().ref(`users/${thisGuyId}/lobbyHistory/${roomId}/items/${thisGuyId}/paid`)
+          .once('value')
+          .then(snapshotCheck2 => {
+            const check2 = snapshotCheck2.val();
+            if (check1 !== null || check2 !== null) {
+              Alert.alert('Already paid!');
+              this.setState({ paid: true });
+            } else {
+              // Execute mark payment
+              this.markPaid();
+            }
+          });
+      });
+  }
+
+  markPaid() {
+    const { navigation } = this.props;
+    const roomId = navigation.getParam('roomId');
+    const creatorId = navigation.getParam('creatorId');
+    const thisGuyId = this.props.item.uid;
     const totalCost = this.state.totalCost;
     firebase.database().ref(`users/${creatorId}/lobbyHistory/${roomId}/items/${thisGuyId}/`)
       .update({ paid: 1 });

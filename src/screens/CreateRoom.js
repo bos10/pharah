@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import { TouchableOpacity, Text } from 'react-native';
+import { Text, Alert } from 'react-native';
 import firebase from 'firebase';
 import DateTimePicker from 'react-native-modal-datetime-picker';
 import FCM from 'react-native-fcm';
-import { Card, CardSection, Button, InputNoLabel } from '../components/common';
+import { Card, CardSection, Button, InputNoLabel, GradientButton } from '../components/common';
 
 class CreateRoom extends Component {
   constructor(props) {
@@ -12,14 +12,34 @@ class CreateRoom extends Component {
       loading: false,
       error: '',
       roomName: '',
-      displayClosingTime: '',
+      displayClosingTime: '----',
       ISOClosingTime: '',
       roomStatus: 'open',
       roomTotalPrice: 0,
       isDateTimePickerVisible: false,
     };
   }
+
   onButtonPress() {
+    // Check room status by timing
+    if (this.state.roomName === '') {
+      Alert.alert('Did not input a room name!');
+      return;
+    }
+    if (this.state.ISOClosingTime === '') {
+      Alert.alert('Did not select a time!');
+      return;
+    }
+    const nowDate = new Date();
+    const selectedDate = new Date(this.state.ISOClosingTime);
+    if (selectedDate < nowDate) {
+      Alert.alert('Invalid! Time has passed');
+    } else {
+      this.createRoom();
+    }
+  }
+
+  createRoom() {
     // Schedule a notif
     const cutDate = this.state.ISOClosingTime.slice(4, 33);
     FCM.scheduleLocalNotification({
@@ -102,6 +122,7 @@ class CreateRoom extends Component {
     // date is in UTC
     // Add 8 hrs coz SG is +8 UTC
     var dateString = date.toString().slice(16, 21);
+    dateString = dateString.slice(0, 2) + dateString.slice(3);
 
     this.setState({
       displayClosingTime: dateString,
@@ -115,7 +136,9 @@ class CreateRoom extends Component {
     return (
       <Card>
 
-        <CardSection>
+        <CardSection
+          style={{ paddingVertical: 5, borderBottomWidth: 3, borderColor: '#ddd' }}
+        >
           <InputNoLabel
             placeholder="Room name here"
             value={this.state.roomName}
@@ -123,23 +146,31 @@ class CreateRoom extends Component {
           />
         </CardSection>
 
-        <CardSection style={{ justifyContent: 'center', paddingVertical: 15 }}>
-          <TouchableOpacity
+        <CardSection
+          style={{ flexDirection: 'column', alignItems: 'center', paddingVertical: 50 }}
+        >
+          <GradientButton
             onPress={this.showDateTimePicker}
+            colors={['#F89406', '#ff7c00']}
           >
-            <Text style={{ fontSize: 18, color: 'blue' }}>Show DatePicker</Text>
-          </TouchableOpacity>
+            PICK TIMING
+          </GradientButton>
           <DateTimePicker
             isVisible={this.state.isDateTimePickerVisible}
             onConfirm={this.handleDatePicked}
             onCancel={this.hideDateTimePicker}
             mode='datetime'
           />
+          <Text style={styles.displayStyle}>
+            {this.state.displayClosingTime}H
+          </Text>
         </CardSection>
 
-        <CardSection>
+        <CardSection
+          style={{ paddingVertical: 5, borderTopWidth: 3, borderColor: '#ddd' }}
+        >
           <Button onPress={this.onButtonPress.bind(this)}>
-            create
+            CREATE
           </Button>
         </CardSection>
 
@@ -147,6 +178,14 @@ class CreateRoom extends Component {
     );
   }
 }
+  const styles = {
+    displayStyle: {
+      fontSize: 18,
+      fontWeight: '300',
+      color: '#000',
+      marginVertical: 20,
+    }
+  };
 
 
 export default CreateRoom;

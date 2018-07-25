@@ -1,14 +1,16 @@
 import React, { Component } from 'react';
-import { Text, View, Alert } from 'react-native';
+import { Text, View } from 'react-native';
 import firebase from 'firebase';
-import { CardSection } from './common';
+import AwesomeIcon from 'react-native-vector-icons/FontAwesome';
+import { CardSection, RoomButton } from './common';
 
 
 class FoodListItem extends Component {
   constructor(props) {
     super(props);
+    this.totalCost = 0;
     this.state = {
-      ordererName: ''
+      ordererName: '',
     };
   }
 
@@ -22,16 +24,75 @@ class FoodListItem extends Component {
       });
   }
 
-  onButtonPress() {
-    Alert.alert('gi');
-  }
-
-  renderCreator() {
-    if (this.props.creatorName === this.state.ordererName) {
+  // renderCreator() {
+  //   if (this.props.creatorName === this.state.ordererName) {
+  //     return (
+  //       <Text style={styles.creatorStyle}> CREATOR </Text>
+  //     );
+  //   }
+  // }
+  renderDelete() {
+    const uid = firebase.auth().currentUser.uid;
+    if (this.props.item.uid === uid) {
       return (
-        <Text style={styles.creatorStyle}> CREATOR </Text>
+        <RoomButton
+          buttonStyle={{ backgroundColor: '#f4f4f4' }}
+          onPress={() => this.delete()}
+        >
+          <AwesomeIcon name='remove' size={20} color='#c0392b' />
+        </RoomButton>
       );
     }
+  }
+
+  delete() {
+    const uid = firebase.auth().currentUser.uid;
+    const roomId = this.props.item.roomId;
+    // Delete its items
+    firebase.database().ref(`lobby/${roomId}/items/${uid}`)
+     .remove();
+    // Delete from tokens
+    firebase.database().ref(`users/${uid}/token`)
+     .once('value')
+     .then(snapshotToken => {
+       const token = snapshotToken.val();
+       if (token === null) { return; }
+       firebase.database().ref(`lobby/${roomId}/tokenIDs/${token}`)
+         .remove();
+     });
+    // Delete from uids
+    firebase.database().ref(`lobby/${roomId}/userIDs/${uid}`)
+     .remove();
+
+    // Update the total price
+    firebase.database().ref(`lobby/${roomId}/roomTotalPrice`)
+      .once('value')
+      .then(snapshot => {
+        const oldRoomTotalPrice = snapshot.val();
+        const newRoomTotalPrice = oldRoomTotalPrice - this.totalCost;
+        firebase.database().ref(`lobby/${roomId}/`)
+          .update({ roomTotalPrice: newRoomTotalPrice });
+      });
+
+    // remove from this user's lobbyHistory
+    firebase.database().ref(`users/${uid}/lobbyHistory/${roomId}`)
+      .remove();
+    // Push the whole room and data to all the user's LobbyHistorys
+    firebase.database().ref(`lobby/${roomId}/userIDs`)
+      .once('value')
+      .then(snapshot4 => {
+        const object = snapshot4.val();
+        if (object === null) { return; }
+        const userIDs = Object.keys(object);
+        firebase.database().ref(`lobby/${roomId}/`)
+          .once('value')
+          .then(snapshot5 => {
+            userIDs.forEach(eachuid => {
+              firebase.database().ref(`users/${eachuid}/lobbyHistory/${roomId}`)
+                .set(snapshot5.val());
+            });
+          });
+      });
   }
 
   renderOrder() {
@@ -55,17 +116,28 @@ class FoodListItem extends Component {
           </Text>
       );
     });
-
-    return (
-      <CardSection style={styles.cardSectionStyle}>
-        <View style={{ marginRight: 100 }}>
-          {list}
-          <Text style={styles.nameStyle}>by {name}, pay ${totalCost}</Text>
-        </View>
-        {this.renderCreator()}
-
-      </CardSection>
-    );
+    this.totalCost = totalCost;
+    if (this.props.creatorName === this.state.ordererName) {
+      return (
+        <CardSection style={styles.cardSectionStyle}>
+          <View style={{ marginRight: 100 }}>
+            {list}
+            <Text style={styles.nameStyle}>by {name}(Creator), pay ${totalCost}</Text>
+          </View>
+          {this.renderDelete()}
+        </CardSection>
+      );
+    } else {
+      return (
+        <CardSection style={styles.cardSectionStyle}>
+          <View style={{ marginRight: 100 }}>
+            {list}
+            <Text style={styles.nameStyle}>by {name}, pay ${totalCost}</Text>
+          </View>
+          {this.renderDelete()}
+        </CardSection>
+      );
+    }
   }
 
   render() {

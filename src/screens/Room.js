@@ -31,7 +31,7 @@ class Room extends Component {
     firebase.database().ref(`lobby/${roomId}/items/`)
       .on('value', snapshot => {
         const orders = _.map(snapshot.val(), (val, uid) => {
-          return { ...val, uid };
+          return { ...val, uid, roomId };
         });
         this.setState({ orders });
       });
@@ -93,10 +93,29 @@ class Room extends Component {
     // + means others owe u
     // - means u owe others
     // Each id, + the creator, - the // id guy
-    firebase.database().ref(`users/${creatorId}/moneyStatus`)
-      .update({ [uid]: totalCost });
-    firebase.database().ref(`users/${uid}/moneyStatus`)
-      .update({ [creatorId]: -totalCost });
+    firebase.database().ref(`users/${creatorId}/moneyStatus/${uid}`)
+      .once('value')
+      .then(snapshot => {
+        var oldVal = 0;
+        if (snapshot.val() !== null) {
+          oldVal = snapshot.val();
+        }
+        const newVal = oldVal + totalCost;
+        firebase.database().ref(`users/${creatorId}/moneyStatus`)
+          .update({ [uid]: newVal });
+      });
+
+    firebase.database().ref(`users/${uid}/moneyStatus/${creatorId}`)
+      .once('value')
+      .then(snapshot => {
+        var oldVal = 0;
+        if (snapshot.val() !== null) {
+          oldVal = snapshot.val();
+        }
+        const newVal = oldVal - totalCost;
+        firebase.database().ref(`users/${uid}/moneyStatus`)
+          .update({ [creatorId]: newVal });
+      });
   }
 
   deleteRoomFromLobby() {
@@ -223,7 +242,7 @@ class Room extends Component {
             closing at
           </Text>
           <Text style={styles.bigStyle}>
-            {displayClosingTime}
+            {displayClosingTime}H
           </Text>
         </CardSection>
         <CardSection style={{ paddingBottom: 10, borderBottomWidth: 1 }}>
