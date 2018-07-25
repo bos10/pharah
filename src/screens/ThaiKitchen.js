@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Text, ScrollView } from 'react-native';
 import firebase from 'firebase';
-import { Card, CardSection, Button } from '../components/common';
+import { CardSection, Button } from '../components/common';
 
 class ThaiKitchen extends Component {
   onButtonPress(food) {
@@ -39,21 +39,21 @@ class ThaiKitchen extends Component {
         oldRoomTotalPrice = snapshot3.val();
         switch (food) {
           // Fried Rice
-          case 'T51': foodCost = 5.50; break;
-          case 'T52': foodCost = 5.50; break;
-          case 'T53': foodCost = 4.50; break;
-          case 'T54': foodCost = 5.50; break;
+          case 'T51-ChineseStyle': foodCost = 5.50; break;
+          case 'T52-ThaiStyle': foodCost = 5.50; break;
+          case 'T53-Ikan Bilis(Anchovies)': foodCost = 4.50; break;
+          case 'T54-Tomato&Chicken': foodCost = 5.50; break;
           // Noodles
-          case 'T35': foodCost = 6.50; break;
-          case 'T36': foodCost = 6.50; break;
-          case 'T37': foodCost = 5.50; break;
-          case 'T38': foodCost = 5.50; break;
-          case 'T41': foodCost = 5.50; break;
+          case 'T35-Tomyam (Soup)': foodCost = 6.50; break;
+          case 'T36-Pataya (Egg Wrap)': foodCost = 6.50; break;
+          case 'T37-Soup with Vegetables': foodCost = 5.50; break;
+          case 'T38-Bandung (Red Sauce)': foodCost = 5.50; break;
+          case 'T41-Thai Style Fried': foodCost = 5.50; break;
           // Steam Rice
-          case 'T45': foodCost = 6.00; break;
-          case 'T46': foodCost = 6.00; break;
-          case 'T47': foodCost = 6.00; break;
-          case 'T48': foodCost = 6.00; break;
+          case 'T45-Hot & Spicy': foodCost = 6.00; break;
+          case 'T46-Black Soya Sauce': foodCost = 6.00; break;
+          case 'T47-Sweet & Sour': foodCost = 6.00; break;
+          case 'T48-Black Pepper': foodCost = 6.00; break;
 
           default: foodCost = 0;
         }
@@ -95,27 +95,27 @@ class ThaiKitchen extends Component {
     return (
       <ScrollView>
         {/*FRIED RICE*/}
-        <Text style={styles.textStyle}> Fried Rice </Text>
+        <Text style={styles.textStyle}> Fried Rice</Text>
         <CardSection>
-          <Button onPress={this.onButtonPress.bind(this, 'T51')} >
+          <Button onPress={this.onButtonPress.bind(this, 'T51-ChineseStyle')} >
             Chinese Style
           </Button>
         </CardSection>
 
         <CardSection>
-          <Button onPress={this.onButtonPress.bind(this, 'T52')}>
+          <Button onPress={this.onButtonPress.bind(this, 'T52-ThaiStyle')}>
             Thai Style
           </Button>
         </CardSection>
 
         <CardSection>
-          <Button onPress={this.onButtonPress.bind(this, 'T53')}>
+          <Button onPress={this.onButtonPress.bind(this, 'T53-Ikan Bilis(Anchovies)')}>
              Ikan Bilis (Anchovies)
           </Button>
         </CardSection>
 
         <CardSection>
-          <Button onPress={this.onButtonPress.bind(this, 'T54')}>
+          <Button onPress={this.onButtonPress.bind(this, 'T54-Tomato&Chicken')}>
             Tomato & Chicken
           </Button>
         </CardSection>
@@ -123,31 +123,31 @@ class ThaiKitchen extends Component {
         {/*NOODLES*/}
         <Text style={styles.textStyle}> Noodles</Text>
         <CardSection>
-          <Button onPress={this.onButtonPress.bind(this, 'T35')} >
+          <Button onPress={this.onButtonPress.bind(this, 'T35-Tomyam (Soup)')} >
             Tomyam (Soup)
           </Button>
         </CardSection>
 
         <CardSection>
-          <Button onPress={this.onButtonPress.bind(this, 'T36')}>
+          <Button onPress={this.onButtonPress.bind(this, 'T36-Pataya (Egg Wrap)')}>
             Pataya (Egg Wrap)
           </Button>
         </CardSection>
 
         <CardSection>
-          <Button onPress={this.onButtonPress.bind(this, 'T37')}>
+          <Button onPress={this.onButtonPress.bind(this, 'T37-Soup with Vegetables')}>
             Soup with Vegetables
           </Button>
         </CardSection>
 
         <CardSection>
-          <Button onPress={this.onButtonPress.bind(this, 'T38')}>
+          <Button onPress={this.onButtonPress.bind(this, 'T38-Bandung (Red Sauce)')}>
             Bandung (Red Sauce)
           </Button>
         </CardSection>
 
         <CardSection>
-          <Button onPress={this.onButtonPress.bind(this, 'T41')}>
+          <Button onPress={this.onButtonPress.bind(this, 'T41-Thai Style Fried')}>
             Thai Style Fried
           </Button>
         </CardSection>
@@ -155,25 +155,25 @@ class ThaiKitchen extends Component {
         {/*STEAM RICE*/}
         <Text style={styles.textStyle}> Steam Rice</Text>
         <CardSection>
-          <Button onPress={this.onButtonPress.bind(this, 'T45')}>
+          <Button onPress={this.onButtonPress.bind(this, 'T45-Hot & Spicy')}>
             Hot & Spicy
           </Button>
         </CardSection>
 
         <CardSection>
-          <Button onPress={this.onButtonPress.bind(this, 'T46')}>
+          <Button onPress={this.onButtonPress.bind(this, 'T46-Black Soya Sauce')}>
             Black Soya Sauce
           </Button>
         </CardSection>
 
         <CardSection>
-          <Button onPress={this.onButtonPress.bind(this, 'T47')}>
+          <Button onPress={this.onButtonPress.bind(this, 'T47-Sweet & Sour')}>
             Sweet & Sour
           </Button>
         </CardSection>
 
         <CardSection>
-          <Button onPress={this.onButtonPress.bind(this, 'T48')}>
+          <Button onPress={this.onButtonPress.bind(this, 'T48-Black Pepper')}>
             Black Pepper
           </Button>
         </CardSection>

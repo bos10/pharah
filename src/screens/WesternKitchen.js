@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import firebase from 'firebase';
-import { Card, CardSection, Button } from '../components/common';
+import { ScrollView, Text } from 'react-native';
+import { CardSection, Button } from '../components/common';
 
 class WesternKitchen extends Component {
   onButtonPress(food) {
@@ -37,10 +38,16 @@ class WesternKitchen extends Component {
       .on('value', snapshot3 => {
         oldRoomTotalPrice = snapshot3.val();
         switch (food) {
-          case 'prata': foodCost = 1; break;
-          case 'drink': foodCost = 0.5; break;
-          case 'maggie': foodCost = 2; break;
-          case 'test': foodCost = 3; break;
+          // Chicken
+          case 'W40-Grilled Chicken with Pepper': foodCost = 11.8; break;
+          case 'W41-Grilled Chicken with Mushroom': foodCost = 13.80; break;
+          case 'W42-Breaded Cutlet': foodCost = 10.80; break;
+
+          // Lamb
+          case 'W43-Grilled Lamb with Pepper': foodCost = 20.50; break;
+          case 'W44-Grilled Lamb with Mushroom': foodCost = 21.50; break;
+          case 'W45-BarBeQue Lamb with Cheese Sauce': foodCost = 21.80; break;
+
           default: foodCost = 0;
         }
 
@@ -79,26 +86,56 @@ class WesternKitchen extends Component {
 
   render() {
     return (
-      <Card>
+      <ScrollView>
+        {/*Chicken*/}
+        <Text style={styles.textStyle}> Chicken</Text>
         <CardSection>
-          <Button onPress={this.onButtonPress.bind(this, 'prata')} >
-            prata
-          </Button>
-        </CardSection>
-        <CardSection>
-          <Button onPress={this.onButtonPress.bind(this, 'maggie')}>
-            maggie
-          </Button>
-        </CardSection>
-        <CardSection>
-          <Button onPress={this.onButtonPress.bind(this, 'drink')}>
-            drink
+          <Button onPress={this.onButtonPress.bind(this, 'W40-Grilled Chicken with Pepper')} >
+            Grilled Chicken with Pepper
           </Button>
         </CardSection>
 
-      </Card>
+        <CardSection>
+          <Button onPress={this.onButtonPress.bind(this, 'W41-Grilled Chicken with Mushroom')}>
+            Grilled Chicken with Mushroom
+          </Button>
+        </CardSection>
+
+        <CardSection>
+          <Button onPress={this.onButtonPress.bind(this, 'W42-Breaded Cutlet')}>
+             Breaded Cutlet
+          </Button>
+        </CardSection>
+
+        {/*Lamb*/}
+        <Text style={styles.textStyle}> Lamb</Text>
+        <CardSection>
+          <Button onPress={this.onButtonPress.bind(this, 'W43-Grilled Lamb with Pepper')}>
+            Grilled Lamb with Pepper
+          </Button>
+        </CardSection>
+
+        <CardSection>
+          <Button onPress={this.onButtonPress.bind(this, 'W44-Grilled Lamb with Mushroom')}>
+            Grilled Lamb with Mushrooms
+          </Button>
+        </CardSection>
+
+        <CardSection>
+          <Button onPress={this.onButtonPress.bind(this, 'W45-BarBeQue Lamb with Cheese Sauce')}>
+            BarBeQue Lamb with Cheese Sauce
+          </Button>
+        </CardSection>
+      </ScrollView>
     );
   }
 }
 
 export default WesternKitchen;
+
+const styles = {
+  textStyle: {
+    fontWeight: '300',
+    fontSize: 30,
+  },
+};

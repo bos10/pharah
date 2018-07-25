@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import firebase from 'firebase';
-import { Card, CardSection, Button } from '../components/common';
+import { ScrollView, Text } from 'react-native';
+import { CardSection, Button } from '../components/common';
 
 class Desert extends Component {
   onButtonPress(food) {
@@ -37,10 +38,11 @@ class Desert extends Component {
       .on('value', snapshot3 => {
         oldRoomTotalPrice = snapshot3.val();
         switch (food) {
-          case 'prata': foodCost = 1; break;
-          case 'drink': foodCost = 0.5; break;
-          case 'maggie': foodCost = 2; break;
-          case 'test': foodCost = 3; break;
+          // Ice Cream
+          case 'D90-Dark Lava Cake with Strawberry and Milk Ice Cream': foodCost = 6.8; break;
+          case 'D91-Mix Berry Cheese Cake': foodCost = 7.5; break;
+          case 'D94-Banana Split': foodCost = 4.8; break;
+
           default: foodCost = 0;
         }
 
@@ -79,26 +81,41 @@ class Desert extends Component {
 
   render() {
     return (
-      <Card>
+      <ScrollView>
+
+        {/*Ice Cream*/}
+        <Text style={styles.textStyle}> Ice Cream</Text>
         <CardSection>
-          <Button onPress={this.onButtonPress.bind(this, 'prata')} >
-            prata
-          </Button>
-        </CardSection>
-        <CardSection>
-          <Button onPress={this.onButtonPress.bind(this, 'maggie')}>
-            maggie
-          </Button>
-        </CardSection>
-        <CardSection>
-          <Button onPress={this.onButtonPress.bind(this, 'drink')}>
-            drink
+          <Button
+            onPress={this.onButtonPress.bind(this,
+            'D90-Dark Lava Cake with Strawberry and Milk Ice Cream')}
+          >
+            Dark Lava Cake with Strawberry and Milk Ice Cream
           </Button>
         </CardSection>
 
-      </Card>
+        <CardSection>
+          <Button onPress={this.onButtonPress.bind(this, 'D91-Mix Berry Cheese Cake')}>
+            Mix Berry Cheese Cake
+          </Button>
+        </CardSection>
+
+        <CardSection>
+          <Button onPress={this.onButtonPress.bind(this, 'D94-Banana Split')}>
+             Banana Split
+          </Button>
+        </CardSection>
+
+      </ScrollView>
     );
   }
 }
 
 export default Desert;
+
+const styles = {
+  textStyle: {
+    fontWeight: '300',
+    fontSize: 30,
+  },
+};

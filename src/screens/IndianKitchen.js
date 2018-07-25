@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import firebase from 'firebase';
-import { Card, CardSection, Button } from '../components/common';
+import { ScrollView, Text } from 'react-native';
+import { CardSection, Button } from '../components/common';
 
 class IndianKitchen extends Component {
   onButtonPress(food) {
@@ -37,10 +38,15 @@ class IndianKitchen extends Component {
       .on('value', snapshot3 => {
         oldRoomTotalPrice = snapshot3.val();
         switch (food) {
-          case 'prata': foodCost = 1; break;
-          case 'drink': foodCost = 0.5; break;
-          case 'maggie': foodCost = 2; break;
-          case 'test': foodCost = 3; break;
+          // Chicken
+          case 'N63-Chicken Korma': foodCost = 7; break;
+          case 'N64-Chicken Spinach': foodCost = 8; break;
+          case 'N65-Chicken Masala': foodCost = 7; break;
+          // Mutton
+          case 'N79-Mutton Korma': foodCost = 8; break;
+          case 'N80-Mutton Masala': foodCost = 8; break;
+          case 'N81-Mutton Do Piaza': foodCost = 9.00; break;
+
           default: foodCost = 0;
         }
 
@@ -79,26 +85,56 @@ class IndianKitchen extends Component {
 
   render() {
     return (
-      <Card>
+      <ScrollView>
+        {/*Chicken*/}
+        <Text style={styles.textStyle}> Chicken</Text>
         <CardSection>
-          <Button onPress={this.onButtonPress.bind(this, 'prata')} >
-            prata
-          </Button>
-        </CardSection>
-        <CardSection>
-          <Button onPress={this.onButtonPress.bind(this, 'maggie')}>
-            maggie
-          </Button>
-        </CardSection>
-        <CardSection>
-          <Button onPress={this.onButtonPress.bind(this, 'drink')}>
-            drink
+          <Button onPress={this.onButtonPress.bind(this, 'N63-Chicken Korma')} >
+            Chicken Korma
           </Button>
         </CardSection>
 
-      </Card>
+        <CardSection>
+          <Button onPress={this.onButtonPress.bind(this, 'N64-Chicken Spinach')}>
+            Chicken Spinach
+          </Button>
+        </CardSection>
+
+        <CardSection>
+          <Button onPress={this.onButtonPress.bind(this, 'N65-Chicken Masalat')}>
+             Chicken Masala
+          </Button>
+        </CardSection>
+
+        {/*Mutton*/}
+        <Text style={styles.textStyle}> Mutton</Text>
+        <CardSection>
+          <Button onPress={this.onButtonPress.bind(this, 'N79-Mutton Korma')}>
+            Mutton Korma
+          </Button>
+        </CardSection>
+
+        <CardSection>
+          <Button onPress={this.onButtonPress.bind(this, 'N80-Mutton Masala')}>
+            Mutton Masala
+          </Button>
+        </CardSection>
+
+        <CardSection>
+          <Button onPress={this.onButtonPress.bind(this, 'N81-Mutton Do Piaza')}>
+            Mutton Do Piaza
+          </Button>
+        </CardSection>
+      </ScrollView>
     );
   }
 }
 
 export default IndianKitchen;
+
+const styles = {
+  textStyle: {
+    fontWeight: '300',
+    fontSize: 30,
+  },
+};

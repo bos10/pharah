@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import firebase from 'firebase';
-import { Card, CardSection, Button } from '../components/common';
+import { ScrollView, Text } from 'react-native';
+import { CardSection, Button } from '../components/common';
 
 class Drinks extends Component {
   onButtonPress(food) {
@@ -37,10 +38,15 @@ class Drinks extends Component {
       .on('value', snapshot3 => {
         oldRoomTotalPrice = snapshot3.val();
         switch (food) {
-          case 'prata': foodCost = 1; break;
-          case 'drink': foodCost = 0.5; break;
-          case 'maggie': foodCost = 2; break;
-          case 'test': foodCost = 3; break;
+          // Hot
+          case 'D58-Tea': foodCost = 1.5; break;
+          case 'D59-Coffee': foodCost = 1.5; break;
+          case 'D60-Nescafe': foodCost = 1.8; break;
+          // Cold
+          case 'D74-Ice Tea': foodCost = 2; break;
+          case 'D75-Ice Coffee': foodCost = 2; break;
+          case 'D76-Ice Nescafe': foodCost = 2.5; break;
+
           default: foodCost = 0;
         }
 
@@ -79,26 +85,56 @@ class Drinks extends Component {
 
   render() {
     return (
-      <Card>
+      <ScrollView>
+        {/*Hot*/}
+        <Text style={styles.textStyle}> Hot</Text>
         <CardSection>
-          <Button onPress={this.onButtonPress.bind(this, 'prata')} >
-            prata
-          </Button>
-        </CardSection>
-        <CardSection>
-          <Button onPress={this.onButtonPress.bind(this, 'maggie')}>
-            maggie
-          </Button>
-        </CardSection>
-        <CardSection>
-          <Button onPress={this.onButtonPress.bind(this, 'drink')}>
-            drink
+          <Button onPress={this.onButtonPress.bind(this, 'D58-Tea')} >
+            Tea
           </Button>
         </CardSection>
 
-      </Card>
+        <CardSection>
+          <Button onPress={this.onButtonPress.bind(this, 'D59-Coffee')}>
+            Coffee
+          </Button>
+        </CardSection>
+
+        <CardSection>
+          <Button onPress={this.onButtonPress.bind(this, 'D60-Nescafe')}>
+             Nescafe
+          </Button>
+        </CardSection>
+
+        {/*Cold*/}
+        <Text style={styles.textStyle}> Cold</Text>
+        <CardSection>
+          <Button onPress={this.onButtonPress.bind(this, 'D74-Ice Tea')}>
+            Ice Tea
+          </Button>
+        </CardSection>
+
+        <CardSection>
+          <Button onPress={this.onButtonPress.bind(this, 'D75-Ice Coffee')}>
+            Ice Coffee
+          </Button>
+        </CardSection>
+
+        <CardSection>
+          <Button onPress={this.onButtonPress.bind(this, 'D76-Ice Nescafe')}>
+            Ice Nescafe
+          </Button>
+        </CardSection>
+      </ScrollView>
     );
   }
 }
 
 export default Drinks;
+
+const styles = {
+  textStyle: {
+    fontWeight: '300',
+    fontSize: 30,
+  },
+};
