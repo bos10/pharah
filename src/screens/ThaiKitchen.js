@@ -98,25 +98,25 @@ class ThaiKitchen extends Component {
         <Text style={styles.textStyle}> Fried Rice</Text>
         <CardSection>
           <Button onPress={this.onButtonPress.bind(this, 'T51-ChineseStyle')} >
-            Chinese Style
+            T51-Chinese Style
           </Button>
         </CardSection>
 
         <CardSection>
           <Button onPress={this.onButtonPress.bind(this, 'T52-ThaiStyle')}>
-            Thai Style
+            T52-Thai Style
           </Button>
         </CardSection>
 
         <CardSection>
           <Button onPress={this.onButtonPress.bind(this, 'T53-Ikan Bilis(Anchovies)')}>
-             Ikan Bilis (Anchovies)
+             T53-Ikan Bilis (Anchovies)
           </Button>
         </CardSection>
 
         <CardSection>
           <Button onPress={this.onButtonPress.bind(this, 'T54-Tomato&Chicken')}>
-            Tomato & Chicken
+            T54-Tomato & Chicken
           </Button>
         </CardSection>
 
@@ -124,31 +124,31 @@ class ThaiKitchen extends Component {
         <Text style={styles.textStyle}> Noodles</Text>
         <CardSection>
           <Button onPress={this.onButtonPress.bind(this, 'T35-Tomyam (Soup)')} >
-            Tomyam (Soup)
+            T31-Tomyam (Soup)
           </Button>
         </CardSection>
 
         <CardSection>
           <Button onPress={this.onButtonPress.bind(this, 'T36-Pataya (Egg Wrap)')}>
-            Pataya (Egg Wrap)
+            T36-Pataya (Egg Wrap)
           </Button>
         </CardSection>
 
         <CardSection>
           <Button onPress={this.onButtonPress.bind(this, 'T37-Soup with Vegetables')}>
-            Soup with Vegetables
+            T37-Soup with Vegetables
           </Button>
         </CardSection>
 
         <CardSection>
           <Button onPress={this.onButtonPress.bind(this, 'T38-Bandung (Red Sauce)')}>
-            Bandung (Red Sauce)
+            T38-Bandung (Red Sauce)
           </Button>
         </CardSection>
 
         <CardSection>
           <Button onPress={this.onButtonPress.bind(this, 'T41-Thai Style Fried')}>
-            Thai Style Fried
+            T41-Thai Style Fried
           </Button>
         </CardSection>
 
@@ -156,25 +156,25 @@ class ThaiKitchen extends Component {
         <Text style={styles.textStyle}> Steam Rice</Text>
         <CardSection>
           <Button onPress={this.onButtonPress.bind(this, 'T45-Hot & Spicy')}>
-            Hot & Spicy
+            T45-Hot & Spicy
           </Button>
         </CardSection>
 
         <CardSection>
           <Button onPress={this.onButtonPress.bind(this, 'T46-Black Soya Sauce')}>
-            Black Soya Sauce
+            T46-Black Soya Sauce
           </Button>
         </CardSection>
 
         <CardSection>
           <Button onPress={this.onButtonPress.bind(this, 'T47-Sweet & Sour')}>
-            Sweet & Sour
+            T47-Sweet & Sour
           </Button>
         </CardSection>
 
         <CardSection>
           <Button onPress={this.onButtonPress.bind(this, 'T48-Black Pepper')}>
-            Black Pepper
+            T48-Black Pepper
           </Button>
         </CardSection>
 

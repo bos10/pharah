@@ -90,19 +90,19 @@ class Drinks extends Component {
         <Text style={styles.textStyle}> Hot</Text>
         <CardSection>
           <Button onPress={this.onButtonPress.bind(this, 'D58-Tea')} >
-            Tea
+            D58-Tea
           </Button>
         </CardSection>
 
         <CardSection>
           <Button onPress={this.onButtonPress.bind(this, 'D59-Coffee')}>
-            Coffee
+            D59-Coffee
           </Button>
         </CardSection>
 
         <CardSection>
           <Button onPress={this.onButtonPress.bind(this, 'D60-Nescafe')}>
-             Nescafe
+             D60-Nescafe
           </Button>
         </CardSection>
 
@@ -110,19 +110,19 @@ class Drinks extends Component {
         <Text style={styles.textStyle}> Cold</Text>
         <CardSection>
           <Button onPress={this.onButtonPress.bind(this, 'D74-Ice Tea')}>
-            Ice Tea
+            D74-Ice Tea
           </Button>
         </CardSection>
 
         <CardSection>
           <Button onPress={this.onButtonPress.bind(this, 'D75-Ice Coffee')}>
-            Ice Coffee
+            D75-Ice Coffee
           </Button>
         </CardSection>
 
         <CardSection>
           <Button onPress={this.onButtonPress.bind(this, 'D76-Ice Nescafe')}>
-            Ice Nescafe
+            D76-Ice Nescafe
           </Button>
         </CardSection>
       </ScrollView>

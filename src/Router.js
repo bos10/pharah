@@ -49,7 +49,7 @@ export const LobbyStack = createStackNavigator({
   Menu: {
     screen: Menu,
     navigationOptions: {
-      title: 'Menu',
+      title: 'Kitchen',
     }
   },
   ThaiKitchen: {

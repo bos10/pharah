@@ -91,19 +91,19 @@ class WesternKitchen extends Component {
         <Text style={styles.textStyle}> Chicken</Text>
         <CardSection>
           <Button onPress={this.onButtonPress.bind(this, 'W40-Grilled Chicken with Pepper')} >
-            Grilled Chicken with Pepper
+            W40-Grilled Chicken with Pepper
           </Button>
         </CardSection>
 
         <CardSection>
           <Button onPress={this.onButtonPress.bind(this, 'W41-Grilled Chicken with Mushroom')}>
-            Grilled Chicken with Mushroom
+            W41-Grilled Chicken with Mushroom
           </Button>
         </CardSection>
 
         <CardSection>
           <Button onPress={this.onButtonPress.bind(this, 'W42-Breaded Cutlet')}>
-             Breaded Cutlet
+             W42-Breaded Cutlet
           </Button>
         </CardSection>
 
@@ -111,19 +111,19 @@ class WesternKitchen extends Component {
         <Text style={styles.textStyle}> Lamb</Text>
         <CardSection>
           <Button onPress={this.onButtonPress.bind(this, 'W43-Grilled Lamb with Pepper')}>
-            Grilled Lamb with Pepper
+            W43-Grilled Lamb with Pepper
           </Button>
         </CardSection>
 
         <CardSection>
           <Button onPress={this.onButtonPress.bind(this, 'W44-Grilled Lamb with Mushroom')}>
-            Grilled Lamb with Mushrooms
+            W44-Grilled Lamb with Mushrooms
           </Button>
         </CardSection>
 
         <CardSection>
           <Button onPress={this.onButtonPress.bind(this, 'W45-BarBeQue Lamb with Cheese Sauce')}>
-            BarBeQue Lamb with Cheese Sauce
+            W45-BarBeQue Lamb with Cheese Sauce
           </Button>
         </CardSection>
       </ScrollView>
