@@ -36,7 +36,7 @@ class FoodListItem extends Component {
     if (this.props.item.uid === uid) {
       return (
         <RoomButton
-          buttonStyle={{ backgroundColor: '#f4f4f4' }}
+          buttonStyle={{ position: 'absolute', right: 25, top: 10, backgroundColor: '#f4f4f4' }}
           onPress={() => this.delete()}
         >
           <AwesomeIcon name='remove' size={20} color='#c0392b' />
@@ -126,7 +126,7 @@ class FoodListItem extends Component {
         // WESTERN KITCHEN
         // Chicken
         case 'W40-Grilled Chicken with Pepper': cost = 11.80; totalCost += value * 11.80; break;
-        case 'W41-Grilled Chicken with Mushroom': totalCost += value * 13.80; break;
+        case 'W41-Grilled Chicken with Mushroom': cost = 13.80; totalCost += value * 13.80; break;
         case 'W42-Breaded Cutlet': cost = 10.80; totalCost += value * 10.80; break;
 
         // Lamb
@@ -175,7 +175,7 @@ class FoodListItem extends Component {
     if (this.props.creatorName === this.state.ordererName) {
       return (
         <CardSection style={styles.cardSectionStyle}>
-          <View style={{ marginRight: 100 }}>
+          <View>
             {list}
             <Text style={styles.nameStyle}>by {name}(Creator), pay ${totalCost}</Text>
           </View>

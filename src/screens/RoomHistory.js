@@ -59,7 +59,7 @@ class RoomHistory extends Component {
   }
 
   renderNotify() {
-    if (this.state.roomStatus !== 'closed') {
+    if (this.state.roomStatus === 'closed') {
       return (
         <CardSection>
           <TextInput
@@ -114,8 +114,6 @@ class RoomHistory extends Component {
           <Text style={styles.roomNameStyle}>
             {roomName}
           </Text>
-
-
         </CardSection>
         <CardSection>
           <Text style={styles.smallStyle}>
@@ -141,7 +139,7 @@ class RoomHistory extends Component {
             ${this.state.roomTotalPrice || 0}
           </Text>
         </CardSection>
-
+        {this.renderNotify()}
         <View>
           <FlatList
             ListEmptyComponent={

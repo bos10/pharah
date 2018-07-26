@@ -40,20 +40,6 @@ class CreateRoom extends Component {
   }
 
   createRoom() {
-    // Schedule a notif
-    const cutDate = this.state.ISOClosingTime.slice(4, 33);
-    FCM.scheduleLocalNotification({
-      id: 'testnotif',
-      fire_date: new Date(cutDate),
-      vibrate: 300,
-      sound: 'default',
-      title: 'Closing time reached',
-      body: 'Order food now!',
-      priority: 'high',
-      show_in_foreground: true,
-      wake_screen: true,
-    });
-
     // Dabase stuff
     const uid = firebase.auth().currentUser.uid;
     firebase.database().ref(`users/${uid}/displayName/`)
@@ -76,6 +62,19 @@ class CreateRoom extends Component {
                   roomStatus,
                   roomTotalPrice });
         const roomId = ref.getKey();
+        // Schedule a notif
+        const cutDate = this.state.ISOClosingTime.slice(4, 33);
+        FCM.scheduleLocalNotification({
+          id: roomId,
+          fire_date: new Date(cutDate),
+          vibrate: 300,
+          sound: 'default',
+          title: 'Closing time reached',
+          body: 'Order food now!',
+          priority: 'high',
+          show_in_foreground: true,
+          wake_screen: true,
+        });
         // Updating of times array to arrange timing
         // Each slot has timing & roomId
         firebase.database().ref('/lobby/times')

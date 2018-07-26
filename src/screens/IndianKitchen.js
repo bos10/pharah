@@ -45,7 +45,7 @@ class IndianKitchen extends Component {
           // Mutton
           case 'N79-Mutton Korma': foodCost = 8; break;
           case 'N80-Mutton Masala': foodCost = 8; break;
-          case 'N81-Mutton Do Piaza': foodCost = 9.00; break;
+          case 'N81-Mutton Do Piaza': foodCost = 9; break;
 
           default: foodCost = 0;
         }
@@ -65,20 +65,31 @@ class IndianKitchen extends Component {
     firebase.database().ref(`lobby/${roomId}/userIDs`)
       .update({ [uid]: 1 });
 
-    // Push the whole room and data to all the user's LobbyHistorys
-    firebase.database().ref(`lobby/${roomId}/userIDs`)
+    // Get then update room's people's tokens
+    firebase.database().ref(`users/${uid}/token`)
       .once('value')
-      .then(snapshot4 => {
-        const object = snapshot4.val();
-        if (object === null) { return; }
-        const userIDs = Object.keys(object);
-        firebase.database().ref(`lobby/${roomId}/`)
-          .once('value')
-          .then(snapshot5 => {
-            userIDs.forEach(eachuid => {
-              firebase.database().ref(`users/${eachuid}/lobbyHistory/${roomId}`)
-                .set(snapshot5.val());
-            });
+      .then(snapshotToken => {
+        const token = snapshotToken.val();
+        if (token === null) { return; }
+        firebase.database().ref(`lobby/${roomId}/tokenIDs`)
+          .update({ [token]: 1 })
+          .then(result => {
+            // Push the whole room and data to all the user's LobbyHistorys
+            firebase.database().ref(`lobby/${roomId}/userIDs`)
+              .once('value')
+              .then(snapshot4 => {
+                const object = snapshot4.val();
+                if (object === null) { return; }
+                const userIDs = Object.keys(object);
+                firebase.database().ref(`lobby/${roomId}/`)
+                  .once('value')
+                  .then(snapshot5 => {
+                    userIDs.forEach(eachuid => {
+                      firebase.database().ref(`users/${eachuid}/lobbyHistory/${roomId}`)
+                        .set(snapshot5.val());
+                    });
+                  });
+              });
           });
       });
   }
@@ -101,7 +112,7 @@ class IndianKitchen extends Component {
         </CardSection>
 
         <CardSection>
-          <Button onPress={this.onButtonPress.bind(this, 'N65-Chicken Masalat')}>
+          <Button onPress={this.onButtonPress.bind(this, 'N65-Chicken Masala')}>
              N65-Chicken Masala
           </Button>
         </CardSection>
