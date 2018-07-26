@@ -66,20 +66,31 @@ class WesternKitchen extends Component {
     firebase.database().ref(`lobby/${roomId}/userIDs`)
       .update({ [uid]: 1 });
 
-    // Push the whole room and data to all the user's LobbyHistorys
-    firebase.database().ref(`lobby/${roomId}/userIDs`)
+    // Get then update room's people's tokens
+    firebase.database().ref(`users/${uid}/token`)
       .once('value')
-      .then(snapshot4 => {
-        const object = snapshot4.val();
-        if (object === null) { return; }
-        const userIDs = Object.keys(object);
-        firebase.database().ref(`lobby/${roomId}/`)
-          .once('value')
-          .then(snapshot5 => {
-            userIDs.forEach(eachuid => {
-              firebase.database().ref(`users/${eachuid}/lobbyHistory/${roomId}`)
-                .set(snapshot5.val());
-            });
+      .then(snapshotToken => {
+        const token = snapshotToken.val();
+        if (token === null) { return; }
+        firebase.database().ref(`lobby/${roomId}/tokenIDs`)
+          .update({ [token]: 1 })
+          .then(result => {
+            // Push the whole room and data to all the user's LobbyHistorys
+            firebase.database().ref(`lobby/${roomId}/userIDs`)
+              .once('value')
+              .then(snapshot4 => {
+                const object = snapshot4.val();
+                if (object === null) { return; }
+                const userIDs = Object.keys(object);
+                firebase.database().ref(`lobby/${roomId}/`)
+                  .once('value')
+                  .then(snapshot5 => {
+                    userIDs.forEach(eachuid => {
+                      firebase.database().ref(`users/${eachuid}/lobbyHistory/${roomId}`)
+                        .set(snapshot5.val());
+                    });
+                  });
+              });
           });
       });
   }

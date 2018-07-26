@@ -25,7 +25,8 @@ class LobbyHistory extends Component {
         const lobbyHistoryTaken = snapshot.val();
         // Make sure not null, Remove times attribute before mapping
         if (lobbyHistoryTaken === null) {
-          return [];
+          this.setState({ lobbyHistory: [] });
+          return;
         }
         // Map to get array of rooms, add on the uid
         // Each time fetch lobby, check each room if status need change

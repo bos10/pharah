@@ -29,7 +29,8 @@ class Lobby extends Component {
         const lobbyTaken = snapshot.val();
         // Make sure not null, Remove times attribute before mapping
         if (lobbyTaken === null) {
-          return [];
+          this.setState({ data: [] });
+          return;
         }
         delete lobbyTaken.times;
         // Map to get array of rooms, add on the uid
