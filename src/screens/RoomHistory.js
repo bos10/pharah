@@ -104,10 +104,11 @@ class RoomHistory extends Component {
 
   render() {
     const { navigation } = this.props;
+    const numberOfIDs = navigation.getParam('numberOfIDs');
     const roomName = navigation.getParam('roomName');
     const creatorName = navigation.getParam('creatorName');
     const displayClosingTime = navigation.getParam('displayClosingTime');
-
+    var totalCostWithDelivery = (Number(this.state.roomTotalPrice) + Number(4)).toFixed(2);
     return (
       <View style={{ flex: 1 }}>
         <CardSection style={{ justifyContent: 'center', paddingVertical: 10 }}>
@@ -135,8 +136,9 @@ class RoomHistory extends Component {
           <Text style={styles.smallStyle}>
             total cost
           </Text>
-          <Text style={styles.bigOrangeStyle}>
-            ${this.state.roomTotalPrice || 0}
+          <Text style={{ paddingLeft: 20 }}>
+            <Text style={styles.totalCostFrontStyle}>{this.state.roomTotalPrice || 0}+4 = </Text>
+            <Text style={styles.bigOrangeStyle}>${totalCostWithDelivery}</Text>
           </Text>
         </CardSection>
         {this.renderNotify()}
@@ -153,6 +155,7 @@ class RoomHistory extends Component {
                 item={item}
                 navigation={this.props.navigation}
                 creatorName={creatorName}
+                numberOfIDs={numberOfIDs}
                 roomStatus={this.state.roomStatus}
               />
             )}
@@ -195,12 +198,11 @@ const styles = {
     color: '#f39c12',
     fontWeight: '700',
     fontFamily: 'NunitoSans-Bold',
-    alignSelf: 'flex-end',
   },
-  totalStyle: {
-    fontSize: 30,
+  totalCostFrontStyle: {
+    fontSize: 28,
+    fontWeight: '700',
     fontFamily: 'NunitoSans-Bold',
-    color: '#f39c12',
   },
   totalCardStyle: {
     justifyContent: 'center',
