@@ -11,6 +11,7 @@ class FoodListItem extends Component {
     this.totalCost = 0;
     this.state = {
       ordererName: '',
+      numberOfIDs: 0,
     };
   }
 
@@ -21,6 +22,12 @@ class FoodListItem extends Component {
       .once('value')
       .then(snapshot => {
         this.setState({ ordererName: snapshot.val() });
+      });
+    const roomId = this.props.item.roomId;
+    firebase.database().ref(`lobby/${roomId}/numberOfIDs`)
+      .on('value', snapshot => {
+        const num = snapshot.val();
+        this.setState({ numberOfIDs: num });
       });
   }
 
@@ -63,6 +70,22 @@ class FoodListItem extends Component {
     // Delete from uids
     firebase.database().ref(`lobby/${roomId}/userIDs/${uid}`)
      .remove();
+
+    // Get ids and update length
+    firebase.database().ref(`lobby/${roomId}/userIDs`)
+      .once('value')
+      .then(snap => {
+        if (snap.val() !== null) {
+          const obj = snap.val();
+          const arr = Object.keys(obj);
+          const num = arr.length;
+          firebase.database().ref(`lobby/${roomId}`)
+            .update({ numberOfIDs: num });
+        } else {
+          firebase.database().ref(`lobby/${roomId}/numberOfIDs`)
+            .remove();
+        }
+      });
 
     // Update the total price
     firebase.database().ref(`lobby/${roomId}/roomTotalPrice`)
@@ -171,13 +194,21 @@ class FoodListItem extends Component {
           </Text>
       );
     });
+
+    // Show total cost for person
     this.totalCost = totalCost;
+    // Split delivery cost to show
+    const deliveryCost = (4 / this.state.numberOfIDs).toFixed(2);
+
     if (this.props.creatorName === this.state.ordererName) {
       return (
         <CardSection style={styles.cardSectionStyle}>
           <View>
             {list}
-            <Text style={styles.nameStyle}>by {name}(Creator), pay ${totalCost}</Text>
+            <Text style={styles.deliveryStyle}>+${deliveryCost}(delivery)</Text>
+            <Text style={styles.nameStyle}>
+              by {name}(Creator), pay ${(Number(totalCost) + Number(deliveryCost)).toFixed(2)}
+            </Text>
           </View>
           {this.renderDelete()}
         </CardSection>
@@ -187,7 +218,10 @@ class FoodListItem extends Component {
         <CardSection style={styles.cardSectionStyle}>
           <View style={{ marginRight: 100 }}>
             {list}
-            <Text style={styles.nameStyle}>by {name}, pay ${totalCost}</Text>
+            <Text style={styles.deliveryStyle}>+${deliveryCost}(delivery)</Text>
+            <Text style={styles.nameStyle}>
+              by {name}, pay ${(Number(totalCost) + Number(deliveryCost)).toFixed(2)}
+            </Text>
           </View>
           {this.renderDelete()}
         </CardSection>
@@ -205,6 +239,8 @@ class FoodListItem extends Component {
 }
 
 const styles = {
+  deliveryStyle: {
+  },
   nameStyle: {
     fontSize: 18,
     color: '#f39c12',

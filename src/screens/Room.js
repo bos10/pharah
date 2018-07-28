@@ -21,7 +21,8 @@ const args = {
 class Room extends Component {
   state = {
     orders: [],
-    roomTotalPrice: 0
+    roomTotalPrice: 0,
+    numberOfIDs: 0
   }
 
   componentDidMount() {
@@ -41,6 +42,17 @@ class Room extends Component {
     firebase.database().ref(`lobby/${roomId}/roomTotalPrice`)
       .on('value', snapshot => {
         this.setState({ roomTotalPrice: snapshot.val() });
+      });
+
+    // Reference to Room total num IDs setState
+    firebase.database().ref(`lobby/${roomId}/numberOfIDs`)
+      .on('value', snapshot => {
+        const num = snapshot.val();
+        if (num === null) {
+          this.setState({ numberOfIDs: 0 });
+        } else {
+          this.setState({ numberOfIDs: num });
+        }
       });
   }
 
@@ -67,6 +79,7 @@ class Room extends Component {
 
   settleMoney() {
     const { navigation } = this.props;
+    const deliveryCost = (4 / this.state.numberOfIDs).toFixed(2);
     const roomId = navigation.getParam('roomId');
     const creatorId = navigation.getParam('creatorId');
     firebase.database().ref(`lobby/${roomId}/items`)
@@ -78,13 +91,13 @@ class Room extends Component {
           if (id === creatorId) { continue; }
           const uid = id;
           const itemsOrdered = orderItems[id].order;
-          this.settleFirebaseMoneyPerPerson(creatorId, uid, itemsOrdered);
+          this.settleFirebaseMoneyPerPerson(creatorId, uid, itemsOrdered, deliveryCost);
         }
       });
   }
 
-  settleFirebaseMoneyPerPerson(creatorId, uid, itemsOrdered) {
-    let totalCost = 0;
+  settleFirebaseMoneyPerPerson(creatorId, uid, itemsOrdered, deliveryCost) {
+    var totalCost = 0;
     Object.entries(itemsOrdered).map(([key, value]) => {
       switch (key) {
         // THAI KITCHEN
@@ -158,7 +171,7 @@ class Room extends Component {
         if (snapshot.val() !== null) {
           oldVal = snapshot.val();
         }
-        const newVal = oldVal + totalCost;
+        const newVal = (oldVal + (Number(totalCost) + Number(deliveryCost))).toFixed(2);
         firebase.database().ref(`users/${creatorId}/moneyStatus`)
           .update({ [uid]: newVal });
       });
@@ -170,7 +183,7 @@ class Room extends Component {
         if (snapshot.val() !== null) {
           oldVal = snapshot.val();
         }
-        const newVal = oldVal - totalCost;
+        const newVal = (oldVal - (Number(totalCost) + Number(deliveryCost))).toFixed(2);
         firebase.database().ref(`users/${uid}/moneyStatus`)
           .update({ [creatorId]: newVal });
       });
@@ -242,7 +255,7 @@ class Room extends Component {
     const creatorName = navigation.getParam('creatorName');
     const roomId = navigation.getParam('roomId');
     const displayClosingTime = navigation.getParam('displayClosingTime');
-
+    var totalCostWithDelivery = (Number(this.state.roomTotalPrice) + Number(4)).toFixed(2);
     return (
       <ScrollView style={{ flex: 1 }}>
       <CardSection style={styles.buttonCardStyle}>
@@ -309,8 +322,9 @@ class Room extends Component {
           <Text style={styles.smallStyle}>
             total cost
           </Text>
-          <Text style={styles.bigOrangeStyle}>
-            ${this.state.roomTotalPrice || 0}
+          <Text style={{ paddingLeft: 20 }}>
+            <Text style={styles.totalCostFrontStyle}>{this.state.roomTotalPrice || 0}+4 = </Text>
+            <Text style={styles.bigOrangeStyle}>${totalCostWithDelivery}</Text>
           </Text>
         </CardSection>
 
@@ -366,12 +380,11 @@ const styles = {
     color: '#f39c12',
     fontWeight: '700',
     fontFamily: 'NunitoSans-Bold',
-    alignSelf: 'flex-end',
   },
-  totalStyle: {
-    fontSize: 30,
+  totalCostFrontStyle: {
+    fontSize: 28,
+    fontWeight: '700',
     fontFamily: 'NunitoSans-Bold',
-    color: '#f39c12',
   },
   totalCardStyle: {
     justifyContent: 'center',

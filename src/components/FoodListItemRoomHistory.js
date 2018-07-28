@@ -105,6 +105,8 @@ class FoodListItemRoomHistory extends Component {
         default: cost = 0;
       }
     });
+    const deliveryCost = (4 / this.props.numberOfIDs).toFixed(2);
+    totalCost = (Number(totalCost) + Number(deliveryCost)).toFixed(2);
     this.setState({ totalCost });
   }
 
@@ -155,7 +157,7 @@ class FoodListItemRoomHistory extends Component {
         if (snapshot1.val() !== null) {
           money = snapshot1.val();
         }
-        const newMoney = money - totalCost;
+        const newMoney = Number(money) - Number(totalCost);
         if (newMoney === 0) {
           firebase.database().ref(`users/${creatorId}/moneyStatus/${thisGuyId}`)
            .remove();
@@ -173,7 +175,7 @@ class FoodListItemRoomHistory extends Component {
         if (snapshot1.val() !== null) {
           money = snapshot1.val();
         }
-        const newMoney = money + totalCost;
+        const newMoney = Number(money) + Number(totalCost);
         if (newMoney === 0) {
           firebase.database().ref(`users/${thisGuyId}/moneyStatus/${creatorId}`)
            .remove();
@@ -295,11 +297,17 @@ class FoodListItemRoomHistory extends Component {
       );
     });
 
+    // Split delivery cost to show
+    const deliveryCost = (4 / this.props.numberOfIDs).toFixed(2);
+
     return (
       <CardSection style={styles.cardSectionStyle}>
         <View style={{ marginRight: 50 }}>
           {list}
-          <Text style={styles.nameStyle}>by {name}, pay ${totalCost}</Text>
+          <Text style={styles.deliveryStyle}>+${deliveryCost}(delivery)</Text>
+          <Text style={styles.nameStyle}>
+            by {name}, pay ${(Number(totalCost) + Number(deliveryCost)).toFixed(2)}
+          </Text>
         </View>
         {this.renderButton()}
 

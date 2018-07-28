@@ -65,6 +65,19 @@ class IndianKitchen extends Component {
     firebase.database().ref(`lobby/${roomId}/userIDs`)
       .update({ [uid]: 1 });
 
+    // Get ids and update length
+    firebase.database().ref(`lobby/${roomId}/userIDs`)
+      .once('value')
+      .then(snap => {
+        if (snap.val() !== null) {
+          const obj = snap.val();
+          const arr = Object.keys(obj);
+          const num = arr.length;
+          firebase.database().ref(`lobby/${roomId}`)
+            .update({ numberOfIDs: num });
+        }
+      });
+      
     // Get then update room's people's tokens
     firebase.database().ref(`users/${uid}/token`)
       .once('value')
