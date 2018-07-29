@@ -10,7 +10,7 @@ import FoodListItem from '../components/FoodListItem';
 
 const args = {
   // dominos for now
-  number: '62226333',
+  number: '67740637',
   prompt: false // Optional boolean property.
 };
 
