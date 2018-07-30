@@ -1,15 +1,16 @@
 import React, { Component } from 'react';
 import firebase from 'firebase';
 import _ from 'lodash';
-import { View, Text, FlatList } from 'react-native';
+import { View, ScrollView, Text, FlatList } from 'react-native';
 import AwesomeIcon from 'react-native-vector-icons/FontAwesome';
 import call from 'react-native-phone-call';
+import FCM from 'react-native-fcm';
 import { CardSection, RoomButton } from '../components/common';
 import FoodListItem from '../components/FoodListItem';
 
 const args = {
   // dominos for now
-  number: '62226333',
+  number: '67740637',
   prompt: false // Optional boolean property.
 };
 
@@ -20,7 +21,8 @@ const args = {
 class Room extends Component {
   state = {
     orders: [],
-    roomTotalPrice: 0
+    roomTotalPrice: 0,
+    numberOfIDs: 0
   }
 
   componentDidMount() {
@@ -31,7 +33,7 @@ class Room extends Component {
     firebase.database().ref(`lobby/${roomId}/items/`)
       .on('value', snapshot => {
         const orders = _.map(snapshot.val(), (val, uid) => {
-          return { ...val, uid };
+          return { ...val, uid, roomId };
         });
         this.setState({ orders });
       });
@@ -41,11 +43,24 @@ class Room extends Component {
       .on('value', snapshot => {
         this.setState({ roomTotalPrice: snapshot.val() });
       });
+
+    // Reference to Room total num IDs setState
+    firebase.database().ref(`lobby/${roomId}/numberOfIDs`)
+      .on('value', snapshot => {
+        const num = snapshot.val();
+        if (num === null) {
+          this.setState({ numberOfIDs: 0 });
+        } else {
+          this.setState({ numberOfIDs: num });
+        }
+      });
   }
 
   placeOrder() {
     const { navigation } = this.props;
     const roomId = navigation.getParam('roomId');
+    // Remove the closing time notification since not needed
+    FCM.cancelLocalNotification(roomId);
     // Update lobby as closed in respective lobby histories
     firebase.database().ref(`lobby/${roomId}/userIDs`)
       .once('value')
@@ -64,6 +79,7 @@ class Room extends Component {
 
   settleMoney() {
     const { navigation } = this.props;
+    const deliveryCost = (4 / this.state.numberOfIDs).toFixed(2);
     const roomId = navigation.getParam('roomId');
     const creatorId = navigation.getParam('creatorId');
     firebase.database().ref(`lobby/${roomId}/items`)
@@ -75,28 +91,102 @@ class Room extends Component {
           if (id === creatorId) { continue; }
           const uid = id;
           const itemsOrdered = orderItems[id].order;
-          this.settleFirebaseMoneyPerPerson(creatorId, uid, itemsOrdered);
+          this.settleFirebaseMoneyPerPerson(creatorId, uid, itemsOrdered, deliveryCost);
         }
       });
   }
 
-  settleFirebaseMoneyPerPerson(creatorId, uid, itemsOrdered) {
-    let totalCost = 0;
+  settleFirebaseMoneyPerPerson(creatorId, uid, itemsOrdered, deliveryCost) {
+    var totalCost = 0;
     Object.entries(itemsOrdered).map(([key, value]) => {
       switch (key) {
-        case 'prata': totalCost += value * 1; break;
-        case 'drink': totalCost += value * 0.5; break;
-        case 'maggie': totalCost += value * 2; break;
+        // THAI KITCHEN
+        // Fried Rice
+        case 'T51-ChineseStyle': totalCost += value * 5.50; break;
+        case 'T52-ThaiStyle': totalCost += value * 5.50; break;
+        case 'T53-Ikan Bilis(Anchovies)': totalCost += value * 4.50; break;
+        case 'T54-Tomato&Chicken': totalCost += value * 5.50; break;
+
+        // Noodles
+        case 'T35-Tomyam (Soup)': totalCost += value * 6.50; break;
+        case 'T36-Pataya (Egg Wrap)': totalCost += value * 6.50; break;
+        case 'T37-Soup with Vegetables': totalCost += value * 5.50; break;
+        case 'T38-Bandung (Red Sauce)': totalCost += value * 5.50; break;
+        case 'T41-Thai Style Fried': totalCost += value * 5.50; break;
+
+        // Steam Rice
+        case 'T45-Hot & Spicy': totalCost += value * 6.00; break;
+        case 'T46-Black Soya Sauce': totalCost += value * 6.00; break;
+        case 'T47-Sweet & Sour': totalCost += value * 6.00; break;
+        case 'T48-Black Pepper': totalCost += value * 6.00; break;
+
+        // WESTERN KITCHEN
+        // Chicken
+        case 'W40-Grilled Chicken with Pepper': totalCost += value * 11.8; break;
+        case 'W41-Grilled Chicken with Mushroom': totalCost += value * 13.80; break;
+        case 'W42-Breaded Cutlet': totalCost += value * 10.80; break;
+
+        // Lamb
+        case 'W43-Grilled Lamb with Pepper': totalCost += value * 20.50; break;
+        case 'W44-Grilled Lamb with Mushroom': totalCost += value * 21.50; break;
+        case 'W45-BarBeQue Lamb with Cheese Sauce': totalCost += value * 21.80; break;
+
+        // INDIAN KITCHEN
+        // Chicken
+        case 'N63-Chicken Korma': totalCost += value * 7; break;
+        case 'N64-Chicken Spinach': totalCost += value * 8; break;
+        case 'N65-Chicken Masala': totalCost += value * 7; break;
+        // Mutton
+        case 'N79-Mutton Korma': totalCost += value * 8; break;
+        case 'N80-Mutton Masala': totalCost += value * 8; break;
+        case 'N81-Mutton Do Piaza': totalCost += value * 9.00; break;
+
+        // DRINKS
+        // Hot
+        case 'D58-Tea': totalCost += value * 1.5; break;
+        case 'D59-Coffee': totalCost += value * 1.5; break;
+        case 'D60-Nescafe': totalCost += value * 1.8; break;
+        // Cold
+        case 'D74-Ice Tea': totalCost += value * 2; break;
+        case 'D75-Ice Coffee': totalCost += value * 2; break;
+        case 'D76-Ice Nescafe': totalCost += value * 2.5; break;
+
+        // DESERT
+        // Ice Cream
+        case 'D90-Dark Lava Cake with Strawberry and Milk Ice Cream':
+              totalCost += value * 6.8; break;
+        case 'D91-Mix Berry Cheese Cake': totalCost += value * 7.5; break;
+        case 'D94-Banana Split': totalCost += value * 4.8; break;
+
         default: break;
       }
     });
     // + means others owe u
     // - means u owe others
     // Each id, + the creator, - the // id guy
-    firebase.database().ref(`users/${creatorId}/moneyStatus`)
-      .update({ [uid]: totalCost });
-    firebase.database().ref(`users/${uid}/moneyStatus`)
-      .update({ [creatorId]: -totalCost });
+    firebase.database().ref(`users/${creatorId}/moneyStatus/${uid}`)
+      .once('value')
+      .then(snapshot => {
+        var oldVal = 0;
+        if (snapshot.val() !== null) {
+          oldVal = snapshot.val();
+        }
+        const newVal = (oldVal + (Number(totalCost) + Number(deliveryCost))).toFixed(2);
+        firebase.database().ref(`users/${creatorId}/moneyStatus`)
+          .update({ [uid]: newVal });
+      });
+
+    firebase.database().ref(`users/${uid}/moneyStatus/${creatorId}`)
+      .once('value')
+      .then(snapshot => {
+        var oldVal = 0;
+        if (snapshot.val() !== null) {
+          oldVal = snapshot.val();
+        }
+        const newVal = (oldVal - (Number(totalCost) + Number(deliveryCost))).toFixed(2);
+        firebase.database().ref(`users/${uid}/moneyStatus`)
+          .update({ [creatorId]: newVal });
+      });
   }
 
   deleteRoomFromLobby() {
@@ -142,6 +232,8 @@ class Room extends Component {
   deleteRoom() {
     const { navigation } = this.props;
     const roomId = navigation.getParam('roomId');
+    // Remove the closing time notification since not needed
+    FCM.cancelLocalNotification(roomId);
     // Delete lobby in respective lobby histories
     firebase.database().ref(`lobby/${roomId}/userIDs`)
       .once('value')
@@ -163,9 +255,9 @@ class Room extends Component {
     const creatorName = navigation.getParam('creatorName');
     const roomId = navigation.getParam('roomId');
     const displayClosingTime = navigation.getParam('displayClosingTime');
-
+    var totalCostWithDelivery = (Number(this.state.roomTotalPrice) + Number(4)).toFixed(2);
     return (
-      <View style={{ flex: 1 }}>
+      <ScrollView style={{ flex: 1 }}>
       <CardSection style={styles.buttonCardStyle}>
         <RoomButton
           buttonStyle={{ backgroundColor: '#f39c12' }}
@@ -223,15 +315,16 @@ class Room extends Component {
             closing at
           </Text>
           <Text style={styles.bigStyle}>
-            {displayClosingTime}
+            {displayClosingTime}H
           </Text>
         </CardSection>
         <CardSection style={{ paddingBottom: 10, borderBottomWidth: 1 }}>
           <Text style={styles.smallStyle}>
             total cost
           </Text>
-          <Text style={styles.bigOrangeStyle}>
-            ${this.state.roomTotalPrice || 0}
+          <Text style={{ paddingLeft: 20 }}>
+            <Text style={styles.totalCostFrontStyle}>{this.state.roomTotalPrice || 0}+4 = </Text>
+            <Text style={styles.bigOrangeStyle}>${totalCostWithDelivery}</Text>
           </Text>
         </CardSection>
 
@@ -253,7 +346,7 @@ class Room extends Component {
           />
         </View>
 
-      </View>
+      </ScrollView>
     );
   }
 }
@@ -287,12 +380,11 @@ const styles = {
     color: '#f39c12',
     fontWeight: '700',
     fontFamily: 'NunitoSans-Bold',
-    alignSelf: 'flex-end',
   },
-  totalStyle: {
-    fontSize: 30,
+  totalCostFrontStyle: {
+    fontSize: 28,
+    fontWeight: '700',
     fontFamily: 'NunitoSans-Bold',
-    color: '#f39c12',
   },
   totalCardStyle: {
     justifyContent: 'center',

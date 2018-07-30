@@ -11,13 +11,10 @@ const Card = (props) => {
 
 const styles = {
   containerStyle: {
-
-
     marginLeft: 10,
     marginRight: 5,
     marginTop: 10,
     marginBottom: 5,
-
   }
 };
 

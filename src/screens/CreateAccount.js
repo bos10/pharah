@@ -100,7 +100,7 @@ class CreateAccount extends Component {
   render() {
     return (
       <Background>
-      <Card style={{ backgroundColor: '#f4f4f4' }}>
+      <Card style={styles.cardStyle}>
         <Text style={styles.label}> Email </Text>
         <CardSection style={{ backgroundColor: 'transparent' }}>
           <InputNoLabel
@@ -154,9 +154,16 @@ class CreateAccount extends Component {
 export default CreateAccount;
 
 const styles = {
+  cardStyle: {
+    backgroundColor: '#f4f4f4',
+    padding: 5,
+    borderRadius: 5,
+    marginTop: 30
+  },
   label: {
     paddingTop: 10,
     paddingLeft: 13,
+    fontSize: 16,
     fontWeight: 'bold',
   },
   textWarning: {

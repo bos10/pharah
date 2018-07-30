@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import firebase from 'firebase';
 import _ from 'lodash';
-import { View, Text, Button, FlatList } from 'react-native';
-//import AppLink from 'react-native-app-link';
-import { CardSection } from '../components/common';
+import { View, Text, FlatList, TextInput, Alert } from 'react-native';
+import AwesomeIcon from 'react-native-vector-icons/FontAwesome';
+import { CardSection, RoomButton } from '../components/common';
 import FoodListItemRoomHistory from '../components/FoodListItemRoomHistory';
 
 // Represents a Room from HistoryLobby
@@ -14,7 +14,8 @@ class RoomHistory extends Component {
   state = {
     orders: [],
     roomTotalPrice: 0,
-    roomStatus: ''
+    roomStatus: '',
+    destination: '',
   }
 
   componentDidMount() {
@@ -57,58 +58,90 @@ class RoomHistory extends Component {
     }
   }
 
-  renderOrderButton() {
-    if (this.state.roomStatus !== 'closed') {
+  renderNotify() {
+    if (this.state.roomStatus === 'closed') {
       return (
-        <CardSection style={{ alignItems: 'center' }}>
-          <Button
-            title="Order"
-            onPress={() => this.placeOrder()}
+        <CardSection>
+          <TextInput
+            style={{ padding: 10, flex: 3 }}
+            placeholder={'Notify food arrival'}
+            onChangeText={text => this.setState({ destination: text })}
+            value={this.state.destination}
           />
+          <RoomButton
+            buttonStyle={{ backgroundColor: '#f39c12', flex: 1 }}
+            onPress={() => this.notify()}
+          >
+            <AwesomeIcon name='send' size={20} />
+            {'\n'}
+            NOTIFY
+          </RoomButton>
         </CardSection>
       );
     }
   }
 
+  notify() {
+    const { navigation } = this.props;
+    const roomId = navigation.getParam('roomId');
+    const userid = firebase.auth().currentUser.uid;
+    // Reference for Room's items, setstate
+    firebase.database().ref(`users/${userid}/lobbyHistory/${roomId}/tokenIDs/`)
+      .on('value', snapshot => {
+        const obj = snapshot.val();
+        if (obj === null) {
+          Alert.alert('No Users to send to!(no tokens)');
+          return;
+        }
+        const tokenArray = Object.keys(obj);
+        const destination = this.state.destination;
+        // Push tokenarry and destination into notification
+        // Triggers cloud function
+        firebase.database().ref('notify')
+          .push({ tokenArray, destination });
+      });
+  }
+
   render() {
     const { navigation } = this.props;
+    const numberOfIDs = navigation.getParam('numberOfIDs');
     const roomName = navigation.getParam('roomName');
     const creatorName = navigation.getParam('creatorName');
     const displayClosingTime = navigation.getParam('displayClosingTime');
-
+    var totalCostWithDelivery = (Number(this.state.roomTotalPrice) + Number(4)).toFixed(2);
     return (
       <View style={{ flex: 1 }}>
-      <CardSection style={{ justifyContent: 'center', paddingVertical: 10 }}>
-        <Text style={styles.roomNameStyle}>
-          {roomName}
-        </Text>
-
-
-      </CardSection>
-      <CardSection>
-        <Text style={styles.smallStyle}>
-          created by
-        </Text>
-        <Text style={styles.bigStyle}>
-          {creatorName}
-        </Text>
-      </CardSection>
-      <CardSection>
-        <Text style={styles.smallStyle}>
-          closing at
-        </Text>
-        <Text style={styles.bigStyle}>
-          {displayClosingTime}
-        </Text>
-      </CardSection>
-      <CardSection style={{ paddingBottom: 10, borderBottomWidth: 1 }}>
-        <Text style={styles.smallStyle}>
-          total cost
-        </Text>
-        <Text style={styles.bigOrangeStyle}>
-          ${this.state.roomTotalPrice || 0}
-        </Text>
-      </CardSection>
+        <CardSection style={{ justifyContent: 'center', paddingVertical: 10 }}>
+          <Text style={styles.roomNameStyle}>
+            {roomName}
+          </Text>
+        </CardSection>
+        <CardSection>
+          <Text style={styles.smallStyle}>
+            created by
+          </Text>
+          <Text style={styles.bigStyle}>
+            {creatorName}
+          </Text>
+        </CardSection>
+        <CardSection>
+          <Text style={styles.smallStyle}>
+            closing at
+          </Text>
+          <Text style={styles.bigStyle}>
+            {displayClosingTime}H
+          </Text>
+        </CardSection>
+        <CardSection style={{ paddingBottom: 10 }}>
+          <Text style={styles.smallStyle}>
+            total cost
+          </Text>
+          <Text style={{ paddingLeft: 20 }}>
+            <Text style={styles.totalCostFrontStyle}>{this.state.roomTotalPrice || 0}+4 = </Text>
+            <Text style={styles.bigOrangeStyle}>${totalCostWithDelivery}</Text>
+          </Text>
+        </CardSection>
+        {this.renderNotify()}
         <View>
           <FlatList
             ListEmptyComponent={
@@ -122,6 +155,7 @@ class RoomHistory extends Component {
                 item={item}
                 navigation={this.props.navigation}
                 creatorName={creatorName}
+                numberOfIDs={numberOfIDs}
                 roomStatus={this.state.roomStatus}
               />
             )}
@@ -164,12 +198,11 @@ const styles = {
     color: '#f39c12',
     fontWeight: '700',
     fontFamily: 'NunitoSans-Bold',
-    alignSelf: 'flex-end',
   },
-  totalStyle: {
-    fontSize: 30,
+  totalCostFrontStyle: {
+    fontSize: 28,
+    fontWeight: '700',
     fontFamily: 'NunitoSans-Bold',
-    color: '#f39c12',
   },
   totalCardStyle: {
     justifyContent: 'center',

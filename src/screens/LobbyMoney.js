@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text, FlatList } from 'react-native';
 import firebase from 'firebase';
-import { Switch } from 'react-native-switch';
-import { CardSection } from '../components/common';
 import LobbyMoneyListItem from '../components/LobbyMoneyListItem';
 
 
@@ -37,6 +35,7 @@ class LobbyMoney extends Component {
             .then(snapshot2 => {
               const name = snapshot2.val();
               dataArray.push({
+                  otherId: uid,
                   displayName: name,
                   amount: moneyObject[uid]
                 });

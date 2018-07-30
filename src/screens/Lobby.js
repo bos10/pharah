@@ -29,23 +29,21 @@ class Lobby extends Component {
         const lobbyTaken = snapshot.val();
         // Make sure not null, Remove times attribute before mapping
         if (lobbyTaken === null) {
-          return [];
+          this.setState({ data: [] });
+          return;
         }
         delete lobbyTaken.times;
         // Map to get array of rooms, add on the uid
         // Each time fetch lobby, check each room if status need change
         const lobby = _.map(lobbyTaken, (val, roomId) => {
-          const nowTime = this.state.time;
-          const nowDateObj = new Date(nowTime);
-          const itemTime = val.ISOClosingTime;
-          const itemDateObj = new Date(itemTime);
-          if (itemDateObj < nowDateObj) {
-            firebase.database().ref(`/lobby/${roomId}`)
-              .update({ roomStatus: 'pending' });
-            return { ...val, roomId, roomStatus: 'pending' };
-          }
-
-          return { ...val, roomId, roomStatus: 'open' };
+          return { ...val, roomId };
+          // if (itemDateObj < nowDateObj) {
+          //   firebase.database().ref(`/lobby/${roomId}`)
+          //     .update({ roomStatus: 'pending', hel: 'sup' });
+          //   return { ...val, roomId, roomStatus: 'pending' };
+          // }
+          //
+          // return { ...val, roomId, roomStatus: 'open' };
         });
         this.setState({ data: lobby });
       });

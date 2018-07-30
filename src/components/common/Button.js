@@ -1,16 +1,14 @@
 import React from 'react';
 import { Text, TouchableOpacity } from 'react-native';
 
-const Button = ({ onPress, children }) => {
-  const { textStyle, buttonStyle } = styles;
-
+const Button = ({ onPress, children, textStyle, buttonStyle }) => {
   return (
     <TouchableOpacity
     onPress={onPress}
-    style={buttonStyle}
+    style={[styles.buttonStyle, buttonStyle]}
     activeOpacity={0.5}
     >
-      <Text style={textStyle}>
+      <Text style={[styles.textStyle, textStyle]}>
         {children}
       </Text>
     </TouchableOpacity>

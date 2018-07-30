@@ -1,7 +1,7 @@
 import firebase from 'firebase';
 import React, { Component } from 'react';
-import { Alert, Image, View, Text,
-         } from 'react-native';
+import FCM from 'react-native-fcm';
+import { Alert, Image, View, Text, KeyboardAvoidingView } from 'react-native';
 import { CardSection, UsernameInput, Spinner,
         Background, PasswordInput,
         ButtonNoBackground, DropShadowButton } from '../components/common';
@@ -30,6 +30,13 @@ class Login extends Component {
       .then(() => {
         this.setState({ loading: false });
         this.props.navigation.navigate('Lobby');
+        const uid = firebase.auth().currentUser.uid;
+        FCM.getFCMToken().then(token => {
+          console.warn(token);
+          // store fcm token in your server
+          firebase.database().ref(`users/${uid}`)
+            .update({ token });
+        });
       })
       .catch(error => {
         this.setState({ loading: false });
@@ -53,7 +60,6 @@ class Login extends Component {
 // GUI
   render() {
     return (
-
       <Background>
         <PushController />
         {/* Logo */}
@@ -65,49 +71,48 @@ class Login extends Component {
           />
         </View>
 
+        <KeyboardAvoidingView behavior="padding">
+          {/* Email Input */}
+          <Text style={styles.InputTitle}> USERNAME </Text>
+          <CardSection style={{ backgroundColor: 'transparent', justifyContent: 'center' }}>
+            <UsernameInput
+              placeholder='email@gmail.com'
+              onChangeText={text => this.setState({ email: text })}
+              value={this.state.email}
+            />
+          </CardSection>
 
-        {/* Email Input */}
-        <Text style={styles.InputTitle}> USERNAME </Text>
-        <CardSection style={{ backgroundColor: 'transparent', justifyContent: 'center' }}>
-          <UsernameInput
-            placeholder='email@gmail.com'
-            onChangeText={text => this.setState({ email: text })}
-            value={this.state.email}
-          />
-        </CardSection>
+          {/* Password Input */}
+          <Text style={styles.InputTitle}> PASSWORD </Text>
+          <CardSection style={{ backgroundColor: 'transparent', justifyContent: 'center' }}>
+            <PasswordInput
+              secureTextEntry
+              placeholder='*********'
+              onChangeText={text => this.setState({ password: text })}
+              value={this.state.password}
+            />
+          </CardSection>
 
-        {/* Password Input */}
-        <Text style={styles.InputTitle}> PASSWORD </Text>
-        <CardSection style={{ backgroundColor: 'transparent', justifyContent: 'center' }}>
-          <PasswordInput
-            secureTextEntry
-            placeholder='*********'
-            onChangeText={text => this.setState({ password: text })}
-            value={this.state.password}
-          />
-        </CardSection>
-
-        {/* Login Button */}
-        <CardSection
-          style={{ backgroundColor: 'transparent',
-                  justifyContent: 'center',
-                  paddingTop: 25, }}
-        >
-          {this.renderButton()}
-        </CardSection>
-
-
-        {/* Create Account Button */}
-        <CardSection style={{ backgroundColor: 'transparent' }}>
-          <ButtonNoBackground
-          onPress={() => this.props.navigation.navigate('CreateAccount')}
+          {/* Login Button */}
+          <CardSection
+            style={{ backgroundColor: 'transparent',
+                    justifyContent: 'center',
+                    paddingTop: 25, }}
           >
-            CREATE ACCOUNT
-          </ButtonNoBackground>
-        </CardSection>
+            {this.renderButton()}
+          </CardSection>
 
+
+          {/* Create Account Button */}
+          <CardSection style={{ backgroundColor: 'transparent' }}>
+            <ButtonNoBackground
+            onPress={() => this.props.navigation.navigate('CreateAccount')}
+            >
+              CREATE ACCOUNT
+            </ButtonNoBackground>
+          </CardSection>
+        </KeyboardAvoidingView>
       </Background>
-
     );
   }
 }

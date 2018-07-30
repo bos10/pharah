@@ -55,7 +55,7 @@ class LobbyHistoryListItem extends Component {
             </Text>
 
             <Text style={styles.displayClosingTimeStyle}>
-              {displayClosingTime}
+              {displayClosingTime}H
             </Text>
 
             <Text style={styles.Closing}>

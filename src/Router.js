@@ -13,6 +13,11 @@ import CreateRoom from './screens/CreateRoom';
 import Room from './screens/Room';
 import RoomHistory from './screens/RoomHistory';
 import Menu from './screens/Menu';
+import ThaiKitchen from './screens/ThaiKitchen';
+import WesternKitchen from './screens/WesternKitchen';
+import IndianKitchen from './screens/IndianKitchen';
+import Desert from './screens/Desert';
+import Drinks from './screens/Drinks';
 
 export const LobbyStack = createStackNavigator({
   Lobby: {
@@ -44,10 +49,39 @@ export const LobbyStack = createStackNavigator({
   Menu: {
     screen: Menu,
     navigationOptions: {
-      title: 'Menu',
+      title: 'Kitchen',
     }
   },
-
+  ThaiKitchen: {
+    screen: ThaiKitchen,
+    navigationOptions: {
+      title: 'Thai Kitchen',
+    }
+  },
+  WesternKitchen: {
+    screen: WesternKitchen,
+    navigationOptions: {
+      title: 'Western Kitchen',
+    }
+  },
+  IndianKitchen: {
+    screen: IndianKitchen,
+    navigationOptions: {
+      title: 'Indian Kitchen',
+    },
+  },
+  Desert: {
+    screen: Desert,
+    navigationOptions: {
+      title: 'Desert',
+    },
+  },
+  Drinks: {
+    screen: Drinks,
+    navigationOptions: {
+      title: 'Drinks',
+    },
+  },
 });
 
 export const LobbyHistoryStack = createStackNavigator({
@@ -64,6 +98,36 @@ export const LobbyHistoryStack = createStackNavigator({
     navigationOptions: {
       title: 'Menu',
     }
+  },
+  ThaiKitchen: {
+    screen: ThaiKitchen,
+    navigationOptions: {
+      title: 'Thai Kitchen',
+    }
+  },
+  WesternKitchen: {
+    screen: WesternKitchen,
+    navigationOptions: {
+      title: 'Western Kitchen',
+    }
+  },
+  IndianKitchen: {
+    screen: IndianKitchen,
+    navigationOptions: {
+      title: 'Indian Kitchen',
+    }
+  },
+  Desert: {
+    screen: Desert,
+    navigationOptions: {
+      title: 'Desert',
+    },
+  },
+  Drinks: {
+    screen: Drinks,
+    navigationOptions: {
+      title: 'Drinks',
+    },
   },
 });
 

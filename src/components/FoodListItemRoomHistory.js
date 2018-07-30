@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { Text, View, Button, Alert } from 'react-native';
+import { Text, View, Alert } from 'react-native';
 import firebase from 'firebase';
-import { CardSection } from './common';
+import { CardSection, Button } from './common';
 
 // Differ coz only history has closed rooms
 // Food list item inside a room from lobby history
@@ -10,9 +10,9 @@ class FoodListItemRoomHistory extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      totalCost: 0,
       ordererName: '',
-      paid: null
+      paid: null,
+      totalCost: 0,
     };
   }
 
@@ -37,23 +37,104 @@ class FoodListItemRoomHistory extends Component {
           this.setState({ paid: false });
         }
       });
-
-    // Get totalCost
+    // Get Total Cost for payment
     const object = Object.assign({}, this.props.item.order);
     let totalCost = 0;
     delete object.uid;
-    Object.entries(object).map(([key, value]) => {
+    const list = Object.entries(object).map(([key, value]) => {
+      let cost;
       switch (key) {
-        case 'prata': totalCost += value * 1; break;
-        case 'drink': totalCost += value * 0.5; break;
-        case 'maggie': totalCost += value * 2; break;
-        default:
+        // THAI KITCHEN
+        // Fried Rice
+        case 'T51-ChineseStyle': cost = 5.50; totalCost += value * 5.50; break;
+        case 'T52-ThaiStyle': cost = 5.50; totalCost += value * 5.50; break;
+        case 'T53-Ikan Bilis(Anchovies)': cost = 4.50; totalCost += value * 4.50; break;
+        case 'T54-Tomato&Chicken': cost = 5.50; totalCost += value * 5.50; break;
+
+        // Noodles
+        case 'T35-Tomyam (Soup)': cost = 6.50; totalCost += value * 6.50; break;
+        case 'T36-Pataya (Egg Wrap)': cost = 6.50; totalCost += value * 6.50; break;
+        case 'T37-Soup with Vegetables': cost = 5.50; totalCost += value * 5.50; break;
+        case 'T38-Bandung (Red Sauce)': cost = 5.50; totalCost += value * 5.50; break;
+        case 'T41-Thai Style Fried': cost = 5.50; totalCost += value * 5.50; break;
+
+        // Steam Rice
+        case 'T45-Hot & Spicy': cost = 6.00; totalCost += value * 6.00; break;
+        case 'T46-Black Soya Sauce': cost = 6.00; totalCost += value * 6.00; break;
+        case 'T47-Sweet & Sour': cost = 6.00; totalCost += value * 6.00; break;
+        case 'T48-Black Pepper': cost = 6.00; totalCost += value * 6.00; break;
+
+        // WESTERN KITCHEN
+        // Chicken
+        case 'W40-Grilled Chicken with Pepper': cost = 11.80; totalCost += value * 11.80; break;
+        case 'W41-Grilled Chicken with Mushroom': cost = 13.80; totalCost += value * 13.80; break;
+        case 'W42-Breaded Cutlet': cost = 10.80; totalCost += value * 10.80; break;
+
+        // Lamb
+        case 'W43-Grilled Lamb with Pepper': cost = 20.50; totalCost += value * 20.50; break;
+        case 'W44-Grilled Lamb with Mushroom': cost = 21.50; totalCost += value * 21.50; break;
+        case 'W45-BarBeQue Lamb with Cheese Sauce': cost = 21.80; totalCost += value * 21.80; break;
+
+        // INDIAN KITCHEN
+        // Chicken
+        case 'N63-Chicken Korma': cost = 7; totalCost += value * 7; break;
+        case 'N64-Chicken Spinach': cost = 8; totalCost += value * 8; break;
+        case 'N65-Chicken Masala': cost = 7; totalCost += value * 7; break;
+        // Mutton
+        case 'N79-Mutton Korma': cost = 8; totalCost += value * 8; break;
+        case 'N80-Mutton Masala': cost = 8; totalCost += value * 8; break;
+        case 'N81-Mutton Do Piaza': cost = 9; totalCost += value * 9; break;
+
+        // DRINKS
+        // Hot
+        case 'D58-Tea': cost = 1.5; totalCost += value * 1.5; break;
+        case 'D59-Coffee': cost = 1.5; totalCost += value * 1.5; break;
+        case 'D60-Nescafe': cost = 1.8; totalCost += value * 1.8; break;
+        // Cold
+        case 'D74-Ice Tea': cost = 2; totalCost += value * 2; break;
+        case 'D75-Ice Coffee': cost = 2; totalCost += value * 2; break;
+        case 'D76-Ice Nescafe': cost = 2.5; totalCost += value * 2.5; break;
+
+        // DESERT
+        // Ice Cream
+        case 'D90-Dark Lava Cake with Strawberry and Milk Ice Cream':
+              cost = 6.8; totalCost += value * 6.8; break;
+        case 'D91-Mix Berry Cheese Cake': cost = 7.5; totalCost += value * 7.5; break;
+        case 'D94-Banana Split': cost = 4.8; totalCost += value * 4.8; break;
+
+        default: cost = 0;
       }
     });
+    const deliveryCost = (4 / this.props.numberOfIDs).toFixed(2);
+    totalCost = (Number(totalCost) + Number(deliveryCost)).toFixed(2);
     this.setState({ totalCost });
   }
 
   onButtonPress() {
+    const { navigation } = this.props;
+    const roomId = navigation.getParam('roomId');
+    const creatorId = navigation.getParam('creatorId');
+    const thisGuyId = this.props.item.uid;
+    firebase.database().ref(`users/${creatorId}/lobbyHistory/${roomId}/items/${thisGuyId}/paid`)
+      .once('value')
+      .then(snapshotCheck1 => {
+        const check1 = snapshotCheck1.val();
+        firebase.database().ref(`users/${thisGuyId}/lobbyHistory/${roomId}/items/${thisGuyId}/paid`)
+          .once('value')
+          .then(snapshotCheck2 => {
+            const check2 = snapshotCheck2.val();
+            if (check1 !== null || check2 !== null) {
+              Alert.alert('Already paid!');
+              this.setState({ paid: true });
+            } else {
+              // Execute mark payment
+              this.markPaid();
+            }
+          });
+      });
+  }
+
+  markPaid() {
     const { navigation } = this.props;
     const roomId = navigation.getParam('roomId');
     const creatorId = navigation.getParam('creatorId');
@@ -76,7 +157,7 @@ class FoodListItemRoomHistory extends Component {
         if (snapshot1.val() !== null) {
           money = snapshot1.val();
         }
-        const newMoney = money - totalCost;
+        const newMoney = Number(money) - Number(totalCost);
         if (newMoney === 0) {
           firebase.database().ref(`users/${creatorId}/moneyStatus/${thisGuyId}`)
            .remove();
@@ -94,7 +175,7 @@ class FoodListItemRoomHistory extends Component {
         if (snapshot1.val() !== null) {
           money = snapshot1.val();
         }
-        const newMoney = money + totalCost;
+        const newMoney = Number(money) + Number(totalCost);
         if (newMoney === 0) {
           firebase.database().ref(`users/${thisGuyId}/moneyStatus/${creatorId}`)
            .remove();
@@ -120,10 +201,18 @@ class FoodListItemRoomHistory extends Component {
         );
       } else if (this.state.paid === false) {
         return (
+          // <Button
+          //   onPress={() => this.onButtonPress()}
+          //   title="Mark Paid"
+          //   style={styles.creatorStyle}
+          // />
           <Button
             onPress={() => this.onButtonPress()}
-            title="Mark Paid"
-          />
+            buttonStyle={styles.markPaidStyle}
+            textStyle={{ color: '#6C7A89' }}
+          >
+           MARK PAID
+          </Button>
         );
       }
     }
@@ -139,9 +228,64 @@ class FoodListItemRoomHistory extends Component {
     const list = Object.entries(object).map(([key, value]) => {
       let cost;
       switch (key) {
-        case 'prata': cost = 1; totalCost += value * 1; break;
-        case 'drink': cost = 0.5; totalCost += value * 0.5; break;
-        case 'maggie': cost = 2; totalCost += value * 2; break;
+        // THAI KITCHEN
+        // Fried Rice
+        case 'T51-ChineseStyle': cost = 5.50; totalCost += value * 5.50; break;
+        case 'T52-ThaiStyle': cost = 5.50; totalCost += value * 5.50; break;
+        case 'T53-Ikan Bilis(Anchovies)': cost = 4.50; totalCost += value * 4.50; break;
+        case 'T54-Tomato&Chicken': cost = 5.50; totalCost += value * 5.50; break;
+
+        // Noodles
+        case 'T35-Tomyam (Soup)': cost = 6.50; totalCost += value * 6.50; break;
+        case 'T36-Pataya (Egg Wrap)': cost = 6.50; totalCost += value * 6.50; break;
+        case 'T37-Soup with Vegetables': cost = 5.50; totalCost += value * 5.50; break;
+        case 'T38-Bandung (Red Sauce)': cost = 5.50; totalCost += value * 5.50; break;
+        case 'T41-Thai Style Fried': cost = 5.50; totalCost += value * 5.50; break;
+
+        // Steam Rice
+        case 'T45-Hot & Spicy': cost = 6.00; totalCost += value * 6.00; break;
+        case 'T46-Black Soya Sauce': cost = 6.00; totalCost += value * 6.00; break;
+        case 'T47-Sweet & Sour': cost = 6.00; totalCost += value * 6.00; break;
+        case 'T48-Black Pepper': cost = 6.00; totalCost += value * 6.00; break;
+
+        // WESTERN KITCHEN
+        // Chicken
+        case 'W40-Grilled Chicken with Pepper': cost = 11.80; totalCost += value * 11.80; break;
+        case 'W41-Grilled Chicken with Mushroom': cost = 13.80; totalCost += value * 13.80; break;
+        case 'W42-Breaded Cutlet': cost = 10.80; totalCost += value * 10.80; break;
+
+        // Lamb
+        case 'W43-Grilled Lamb with Pepper': cost = 20.50; totalCost += value * 20.50; break;
+        case 'W44-Grilled Lamb with Mushroom': cost = 21.50; totalCost += value * 21.50; break;
+        case 'W45-BarBeQue Lamb with Cheese Sauce': cost = 21.80; totalCost += value * 21.80; break;
+
+        // INDIAN KITCHEN
+        // Chicken
+        case 'N63-Chicken Korma': cost = 7; totalCost += value * 7; break;
+        case 'N64-Chicken Spinach': cost = 8; totalCost += value * 8; break;
+        case 'N65-Chicken Masala': cost = 7; totalCost += value * 7; break;
+        // Mutton
+        case 'N79-Mutton Korma': cost = 8; totalCost += value * 8; break;
+        case 'N80-Mutton Masala': cost = 8; totalCost += value * 8; break;
+        case 'N81-Mutton Do Piaza': cost = 9; totalCost += value * 9; break;
+
+        // DRINKS
+        // Hot
+        case 'D58-Tea': cost = 1.5; totalCost += value * 1.5; break;
+        case 'D59-Coffee': cost = 1.5; totalCost += value * 1.5; break;
+        case 'D60-Nescafe': cost = 1.8; totalCost += value * 1.8; break;
+        // Cold
+        case 'D74-Ice Tea': cost = 2; totalCost += value * 2; break;
+        case 'D75-Ice Coffee': cost = 2; totalCost += value * 2; break;
+        case 'D76-Ice Nescafe': cost = 2.5; totalCost += value * 2.5; break;
+
+        // DESERT
+        // Ice Cream
+        case 'D90-Dark Lava Cake with Strawberry and Milk Ice Cream':
+              cost = 6.8; totalCost += value * 6.8; break;
+        case 'D91-Mix Berry Cheese Cake': cost = 7.5; totalCost += value * 7.5; break;
+        case 'D94-Banana Split': cost = 4.8; totalCost += value * 4.8; break;
+
         default: cost = 0;
       }
 
@@ -153,11 +297,17 @@ class FoodListItemRoomHistory extends Component {
       );
     });
 
+    // Split delivery cost to show
+    const deliveryCost = (4 / this.props.numberOfIDs).toFixed(2);
+
     return (
       <CardSection style={styles.cardSectionStyle}>
         <View style={{ marginRight: 50 }}>
           {list}
-          <Text style={styles.nameStyle}>by {name}, pay ${totalCost}</Text>
+          <Text style={styles.deliveryStyle}>+${deliveryCost}(delivery)</Text>
+          <Text style={styles.nameStyle}>
+            by {name}, pay ${(Number(totalCost) + Number(deliveryCost)).toFixed(2)}
+          </Text>
         </View>
         {this.renderButton()}
 
@@ -185,7 +335,15 @@ const styles = {
     fontFamily: 'NunitoSans-Bold'
   },
   creatorStyle: {
+    position: 'absolute',
+    right: 25,
+    top: 10,
     fontFamily: 'NunitoSans-Bold'
+  },
+  markPaidStyle: {
+    position: 'absolute',
+    right: 25,
+    top: 10,
   },
   cardSectionStyle: {
     padding: 20,
