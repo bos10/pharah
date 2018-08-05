@@ -1,18 +1,11 @@
 import * as firebase from 'firebase';
 import React, { Component } from 'react';
 import { RootStack } from './Router';
+import config from './config.js';
 
 
 class App extends Component {
   componentWillMount() {
-    const config = {
-      apiKey: '***REMOVED***',
-      authDomain: '***REMOVED***',
-      databaseURL: '***REMOVED***',
-      projectId: '***REMOVED***',
-      storageBucket: '***REMOVED***.appspot.com',
-      messagingSenderId: '***REMOVED***'
-    };
     firebase.initializeApp(config);
   }
 

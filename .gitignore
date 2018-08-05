@@ -1,3 +1,9 @@
+#Ignore sensitive files
+#config for firebase placed in src/config.js
+config.js
+#FCM for ios place in ios/GoogleService-Info.plist
+GoogleService-Info.plist
+
 # OSX
 #
 .DS_Store
