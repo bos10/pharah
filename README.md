@@ -18,7 +18,7 @@ There is a lack of a hassle-free solution to order and deliver food to NUS for l
  
 
 ## Idea
-- A Mobile Application that allows students that stay on campus to organise, keep track and manage meal arrangements efficiently, reliably and effortlessly.
+A Mobile Application that allows students that stay on campus to organise, keep track and manage meal arrangements efficiently, reliably and effortlessly.
 
 ## Features
 - Authentication
