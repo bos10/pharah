@@ -138,8 +138,6 @@ android {
 }
 
 dependencies {
-    compile project(':react-native-fcm')
-    compile project(':react-native-push-notification')
     compile project(':react-native-vector-icons')
     compile project(':react-native-linear-gradient')
     compile fileTree(include: ['*.jar'], dir: 'libs')

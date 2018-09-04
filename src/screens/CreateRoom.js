@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Text, Alert } from 'react-native';
 import firebase from 'firebase';
 import DateTimePicker from 'react-native-modal-datetime-picker';
-import FCM from 'react-native-fcm';
 import { Card, CardSection, Button, InputNoLabel, GradientButton } from '../components/common';
 
 class CreateRoom extends Component {
@@ -63,18 +62,7 @@ class CreateRoom extends Component {
                   roomTotalPrice });
         const roomId = ref.getKey();
         // Schedule a notif
-        const cutDate = this.state.ISOClosingTime.slice(4, 33);
-        FCM.scheduleLocalNotification({
-          id: roomId,
-          fire_date: new Date(cutDate),
-          vibrate: 300,
-          sound: 'default',
-          title: 'Closing time reached',
-          body: 'Order food now!',
-          priority: 'high',
-          show_in_foreground: true,
-          wake_screen: true,
-        });
+        
         // Updating of times array to arrange timing
         // Each slot has timing & roomId
         firebase.database().ref('/lobby/times')

@@ -4,7 +4,6 @@ import _ from 'lodash';
 import { View, ScrollView, Text, FlatList } from 'react-native';
 import AwesomeIcon from 'react-native-vector-icons/FontAwesome';
 import call from 'react-native-phone-call';
-import FCM from 'react-native-fcm';
 import { CardSection, RoomButton } from '../components/common';
 import FoodListItem from '../components/FoodListItem';
 
@@ -60,7 +59,7 @@ class Room extends Component {
     const { navigation } = this.props;
     const roomId = navigation.getParam('roomId');
     // Remove the closing time notification since not needed
-    FCM.cancelLocalNotification(roomId);
+
     // Update lobby as closed in respective lobby histories
     firebase.database().ref(`lobby/${roomId}/userIDs`)
       .once('value')
@@ -233,7 +232,7 @@ class Room extends Component {
     const { navigation } = this.props;
     const roomId = navigation.getParam('roomId');
     // Remove the closing time notification since not needed
-    FCM.cancelLocalNotification(roomId);
+    
     // Delete lobby in respective lobby histories
     firebase.database().ref(`lobby/${roomId}/userIDs`)
       .once('value')
